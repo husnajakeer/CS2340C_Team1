@@ -13,6 +13,12 @@
         android:theme="@style/Theme.Team1Game"
         tools:targetApi="31">
         <activity
+            android:name=".EndScreen"
+            android:exported="false" />
+        <activity
+            android:name=".GameScreen"
+            android:exported="false" />
+        <activity
             android:name=".InitialConfigScreen"
             android:exported="false" />
         <activity
