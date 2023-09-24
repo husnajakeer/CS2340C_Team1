@@ -2,6 +2,7 @@ package com.example.team1game;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,13 +11,22 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+// import player class to use it
+import com.example.team1game.Model.Player;
+
 public class InitialConfigScreen extends AppCompatActivity {
 
-    EditText playerNameEditText;
-    RadioGroup difficultyRadioGroup;
-    RadioButton easyDifficulty, mediumDifficulty, hardDifficulty;
-    RadioButton radioButtonSprite1, radioButtonSprite2, radioButtonSprite3;
-    Button continueButton;
+    private EditText playerNameEditText;
+    private RadioGroup difficultyRadioGroup;
+    // difficulty buttons
+    private RadioButton easyDifficulty;
+    private RadioButton mediumDifficulty;
+    private RadioButton hardDifficulty;
+    // radio buttons
+    private RadioButton radioButtonSprite1;
+    private RadioButton radioButtonSprite2;
+    private RadioButton radioButtonSprite3;
+    private Button continueButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +63,7 @@ public class InitialConfigScreen extends AppCompatActivity {
         radioButtonSprite3.setOnClickListener(spriteClickListener);
 
         continueButton.setOnClickListener(view -> {
+            // store player info
             String playerName = playerNameEditText.getText().toString().trim();
             String difficulty;
 
@@ -66,6 +77,10 @@ public class InitialConfigScreen extends AppCompatActivity {
                 Toast.makeText(this, "Please select a difficulty", Toast.LENGTH_SHORT).show();
                 return;
             }
+            // Player(String name, int attack, int score, String difficulty)
+            Player player = new Player(playerName, 10, 0, difficulty);
+            Log.d("player", player.getName() + "attack"
+                    + player.getAttack() + "health" + player.getHealth());
 
             String sprite;
             if (radioButtonSprite1.isChecked()) {

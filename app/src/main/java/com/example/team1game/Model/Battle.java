@@ -83,7 +83,7 @@ public class Battle {
     /**
      * Sets the status of the battle.
      *
-     * @param status
+     * @param status status of battle
      */
     public void setStatus(boolean status) {
         this.status = status;
