@@ -10,8 +10,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class GameScreen extends AppCompatActivity {
 
-    TextView playerNameTextView, healthPointsTextView, difficultyTextView;
-    ImageView characterSprite;
+    private TextView playerNameTextView;
+    private TextView healthPointsTextView;
+    private TextView difficultyTextView;
+    private ImageView characterSprite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

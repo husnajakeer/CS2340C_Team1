@@ -16,11 +16,17 @@ import com.example.team1game.Model.Player;
 
 public class InitialConfigScreen extends AppCompatActivity {
 
-    EditText playerNameEditText;
-    RadioGroup difficultyRadioGroup;
-    RadioButton easyDifficulty, mediumDifficulty, hardDifficulty;
-    RadioButton radioButtonSprite1, radioButtonSprite2, radioButtonSprite3;
-    Button continueButton;
+    private EditText playerNameEditText;
+    private RadioGroup difficultyRadioGroup;
+    // difficulty buttons
+    private RadioButton easyDifficulty;
+    private RadioButton mediumDifficulty;
+    private RadioButton hardDifficulty;
+    // radio buttons
+    private RadioButton radioButtonSprite1;
+    private RadioButton radioButtonSprite2;
+    private RadioButton radioButtonSprite3;
+    private Button continueButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +79,8 @@ public class InitialConfigScreen extends AppCompatActivity {
             }
             // Player(String name, int attack, int score, String difficulty)
             Player player = new Player(playerName, 10, 0, difficulty);
-            Log.d("player", player.getName() + "attack" + player.getAttack() + "health" + player.getHealth());
+            Log.d("player", player.getName() + "attack"
+                    + player.getAttack() + "health" + player.getHealth());
 
             String sprite;
             if (radioButtonSprite1.isChecked()) {

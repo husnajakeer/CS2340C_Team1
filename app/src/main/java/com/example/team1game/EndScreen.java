@@ -8,8 +8,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class EndScreen extends AppCompatActivity {
 
-    Button restartButton;
-    Button quitButton;
+    private Button restartButton;
+    private Button quitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

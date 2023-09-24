@@ -11,28 +11,6 @@ public class Player extends Entity {
     private Weapons weapon;
 
     /**
-     * Constructs a new object with the specified parameters, including attack, score,
-     * difficulty level, and weapon.
-     *
-     * @param name       The name of the player character.
-     * @param livingStatus The living status of the player.
-     * @param health     The health points of the player.
-     * @param stats      The data statistics of the player.
-     * @param attack     The attack power of the player.
-     * @param score      The score of the player.
-     * @param difficulty The difficulty level of the player.
-     * @param weapon     The weapon held by the player.
-     */
-    public Player(String name, boolean livingStatus, int health, EntityData stats, int attack, int score,
-                  String difficulty, Weapons weapon) {
-        super(name, livingStatus, health, stats);
-        this.attack = attack;
-        this.score = score;
-        this.difficulty = difficulty;
-        this.weapon = weapon;
-    }
-
-    /**
      * Constructs a new  object with the specified parameters, including attack, score,
      * difficulty level, and weapon.
      *
@@ -44,8 +22,8 @@ public class Player extends Entity {
      * @param difficulty The difficulty level of the player.
      * @param weapon     The weapon held by the player.
      */
-    public Player(String name, boolean livingStatus, int health, int attack, int score, String difficulty,
-                  Weapons weapon) {
+    public Player(String name, boolean livingStatus, int health, int attack,
+                  int score, String difficulty, Weapons weapon) {
         super(name, livingStatus, health);
         this.attack = attack;
         this.score = score;
@@ -64,7 +42,8 @@ public class Player extends Entity {
      * @param difficulty The difficulty level of the player.
      * @param weapon     The weapon held by the player.
      */
-    public Player(String name, boolean livingStatus, int attack, int score, String difficulty, Weapons weapon) {
+    public Player(String name, boolean livingStatus, int attack, int score,
+                  String difficulty, Weapons weapon) {
         super(name, livingStatus);
         this.attack = attack;
         this.score = score;
@@ -83,7 +62,8 @@ public class Player extends Entity {
      * @param score      The score of the player.
      * @param difficulty The difficulty level of the player.
      */
-    public Player(String name, boolean livingStatus, int health, int attack, int score, String difficulty) {
+    public Player(String name, boolean livingStatus, int health, int attack,
+                  int score, String difficulty) {
         super(name, livingStatus, health);
         this.attack = attack;
         this.score = score;
