@@ -9,6 +9,17 @@ public class Player extends Entity {
     private int score;
     private String difficulty;
     private Weapons weapon;
+    private volatile static Player player;
+    public static Player getPlayer(){
+        if (player == null){
+            synchronized (Player.class){
+                if (player == null) {
+                    player = new Player();
+                }
+            }
+        }
+        return player;
+    }
 
     /**
      * Constructs a new  object with the specified parameters, including attack, score,
@@ -22,7 +33,7 @@ public class Player extends Entity {
      * @param difficulty The difficulty level of the player.
      * @param weapon     The weapon held by the player.
      */
-    public Player(String name, boolean livingStatus, int health, int attack,
+    private Player(String name, boolean livingStatus, int health, int attack,
                   int score, String difficulty, Weapons weapon) {
         super(name, livingStatus, health);
         this.attack = attack;
@@ -42,7 +53,7 @@ public class Player extends Entity {
      * @param difficulty The difficulty level of the player.
      * @param weapon     The weapon held by the player.
      */
-    public Player(String name, boolean livingStatus, int attack, int score,
+    private Player(String name, boolean livingStatus, int attack, int score,
                   String difficulty, Weapons weapon) {
         super(name, livingStatus);
         this.attack = attack;
@@ -62,7 +73,7 @@ public class Player extends Entity {
      * @param score      The score of the player.
      * @param difficulty The difficulty level of the player.
      */
-    public Player(String name, boolean livingStatus, int health, int attack,
+    private Player(String name, boolean livingStatus, int health, int attack,
                   int score, String difficulty) {
         super(name, livingStatus, health);
         this.attack = attack;
@@ -79,11 +90,14 @@ public class Player extends Entity {
      * @param score      The score of the player.
      * @param difficulty The difficulty level of the player.
      */
-    public Player(String name, int attack, int score, String difficulty) {
+    private Player(String name, int attack, int score, String difficulty) {
         super(name);
         this.attack = attack;
         this.score = score;
         this.difficulty = difficulty;
+    }
+    private Player(){
+        this("player", true, 5, 10, 0, "medium", null);
     }
 
     /**
