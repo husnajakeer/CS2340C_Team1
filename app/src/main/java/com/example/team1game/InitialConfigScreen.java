@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.team1game.Model.Player;
 
 public class InitialConfigScreen extends AppCompatActivity {
-
+    private Player player;
     private EditText playerNameEditText;
     private RadioGroup difficultyRadioGroup;
     // difficulty buttons
@@ -31,6 +31,7 @@ public class InitialConfigScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        player = Player.getPlayer();
         setContentView(R.layout.activity_initial_config_screen);
 
         playerNameEditText = findViewById(R.id.playerNameEditText);
@@ -77,10 +78,13 @@ public class InitialConfigScreen extends AppCompatActivity {
                 Toast.makeText(this, "Please select a difficulty", Toast.LENGTH_SHORT).show();
                 return;
             }
-            // Player(String name, int attack, int score, String difficulty)
-            Player player = new Player(playerName, 10, 0, difficulty);
+            // Player singleton class (make changes to it with accessors
+            player.setName(playerName);
+            // need to change the player constructor so that when it sees difficulty, changes it based on num of hearts
+            player.setDifficulty(difficulty);
             Log.d("player", player.getName() + "attack"
-                    + player.getAttack() + "health" + player.getHealth());
+                    + player.getAttack() + "difficulty" + player.getDifficulty() + "health" + player.getHealth());
+
 
             String sprite;
             if (radioButtonSprite1.isChecked()) {
