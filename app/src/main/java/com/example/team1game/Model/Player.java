@@ -151,7 +151,22 @@ public class Player extends Entity {
      * @param difficulty The new difficulty level value.
      */
     public void setDifficulty(String difficulty) {
+
         this.difficulty = difficulty;
+        switch(this.difficulty){
+            case "Easy":
+                setAttack(5);
+                setHealth(5);
+                break;
+            case "Medium":
+                setAttack(3);
+                setHealth(3);
+                break;
+            case "Hard":
+                setAttack(1);
+                setHealth(1);
+                break;
+        }
     }
 
     /**
