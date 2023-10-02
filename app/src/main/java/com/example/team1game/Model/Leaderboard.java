@@ -1,32 +1,35 @@
 package com.example.team1game.Model;
 
-import android.os.CountDownTimer;
-
-import java.util.Date;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Leaderboard {
-    private volatile static Leaderboard leaderboard;
-    private List<Integer> scores = new ArrayList<>();
-    //private final Date dateTime;
-    public static Leaderboard getLeaderboard(){
-        if (leaderboard == null){
-            synchronized (Leaderboard.class){
-                if (leaderboard == null) {
-                    leaderboard = new Leaderboard();
+    private final List<Attempt> attempts;
+    private static Leaderboard instance;
+
+    private Leaderboard() {
+        this.attempts = new CopyOnWriteArrayList<>();
+    }
+
+    public static Leaderboard getInstance() {
+        if (instance == null) {
+            synchronized (Leaderboard.class) {
+                if (instance == null) {
+                    instance = new Leaderboard();
                 }
             }
         }
-        return leaderboard;
+        return instance;
     }
-    private void decreaseScoreByTime(Player player){
-//        double duration = TimeUnit.MINUTES.toMillis(1);
-//        //new CountDownTimer(duration, 1000).start();
-//        double currentTime = System.currentTimeMillis();
-//        double timeElapsed = currentTime - dateTime.getTime(); // Time elapsed in milliseconds
-//        int decrease = (int) (timeElapsed / DECREASE_INTERVAL_MS) * DECREASE_AMOUNT;
-//        score = Math.max(0, score - decrease); // Ensure score doesn't go below 0
+
+    public void addAttempt(Attempt attempt) {
+        this.attempts.add(attempt);
+    }
+
+    public List<Attempt> getAttempts() {
+        Collections.sort(attempts, Comparator.comparingInt(Attempt::getScore).reversed());
+        return attempts;
     }
 }

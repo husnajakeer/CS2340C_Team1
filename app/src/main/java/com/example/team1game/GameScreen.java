@@ -8,6 +8,10 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.team1game.Model.Attempt;
+import com.example.team1game.Model.Leaderboard;
+import com.example.team1game.Model.Player;
+
 public class GameScreen extends AppCompatActivity {
 
     private TextView playerNameTextView;
@@ -53,6 +57,10 @@ public class GameScreen extends AppCompatActivity {
         }
 
         nextButton.setOnClickListener(view -> {
+            Player playerInstance = Player.getPlayer();
+            Attempt attempt = new Attempt(playerInstance.getName(), playerInstance.getScore(), playerInstance.getDifficulty());
+            Leaderboard.getInstance().addAttempt(attempt);
+
             Intent intent = new Intent(GameScreen.this, EndScreen.class);
             startActivity(intent);
         });
