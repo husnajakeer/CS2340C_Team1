@@ -137,6 +137,11 @@ public class Player extends Entity {
         this.score = score;
     }
 
+    public void decrementScore(int amount) {
+        this.score -= amount;
+        if (this.score < 0) this.score = 0;
+    }
+
     /**
      * Gets the difficulty level of the player.
      *

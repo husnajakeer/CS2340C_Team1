@@ -2,6 +2,7 @@ package com.example.team1game;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ public class GameScreen extends AppCompatActivity {
     private TextView playerNameTextView;
     private TextView healthPointsTextView;
     private TextView difficultyTextView;
+    private TextView scoreTextView;
     private ImageView characterSprite;
 
     @Override
@@ -28,6 +30,7 @@ public class GameScreen extends AppCompatActivity {
         healthPointsTextView = findViewById(R.id.healthPointsTextView);
         difficultyTextView = findViewById(R.id.difficultyTextView);
         characterSprite = findViewById(R.id.characterSprite);
+        scoreTextView = findViewById(R.id.scoreTextView);
         Button nextButton = findViewById(R.id.nextButton);
 
         String playerName = getIntent().getStringExtra("playerName");
@@ -56,13 +59,37 @@ public class GameScreen extends AppCompatActivity {
             characterSprite.setImageResource(R.drawable.sprite3);
         }
 
+
+
+        final Handler handler = new Handler();
+        Player playerInstance = Player.getPlayer();
+        playerInstance.setScore(100);
+        final Runnable updateScoreRunnable = new Runnable() {
+            @Override
+            public void run() {
+
+                scoreTextView.setText("Score: " + playerInstance.getScore());
+                if (playerInstance.getScore() > 0) {
+                    //postDelayed(this, 1000);  // Recall every second
+                    playerInstance.setScore(playerInstance.getScore()-1);
+                    scoreTextView.setText("Score: " + playerInstance.getScore());
+                    handler.postDelayed(this, 1000);
+                }
+            }
+        };
+
         nextButton.setOnClickListener(view -> {
-            Player playerInstance = Player.getPlayer();
             Attempt attempt = new Attempt(playerInstance.getName(), playerInstance.getScore(), playerInstance.getDifficulty());
             Leaderboard.getInstance().addAttempt(attempt);
+            handler.removeCallbacks(updateScoreRunnable);
 
             Intent intent = new Intent(GameScreen.this, EndScreen.class);
             startActivity(intent);
         });
+
+        handler.postDelayed(updateScoreRunnable, 1000);  // Start after 1 second
+
+
+
     }
 }
