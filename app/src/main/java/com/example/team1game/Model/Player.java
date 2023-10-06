@@ -9,6 +9,7 @@ public class Player extends Entity {
     private int score;
     private String difficulty;
     private Weapons weapon;
+
     private volatile static Player player;
     public static Player getPlayer(){
         if (player == null){
@@ -34,7 +35,7 @@ public class Player extends Entity {
      * @param weapon     The weapon held by the player.
      */
     private Player(String name, boolean livingStatus, int health, int attack,
-                  int score, String difficulty, Weapons weapon) {
+                   int score, String difficulty, Weapons weapon) {
         super(name, livingStatus, health);
         this.attack = attack;
         this.score = score;
@@ -54,7 +55,7 @@ public class Player extends Entity {
      * @param weapon     The weapon held by the player.
      */
     private Player(String name, boolean livingStatus, int attack, int score,
-                  String difficulty, Weapons weapon) {
+                   String difficulty, Weapons weapon) {
         super(name, livingStatus);
         this.attack = attack;
         this.score = score;
@@ -74,7 +75,7 @@ public class Player extends Entity {
      * @param difficulty The difficulty level of the player.
      */
     private Player(String name, boolean livingStatus, int health, int attack,
-                  int score, String difficulty) {
+                   int score, String difficulty) {
         super(name, livingStatus, health);
         this.attack = attack;
         this.score = score;
@@ -136,6 +137,11 @@ public class Player extends Entity {
         this.score = score;
     }
 
+    public void decrementScore(int amount) {
+        this.score -= amount;
+        if (this.score < 0) this.score = 0;
+    }
+
     /**
      * Gets the difficulty level of the player.
      *
@@ -151,7 +157,22 @@ public class Player extends Entity {
      * @param difficulty The new difficulty level value.
      */
     public void setDifficulty(String difficulty) {
+
         this.difficulty = difficulty;
+        switch(this.difficulty){
+            case "Easy":
+                setAttack(5);
+                setHealth(5);
+                break;
+            case "Medium":
+                setAttack(3);
+                setHealth(3);
+                break;
+            case "Hard":
+                setAttack(1);
+                setHealth(1);
+                break;
+        }
     }
 
     /**
