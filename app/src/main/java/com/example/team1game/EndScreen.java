@@ -19,6 +19,7 @@ public class EndScreen extends AppCompatActivity {
     private Button quitButton;
     private Player player;
     private TextView leaderboardTextView;
+    private TextView currentScoreTextView;
 
 
     @Override
@@ -28,6 +29,7 @@ public class EndScreen extends AppCompatActivity {
 
         setContentView(R.layout.activity_end_screen);
         leaderboardTextView = findViewById(R.id.leaderboardTextView);
+        currentScoreTextView = findViewById(R.id.currentScoreTextView);
 
         Leaderboard leaderboard = Leaderboard.getInstance();
         StringBuilder leaderboardStr = new StringBuilder("Leaderboard\n");
@@ -39,6 +41,7 @@ public class EndScreen extends AppCompatActivity {
         }
 
         leaderboardTextView.setText(leaderboardStr.toString());
+        currentScoreTextView.setText("Current Score" + player.getScore());
 
         restartButton = findViewById(R.id.restartButton);
         quitButton = findViewById(R.id.quitButton);
