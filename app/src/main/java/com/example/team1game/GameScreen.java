@@ -42,7 +42,6 @@ public class GameScreen extends AppCompatActivity {
         String sprite = getIntent().getStringExtra("sprite");
 
         int numOfHearts = 0;
-
         if ("Easy".equals(difficulty)) {
             numOfHearts = 5;
         } else if ("Medium".equals(difficulty)) {
@@ -62,8 +61,6 @@ public class GameScreen extends AppCompatActivity {
         } else if ("Sprite3".equals(sprite)) {
             characterSprite.setImageResource(R.drawable.sprite3);
         }
-
-
 
         final Handler handler = new Handler();
         final Runnable updateScoreRunnable = new Runnable() {
@@ -90,8 +87,5 @@ public class GameScreen extends AppCompatActivity {
         });
 
         handler.postDelayed(updateScoreRunnable, 1000);  // Start after 1 second
-
-
-
     }
 }

@@ -28,6 +28,21 @@ public class EndScreen extends AppCompatActivity {
         player = Player.getPlayer();
 
         setContentView(R.layout.activity_end_screen);
+        setLeaderboard();
+
+        restartButton = findViewById(R.id.restartButton);
+        quitButton = findViewById(R.id.quitButton);
+
+        restartButton.setOnClickListener(view -> {
+            Intent intent = new Intent(EndScreen.this, MainActivity.class);
+            startActivity(intent);
+        });
+
+        quitButton.setOnClickListener(view -> {
+            finishAffinity();  // This will close the entire app
+        });
+    }
+    private void setLeaderboard() {
         leaderboardTextView = findViewById(R.id.leaderboardTextView);
         currentScoreTextView = findViewById(R.id.currentScoreTextView);
 
@@ -42,17 +57,5 @@ public class EndScreen extends AppCompatActivity {
 
         leaderboardTextView.setText(leaderboardStr.toString());
         currentScoreTextView.setText("Current Score" + player.getScore());
-
-        restartButton = findViewById(R.id.restartButton);
-        quitButton = findViewById(R.id.quitButton);
-
-        restartButton.setOnClickListener(view -> {
-            Intent intent = new Intent(EndScreen.this, MainActivity.class);
-            startActivity(intent);
-        });
-
-        quitButton.setOnClickListener(view -> {
-            finishAffinity();  // This will close the entire app
-        });
     }
 }
