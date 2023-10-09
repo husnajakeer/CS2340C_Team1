@@ -1,5 +1,6 @@
 package com.example.team1game.Model;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -29,7 +30,13 @@ public class Leaderboard {
     }
 
     public List<Attempt> getAttempts() {
-        Collections.sort(attempts, Comparator.comparingInt(Attempt::getScore).reversed());
-        return attempts;
+        List<Attempt> sortedAttempts = new CopyOnWriteArrayList<>(attempts);  // clone the list
+        Collections.sort(sortedAttempts, Comparator.comparingInt(Attempt::getScore).reversed());
+        int start = sortedAttempts.size() - 5;
+        return start >= 0 ? sortedAttempts.subList(start, sortedAttempts.size()) : sortedAttempts;
+    }
+
+    public Attempt getMostRecentAttempt() {
+        return attempts.size() > 0 ? attempts.get(attempts.size() - 1) : null;
     }
 }

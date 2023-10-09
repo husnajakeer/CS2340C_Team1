@@ -2,10 +2,14 @@ package com.example.team1game;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.widget.Button;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.team1game.Model.Attempt;
 import com.example.team1game.Model.Leaderboard;
@@ -27,18 +31,85 @@ public class EndScreen extends AppCompatActivity {
         player = Player.getPlayer();
 
         setContentView(R.layout.activity_end_screen);
-        leaderboardTextView = findViewById(R.id.leaderboardTextView);
-
         Leaderboard leaderboard = Leaderboard.getInstance();
-        StringBuilder leaderboardStr = new StringBuilder("Leaderboard\n");
+        TableLayout leaderboardTable = findViewById(R.id.leaderboardTable);
 
         for (Attempt attempt : leaderboard.getAttempts()) {
-            leaderboardStr.append(attempt.getPlayerName()).append(": ")
-                    .append(attempt.getScore()).append(" - ")
-                    .append(attempt.getAttemptTime()).append("\n");
+            TableRow row = new TableRow(this);
+            TextView playerName = new TextView(this);
+            TextView score = new TextView(this);
+            TextView attemptTime = new TextView(this);
+
+            // Set properties for alignment and appearance
+            TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(0, TableRow.LayoutParams.MATCH_PARENT, 1);
+
+            playerName.setLayoutParams(layoutParams);
+            score.setLayoutParams(layoutParams);
+            attemptTime.setLayoutParams(layoutParams);
+
+            playerName.setGravity(Gravity.CENTER);
+            score.setGravity(Gravity.CENTER);
+            attemptTime.setGravity(Gravity.CENTER);
+
+            playerName.setPadding(8, 8, 8, 8);
+            score.setPadding(8, 8, 8, 8);
+            attemptTime.setPadding(8, 8, 8, 8);
+
+            playerName.setBackground(ContextCompat.getDrawable(this, R.drawable.border));
+            score.setBackground(ContextCompat.getDrawable(this, R.drawable.border));
+            attemptTime.setBackground(ContextCompat.getDrawable(this, R.drawable.border));
+
+            playerName.setText(attempt.getPlayerName());
+            score.setText(String.valueOf(attempt.getScore()));
+            attemptTime.setText(attempt.getAttemptTime().toString());  // Assuming AttemptTime is a Date or Time object
+
+            row.addView(playerName);
+            row.addView(score);
+            row.addView(attemptTime);
+
+            leaderboardTable.addView(row);
         }
 
-        leaderboardTextView.setText(leaderboardStr.toString());
+        TableLayout mostRecentAttemptTable = findViewById(R.id.mostRecentAttemptTable);
+        Attempt recentAttempt = leaderboard.getMostRecentAttempt();
+
+        if (recentAttempt != null) {
+            TableRow row = new TableRow(this);
+            TextView playerName = new TextView(this);
+            TextView score = new TextView(this);
+            TextView attemptTime = new TextView(this);
+
+            // Set properties for alignment and appearance (similar to the leaderboard)
+            TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(0, TableRow.LayoutParams.MATCH_PARENT, 1);
+
+            playerName.setLayoutParams(layoutParams);
+            score.setLayoutParams(layoutParams);
+            attemptTime.setLayoutParams(layoutParams);
+
+            playerName.setGravity(Gravity.CENTER);
+            score.setGravity(Gravity.CENTER);
+            attemptTime.setGravity(Gravity.CENTER);
+
+            playerName.setPadding(8, 8, 8, 8);
+            score.setPadding(8, 8, 8, 8);
+            attemptTime.setPadding(8, 8, 8, 8);
+
+            playerName.setBackground(ContextCompat.getDrawable(this, R.drawable.border));
+            score.setBackground(ContextCompat.getDrawable(this, R.drawable.border));
+            attemptTime.setBackground(ContextCompat.getDrawable(this, R.drawable.border));
+
+            playerName.setText(recentAttempt.getPlayerName());
+            score.setText(String.valueOf(recentAttempt.getScore()));
+            attemptTime.setText(recentAttempt.getAttemptTime().toString());
+
+            row.addView(playerName);
+            row.addView(score);
+            row.addView(attemptTime);
+
+            mostRecentAttemptTable.addView(row);
+        }
+
+
 
         restartButton = findViewById(R.id.restartButton);
         quitButton = findViewById(R.id.quitButton);
