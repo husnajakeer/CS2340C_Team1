@@ -15,22 +15,35 @@ import com.example.team1game.Model.Attempt;
 import com.example.team1game.Model.Leaderboard;
 import com.example.team1game.Model.Player;
 
-
-
 public class EndScreen extends AppCompatActivity {
 
     private Button restartButton;
     private Button quitButton;
     private Player player;
-    private TextView leaderboardTextView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         player = Player.getPlayer();
-
         setContentView(R.layout.activity_end_screen);
+
+        setLeaderboard();
+        setCurrentAttempt();
+
+        restartButton = findViewById(R.id.restartButton);
+        quitButton = findViewById(R.id.quitButton);
+
+        restartButton.setOnClickListener(view -> {
+            Intent intent = new Intent(EndScreen.this, MainActivity.class);
+            startActivity(intent);
+        });
+
+        quitButton.setOnClickListener(view -> {
+            finishAffinity();  // This will close the entire app
+        });
+    }
+
+    private void setLeaderboard() {
         Leaderboard leaderboard = Leaderboard.getInstance();
         TableLayout leaderboardTable = findViewById(R.id.leaderboardTable);
 
@@ -40,7 +53,6 @@ public class EndScreen extends AppCompatActivity {
             TextView score = new TextView(this);
             TextView attemptTime = new TextView(this);
 
-            // Set properties for alignment and appearance
             TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(0, TableRow.LayoutParams.MATCH_PARENT, 1);
 
             playerName.setLayoutParams(layoutParams);
@@ -61,7 +73,7 @@ public class EndScreen extends AppCompatActivity {
 
             playerName.setText(attempt.getPlayerName());
             score.setText(String.valueOf(attempt.getScore()));
-            attemptTime.setText(attempt.getAttemptTime().toString());  // Assuming AttemptTime is a Date or Time object
+            attemptTime.setText(attempt.getAttemptTime().toString());
 
             row.addView(playerName);
             row.addView(score);
@@ -69,7 +81,10 @@ public class EndScreen extends AppCompatActivity {
 
             leaderboardTable.addView(row);
         }
+    }
 
+    private void setCurrentAttempt() {
+        Leaderboard leaderboard = Leaderboard.getInstance();
         TableLayout mostRecentAttemptTable = findViewById(R.id.mostRecentAttemptTable);
         Attempt recentAttempt = leaderboard.getMostRecentAttempt();
 
@@ -79,7 +94,6 @@ public class EndScreen extends AppCompatActivity {
             TextView score = new TextView(this);
             TextView attemptTime = new TextView(this);
 
-            // Set properties for alignment and appearance (similar to the leaderboard)
             TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(0, TableRow.LayoutParams.MATCH_PARENT, 1);
 
             playerName.setLayoutParams(layoutParams);
@@ -108,19 +122,5 @@ public class EndScreen extends AppCompatActivity {
 
             mostRecentAttemptTable.addView(row);
         }
-
-
-
-        restartButton = findViewById(R.id.restartButton);
-        quitButton = findViewById(R.id.quitButton);
-
-        restartButton.setOnClickListener(view -> {
-            Intent intent = new Intent(EndScreen.this, MainActivity.class);
-            startActivity(intent);
-        });
-
-        quitButton.setOnClickListener(view -> {
-            finishAffinity();  // This will close the entire app
-        });
     }
 }
