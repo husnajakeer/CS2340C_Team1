@@ -14,7 +14,8 @@ public class Attempt {
         this.playerName = playerName;
         this.score = score;
         this.difficulty = difficulty;
-        this.attemptTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+        this.attemptTime = new SimpleDateFormat("yyyy-MM-dd HH:mm",
+                Locale.getDefault()).format(new Date());
     }
 
     public String getPlayerName() {

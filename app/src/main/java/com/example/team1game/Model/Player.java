@@ -10,10 +10,10 @@ public class Player extends Entity {
     private String difficulty;
     private Weapons weapon;
 
-    private volatile static Player player;
-    public static Player getPlayer(){
-        if (player == null){
-            synchronized (Player.class){
+    private static volatile  Player player;
+    public static Player getPlayer() {
+        if (player == null) {
+            synchronized (Player.class) {
                 if (player == null) {
                     player = new Player();
                 }
@@ -97,7 +97,7 @@ public class Player extends Entity {
         this.score = score;
         this.difficulty = difficulty;
     }
-    private Player(){
+    private Player() {
         this("player", true, 5, 10, 0, "medium", null);
     }
 
@@ -139,7 +139,9 @@ public class Player extends Entity {
 
     public void decrementScore(int amount) {
         this.score -= amount;
-        if (this.score < 0) this.score = 0;
+        if (this.score < 0) {
+            this.score = 0;
+        }
     }
 
     /**
@@ -159,19 +161,21 @@ public class Player extends Entity {
     public void setDifficulty(String difficulty) {
 
         this.difficulty = difficulty;
-        switch(this.difficulty){
-            case "Easy":
-                setAttack(5);
-                setHealth(5);
-                break;
-            case "Medium":
-                setAttack(3);
-                setHealth(3);
-                break;
-            case "Hard":
-                setAttack(1);
-                setHealth(1);
-                break;
+        switch (this.difficulty) {
+        case "Easy":
+            setAttack(5);
+            setHealth(5);
+            break;
+        case "Medium":
+            setAttack(3);
+            setHealth(3);
+            break;
+        case "Hard":
+            setAttack(1);
+            setHealth(1);
+            break;
+        default:
+            break;
         }
     }
 

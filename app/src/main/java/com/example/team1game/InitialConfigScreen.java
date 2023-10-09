@@ -2,7 +2,6 @@ package com.example.team1game;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,8 +30,8 @@ public class InitialConfigScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        player = Player.getPlayer();
         setContentView(R.layout.activity_initial_config_screen);
+        player = Player.getPlayer();
 
         playerNameEditText = findViewById(R.id.playerNameEditText);
         difficultyRadioGroup = findViewById(R.id.difficultyRadioGroup);
@@ -80,11 +79,8 @@ public class InitialConfigScreen extends AppCompatActivity {
             }
             // Player singleton class (make changes to it with accessors
             player.setName(playerName);
-            // need to change the player constructor so that when it sees difficulty, changes it based on num of hearts
+            // setDifficulty sees difficulty, changes it based on num of hearts
             player.setDifficulty(difficulty);
-            Log.d("player", player.getName() + "attack"
-                    + player.getAttack() + "difficulty" + player.getDifficulty() + "health" + player.getHealth());
-
 
             String sprite;
             if (radioButtonSprite1.isChecked()) {
