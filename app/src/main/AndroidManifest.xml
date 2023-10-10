@@ -19,6 +19,12 @@
             android:name=".GameScreen"
             android:exported="false" />
         <activity
+            android:name=".Room2"
+            android:exported="false" />
+        <activity
+            android:name=".Room3"
+            android:exported="false" />
+        <activity
             android:name=".InitialConfigScreen"
             android:exported="false" />
         <activity

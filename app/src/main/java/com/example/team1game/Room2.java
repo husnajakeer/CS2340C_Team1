@@ -13,7 +13,7 @@ import com.example.team1game.Model.Attempt;
 import com.example.team1game.Model.Leaderboard;
 import com.example.team1game.Model.Player;
 
-public class GameScreen extends AppCompatActivity {
+public class Room2 extends AppCompatActivity {
     private Player player;
     private TextView playerNameTextView;
     private TextView healthPointsTextView;
@@ -24,7 +24,7 @@ public class GameScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_screen);
+        setContentView(R.layout.activity_room2_screen);
         Player player = Player.getPlayer();
         player.setScore(100);
 
@@ -82,7 +82,7 @@ public class GameScreen extends AppCompatActivity {
             Leaderboard.getInstance().addAttempt(attempt);
             handler.removeCallbacks(updateScoreRunnable);
 
-            Intent intent = new Intent(GameScreen.this, Room2.class);
+            Intent intent = new Intent(Room2.this, Room3.class);
             intent.putExtra("sprite", sprite);
             startActivity(intent);
         });
