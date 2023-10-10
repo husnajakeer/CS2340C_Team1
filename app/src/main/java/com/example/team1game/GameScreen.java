@@ -78,8 +78,6 @@ public class GameScreen extends AppCompatActivity {
         };
 
         nextButton.setOnClickListener(view -> {
-            Attempt attempt = new Attempt(playerName, player.getScore(), difficulty);
-            Leaderboard.getInstance().addAttempt(attempt);
             handler.removeCallbacks(updateScoreRunnable);
 
             Intent intent = new Intent(GameScreen.this, Room2.class);

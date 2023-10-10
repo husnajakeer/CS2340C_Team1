@@ -26,7 +26,6 @@ public class Room3 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room3_screen);
         Player player = Player.getPlayer();
-        player.setScore(100);
 
         // Textviews and buttons
         playerNameTextView = findViewById(R.id.playerNameTextView);
@@ -35,6 +34,7 @@ public class Room3 extends AppCompatActivity {
         characterSprite = findViewById(R.id.characterSprite);
         scoreTextView = findViewById(R.id.scoreTextView);
         Button nextButton = findViewById(R.id.nextButton);
+        scoreTextView.setText("Score: " + player.getScore());
 
         // Player singleton variables
         String playerName = player.getName();

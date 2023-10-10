@@ -26,7 +26,6 @@ public class Room2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room2_screen);
         Player player = Player.getPlayer();
-        player.setScore(100);
 
         // Textviews and buttons
         playerNameTextView = findViewById(R.id.playerNameTextView);
@@ -35,6 +34,7 @@ public class Room2 extends AppCompatActivity {
         characterSprite = findViewById(R.id.characterSprite);
         scoreTextView = findViewById(R.id.scoreTextView);
         Button nextButton = findViewById(R.id.nextButton);
+        scoreTextView.setText("Score: " + player.getScore());
 
         // Player singleton variables
         String playerName = player.getName();
@@ -78,8 +78,6 @@ public class Room2 extends AppCompatActivity {
         };
 
         nextButton.setOnClickListener(view -> {
-            Attempt attempt = new Attempt(playerName, player.getScore(), difficulty);
-            Leaderboard.getInstance().addAttempt(attempt);
             handler.removeCallbacks(updateScoreRunnable);
 
             Intent intent = new Intent(Room2.this, Room3.class);
