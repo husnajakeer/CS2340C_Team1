@@ -30,10 +30,10 @@ public class Leaderboard {
     }
 
     public List<Attempt> getAttempts() {
-        List<Attempt> sortedAttempts = new CopyOnWriteArrayList<>(attempts);  // clone the list
+        List<Attempt> sortedAttempts = new CopyOnWriteArrayList<>(attempts);
         Collections.sort(sortedAttempts, Comparator.comparingInt(Attempt::getScore).reversed());
-        int start = sortedAttempts.size() - 5;
-        return start >= 0 ? sortedAttempts.subList(start, sortedAttempts.size()) : sortedAttempts;
+        int end = Math.min(5, sortedAttempts.size());
+        return sortedAttempts.subList(0, end);
     }
 
     public Attempt getMostRecentAttempt() {
