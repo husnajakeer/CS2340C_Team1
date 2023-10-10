@@ -7,22 +7,26 @@
     <EditText
         android:id="@+id/playerNameEditText"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginTop="104dp"
         android:hint="Enter Player Name"
-        android:layout_marginTop="100dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="10dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <RadioGroup
         android:id="@+id/difficultyRadioGroup"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
         android:layout_marginLeft="20dp"
+        android:layout_marginTop="35dp"
         android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/playerNameEditText">
 
         <RadioButton
@@ -36,9 +40,9 @@
             android:id="@+id/mediumDifficulty"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="19dp"
             android:layout_marginRight="19dp"
+            android:layout_weight="1"
             android:text="Medium" />
 
         <RadioButton
@@ -56,16 +60,16 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="35dp"
         android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/difficultyRadioGroup">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
             <RadioButton
                 android:id="@+id/radioButtonSprite1"
@@ -83,8 +87,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
             <RadioButton
                 android:id="@+id/radioButtonSprite2"
@@ -102,8 +106,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
             <RadioButton
                 android:id="@+id/radioButtonSprite3"
@@ -122,12 +126,12 @@
         android:id="@+id/continueButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Continue"
-        android:backgroundTint="#4CAF50"
-        android:textColor="#FFFFFF"
         android:layout_marginTop="40dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:backgroundTint="#4CAF50"
+        android:text="Continue"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/spriteRadioGroup" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
