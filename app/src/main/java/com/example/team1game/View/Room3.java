@@ -1,4 +1,4 @@
-package com.example.team1game;
+package com.example.team1game.View;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,8 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.team1game.Model.Attempt;
 import com.example.team1game.Model.Leaderboard;
 import com.example.team1game.Model.Player;
+import com.example.team1game.R;
 
-public class Room2 extends AppCompatActivity {
+public class Room3 extends AppCompatActivity {
     private Player player;
     private TextView playerNameTextView;
     private TextView healthPointsTextView;
@@ -24,7 +25,7 @@ public class Room2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_room2_screen);
+        setContentView(R.layout.activity_room3_screen);
         Player player = Player.getPlayer();
 
         // Textviews and buttons
@@ -78,9 +79,11 @@ public class Room2 extends AppCompatActivity {
         };
 
         nextButton.setOnClickListener(view -> {
+            Attempt attempt = new Attempt(playerName, player.getScore(), difficulty);
+            Leaderboard.getInstance().addAttempt(attempt);
             handler.removeCallbacks(updateScoreRunnable);
 
-            Intent intent = new Intent(Room2.this, Room3.class);
+            Intent intent = new Intent(Room3.this, EndScreen.class);
             intent.putExtra("sprite", sprite);
             startActivity(intent);
         });

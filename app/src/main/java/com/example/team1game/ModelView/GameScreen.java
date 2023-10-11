@@ -1,4 +1,4 @@
-package com.example.team1game;
+package com.example.team1game.ModelView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,11 +9,11 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.team1game.Model.Attempt;
-import com.example.team1game.Model.Leaderboard;
 import com.example.team1game.Model.Player;
+import com.example.team1game.R;
+import com.example.team1game.View.Room2;
 
-public class Room3 extends AppCompatActivity {
+public class GameScreen extends AppCompatActivity {
     private Player player;
     private TextView playerNameTextView;
     private TextView healthPointsTextView;
@@ -24,8 +24,9 @@ public class Room3 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_room3_screen);
+        setContentView(R.layout.activity_game_screen);
         Player player = Player.getPlayer();
+        player.setScore(100);
 
         // Textviews and buttons
         playerNameTextView = findViewById(R.id.playerNameTextView);
@@ -34,7 +35,6 @@ public class Room3 extends AppCompatActivity {
         characterSprite = findViewById(R.id.characterSprite);
         scoreTextView = findViewById(R.id.scoreTextView);
         Button nextButton = findViewById(R.id.nextButton);
-        scoreTextView.setText("Score: " + player.getScore());
 
         // Player singleton variables
         String playerName = player.getName();
@@ -78,11 +78,9 @@ public class Room3 extends AppCompatActivity {
         };
 
         nextButton.setOnClickListener(view -> {
-            Attempt attempt = new Attempt(playerName, player.getScore(), difficulty);
-            Leaderboard.getInstance().addAttempt(attempt);
             handler.removeCallbacks(updateScoreRunnable);
 
-            Intent intent = new Intent(Room3.this, EndScreen.class);
+            Intent intent = new Intent(GameScreen.this, Room2.class);
             intent.putExtra("sprite", sprite);
             startActivity(intent);
         });

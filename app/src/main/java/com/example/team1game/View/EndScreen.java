@@ -1,4 +1,4 @@
-package com.example.team1game;
+package com.example.team1game.View;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,8 @@ import androidx.core.content.ContextCompat;
 import com.example.team1game.Model.Attempt;
 import com.example.team1game.Model.Leaderboard;
 import com.example.team1game.Model.Player;
+import com.example.team1game.ModelView.MainActivity;
+import com.example.team1game.R;
 
 public class EndScreen extends AppCompatActivity {
 
