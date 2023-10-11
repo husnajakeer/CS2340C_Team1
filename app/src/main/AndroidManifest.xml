@@ -13,22 +13,22 @@
         android:theme="@style/Theme.Team1Game"
         tools:targetApi="31">
         <activity
-            android:name=".EndScreen"
+            android:name=".View.EndScreen"
             android:exported="false" />
         <activity
-            android:name=".GameScreen"
+            android:name=".ModelView.GameScreen"
             android:exported="false" />
         <activity
-            android:name=".Room2"
+            android:name=".View.Room2"
             android:exported="false" />
         <activity
-            android:name=".Room3"
+            android:name=".View.Room3"
             android:exported="false" />
         <activity
-            android:name=".InitialConfigScreen"
+            android:name=".ModelView.InitialConfigScreen"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ModelView.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

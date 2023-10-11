@@ -39,4 +39,7 @@ public class Leaderboard {
     public Attempt getMostRecentAttempt() {
         return attempts.size() > 0 ? attempts.get(attempts.size() - 1) : null;
     }
+    public void clearAttempts() {
+        this.attempts.clear();
+    }
 }

@@ -1,4 +1,4 @@
-package com.example.team1game;
+package com.example.team1game.ModelView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 // import player class to use it
 import com.example.team1game.Model.Player;
+import com.example.team1game.R;
 
 public class InitialConfigScreen extends AppCompatActivity {
     private Player player;

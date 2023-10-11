@@ -1,4 +1,4 @@
-package com.example.team1game;
+package com.example.team1game.View;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,11 +9,10 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.team1game.Model.Attempt;
-import com.example.team1game.Model.Leaderboard;
 import com.example.team1game.Model.Player;
+import com.example.team1game.R;
 
-public class GameScreen extends AppCompatActivity {
+public class Room2 extends AppCompatActivity {
     private Player player;
     private TextView playerNameTextView;
     private TextView healthPointsTextView;
@@ -24,9 +23,8 @@ public class GameScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_screen);
+        setContentView(R.layout.activity_room2_screen);
         Player player = Player.getPlayer();
-        player.setScore(100);
 
         // Textviews and buttons
         playerNameTextView = findViewById(R.id.playerNameTextView);
@@ -35,6 +33,7 @@ public class GameScreen extends AppCompatActivity {
         characterSprite = findViewById(R.id.characterSprite);
         scoreTextView = findViewById(R.id.scoreTextView);
         Button nextButton = findViewById(R.id.nextButton);
+        scoreTextView.setText("Score: " + player.getScore());
 
         // Player singleton variables
         String playerName = player.getName();
@@ -80,7 +79,7 @@ public class GameScreen extends AppCompatActivity {
         nextButton.setOnClickListener(view -> {
             handler.removeCallbacks(updateScoreRunnable);
 
-            Intent intent = new Intent(GameScreen.this, Room2.class);
+            Intent intent = new Intent(Room2.this, Room3.class);
             intent.putExtra("sprite", sprite);
             startActivity(intent);
         });

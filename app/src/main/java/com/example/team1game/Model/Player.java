@@ -98,7 +98,7 @@ public class Player extends Entity {
         this.difficulty = difficulty;
     }
     private Player() {
-        this("player", true, 5, 10, 0, "medium", null);
+        this("player", true, 5, 10, 0, "Medium", null);
     }
 
     /**
@@ -134,7 +134,11 @@ public class Player extends Entity {
      * @param score The new score value.
      */
     public void setScore(int score) {
-        this.score = score;
+        if (score < 0) {
+            this.score = 0;
+        } else {
+            this.score = score;
+        }
     }
 
     public void decrementScore(int amount) {
