@@ -55,7 +55,8 @@ public class EndScreen extends AppCompatActivity {
             TextView score = new TextView(this);
             TextView attemptTime = new TextView(this);
 
-            TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(0, TableRow.LayoutParams.MATCH_PARENT, 1);
+            TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(0,
+                    TableRow.LayoutParams.MATCH_PARENT, 1);
 
             playerName.setLayoutParams(layoutParams);
             score.setLayoutParams(layoutParams);
@@ -96,7 +97,8 @@ public class EndScreen extends AppCompatActivity {
             TextView score = new TextView(this);
             TextView attemptTime = new TextView(this);
 
-            TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(0, TableRow.LayoutParams.MATCH_PARENT, 1);
+            TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(0,
+                    TableRow.LayoutParams.MATCH_PARENT, 1);
 
             playerName.setLayoutParams(layoutParams);
             score.setLayoutParams(layoutParams);
