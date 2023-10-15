@@ -85,11 +85,11 @@ public class InitialConfigScreen extends AppCompatActivity {
 
             String sprite;
             if (radioButtonSprite1.isChecked()) {
-                sprite = "Sprite1";
+                sprite = "eva_idle";
             } else if (radioButtonSprite2.isChecked()) {
-                sprite = "Sprite2";
+                sprite = "kaya_idle";
             } else if (radioButtonSprite3.isChecked()) {
-                sprite = "Sprite3";
+                sprite = "rika_idle";
             } else {
                 Toast.makeText(this, "Please select a sprite", Toast.LENGTH_SHORT).show();
                 return;
