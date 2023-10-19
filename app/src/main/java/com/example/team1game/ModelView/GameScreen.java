@@ -3,6 +3,8 @@ package com.example.team1game.ModelView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.KeyEvent;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,9 +14,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.team1game.Model.Player;
 import com.example.team1game.R;
 import com.example.team1game.View.Room2;
+//TODO make this file easier to read, not so big
 
 public class GameScreen extends AppCompatActivity {
     private Player player;
+    private int characterX;
+    private int characterY;
     private TextView playerNameTextView;
     private TextView healthPointsTextView;
     private TextView difficultyTextView;
@@ -54,12 +59,12 @@ public class GameScreen extends AppCompatActivity {
         healthPointsTextView.setText("Health: " + numOfHearts + " hearts");
         difficultyTextView.setText("Difficulty: " + difficulty);
 
-        if ("Sprite1".equals(sprite)) {
-            characterSprite.setImageResource(R.drawable.sprite1);
-        } else if ("Sprite2".equals(sprite)) {
-            characterSprite.setImageResource(R.drawable.sprite2);
-        } else if ("Sprite3".equals(sprite)) {
-            characterSprite.setImageResource(R.drawable.sprite3);
+        if ("eva_idle".equals(sprite)) {
+            characterSprite.setImageResource(R.drawable.eva_idle);
+        } else if ("kaya_idle".equals(sprite)) {
+            characterSprite.setImageResource(R.drawable.kaya_idle);
+        } else if ("rika_idle".equals(sprite)) {
+            characterSprite.setImageResource(R.drawable.rika_idle);
         }
 
         final Handler handler = new Handler();
@@ -86,5 +91,50 @@ public class GameScreen extends AppCompatActivity {
         });
 
         handler.postDelayed(updateScoreRunnable, 1000);  // Start after 1 second
+        
+        // detect player pos and move it
+        detectPlayerPos(player);
+    }
+    public void detectPlayerPos(Player player){
+        // Set up a ViewTreeObserver to get the position of the character ImageView
+        ViewTreeObserver viewTreeObserver = characterSprite.getViewTreeObserver();
+        viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                characterX = characterSprite.getLeft();
+                characterY = characterSprite.getTop();
+                characterSprite.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
+        player.setX(characterX);
+        player.setY(characterY);
+    }
+    // for testing purposes ONLY, repl w real coordinates later
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_W:
+                // Move character up
+                characterX -= 10;
+                break;
+            case KeyEvent.KEYCODE_A:
+                // Move character left
+                characterX -= 10;
+                break;
+            case KeyEvent.KEYCODE_S:
+                // Move character down
+                characterY += 10;
+                break;
+            case KeyEvent.KEYCODE_D:
+                // Move character right
+                characterX += 10;
+                break;
+        }
+
+        // Update the character's position
+        characterSprite.setX(characterX);
+        characterSprite.setY(characterY);
+
+        return true;
     }
 }

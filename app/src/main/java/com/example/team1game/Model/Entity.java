@@ -8,23 +8,9 @@ public class Entity {
     private String name;
     private boolean livingStatus;
     private int health;
-    private EntityData stats;
+    private int x;
+    private int y;
 
-    /**
-     * Constructs a new object with the specified parameters, including name, living status,
-     * health, and statistics.
-     *
-     * @param name         The name of the entity.
-     * @param livingStatus The living status of the entity (true if alive, false if not).
-     * @param health       The health points of the entity.
-     * @param stats        The data statistics of the entity.
-     */
-    public Entity(String name, boolean livingStatus, int health, EntityData stats) {
-        this.name = name;
-        this.livingStatus = livingStatus;
-        this.health = health;
-        this.stats = stats;
-    }
 
     /**
      * Constructs a new object with the specified parameters, including name, living status,
@@ -38,7 +24,6 @@ public class Entity {
         this.name = name;
         this.livingStatus = livingStatus;
         this.health = health;
-        this.stats = new EntityData(0, 0, 0, 0);
     }
 
     /**
@@ -52,7 +37,6 @@ public class Entity {
         this.name = name;
         this.livingStatus = livingStatus;
         this.health = 0;
-        this.stats = new EntityData(0, 0, 0, 0);
     }
 
     /**
@@ -65,7 +49,6 @@ public class Entity {
         this.name = name;
         this.livingStatus = true;
         this.health = 0;
-        this.stats = new EntityData(0, 0, 0, 0);
     }
 
     /**
@@ -122,21 +105,20 @@ public class Entity {
         this.health = health;
     }
 
-    /**
-     * Gets the data statistics of the entity.
-     *
-     * @return The entity's statistics.
-     */
-    public EntityData getStats() {
-        return stats;
+    public int getX() {
+        return x;
     }
 
-    /**
-     * Sets the data statistics of the entity.
-     *
-     * @param stats The new statistics for the entity.
-     */
-    public void setStats(EntityData stats) {
-        this.stats = stats;
+    public void setX(int x) {
+        this.x = x;
     }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
 }

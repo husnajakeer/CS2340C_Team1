@@ -55,12 +55,12 @@ public class Room3 extends AppCompatActivity {
         healthPointsTextView.setText("Health: " + numOfHearts + " hearts");
         difficultyTextView.setText("Difficulty: " + difficulty);
 
-        if ("Sprite1".equals(sprite)) {
-            characterSprite.setImageResource(R.drawable.sprite1);
-        } else if ("Sprite2".equals(sprite)) {
-            characterSprite.setImageResource(R.drawable.sprite2);
-        } else if ("Sprite3".equals(sprite)) {
-            characterSprite.setImageResource(R.drawable.sprite3);
+        if ("eva_idle".equals(sprite)) {
+            characterSprite.setImageResource(R.drawable.eva_idle);
+        } else if ("kaya_idle".equals(sprite)) {
+            characterSprite.setImageResource(R.drawable.kaya_idle);
+        } else if ("rika_idle".equals(sprite)) {
+            characterSprite.setImageResource(R.drawable.rika_idle);
         }
 
         final Handler handler = new Handler();
