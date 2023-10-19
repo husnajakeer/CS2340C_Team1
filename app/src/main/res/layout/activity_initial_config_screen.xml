@@ -80,7 +80,7 @@
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/sprite1" />
+                android:src="@drawable/eva_idle" />
         </LinearLayout>
 
         <LinearLayout
@@ -99,7 +99,7 @@
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/sprite2" />
+                android:src="@drawable/kaya_idle" />
         </LinearLayout>
 
         <LinearLayout
@@ -118,7 +118,7 @@
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/sprite3" />
+                android:src="@drawable/rika_idle" />
         </LinearLayout>
     </RadioGroup>
 

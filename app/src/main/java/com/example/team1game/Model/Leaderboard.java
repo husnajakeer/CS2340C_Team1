@@ -1,6 +1,5 @@
 package com.example.team1game.Model;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -38,5 +37,8 @@ public class Leaderboard {
 
     public Attempt getMostRecentAttempt() {
         return attempts.size() > 0 ? attempts.get(attempts.size() - 1) : null;
+    }
+    public void clearAttempts() {
+        this.attempts.clear();
     }
 }

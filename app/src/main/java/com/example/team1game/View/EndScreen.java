@@ -1,4 +1,4 @@
-package com.example.team1game;
+package com.example.team1game.View;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,8 @@ import androidx.core.content.ContextCompat;
 import com.example.team1game.Model.Attempt;
 import com.example.team1game.Model.Leaderboard;
 import com.example.team1game.Model.Player;
+import com.example.team1game.ModelView.MainActivity;
+import com.example.team1game.R;
 
 public class EndScreen extends AppCompatActivity {
 
@@ -53,7 +55,8 @@ public class EndScreen extends AppCompatActivity {
             TextView score = new TextView(this);
             TextView attemptTime = new TextView(this);
 
-            TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(0, TableRow.LayoutParams.MATCH_PARENT, 1);
+            TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(0,
+                    TableRow.LayoutParams.MATCH_PARENT, 1);
 
             playerName.setLayoutParams(layoutParams);
             score.setLayoutParams(layoutParams);
@@ -94,7 +97,8 @@ public class EndScreen extends AppCompatActivity {
             TextView score = new TextView(this);
             TextView attemptTime = new TextView(this);
 
-            TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(0, TableRow.LayoutParams.MATCH_PARENT, 1);
+            TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(0,
+                    TableRow.LayoutParams.MATCH_PARENT, 1);
 
             playerName.setLayoutParams(layoutParams);
             score.setLayoutParams(layoutParams);

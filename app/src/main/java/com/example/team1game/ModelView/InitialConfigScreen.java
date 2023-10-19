@@ -1,4 +1,4 @@
-package com.example.team1game;
+package com.example.team1game.ModelView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 // import player class to use it
 import com.example.team1game.Model.Player;
+import com.example.team1game.R;
 
 public class InitialConfigScreen extends AppCompatActivity {
     private Player player;
@@ -84,11 +85,11 @@ public class InitialConfigScreen extends AppCompatActivity {
 
             String sprite;
             if (radioButtonSprite1.isChecked()) {
-                sprite = "Sprite1";
+                sprite = "eva_idle";
             } else if (radioButtonSprite2.isChecked()) {
-                sprite = "Sprite2";
+                sprite = "kaya_idle";
             } else if (radioButtonSprite3.isChecked()) {
-                sprite = "Sprite3";
+                sprite = "rika_idle";
             } else {
                 Toast.makeText(this, "Please select a sprite", Toast.LENGTH_SHORT).show();
                 return;
