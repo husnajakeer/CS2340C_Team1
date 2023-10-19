@@ -13,20 +13,6 @@ public class Enemy extends Entity {
      * @param name         The name of the enemy.
      * @param livingStatus The living status of the enemy.
      * @param health       The health points of the enemy.
-     * @param stats        The data statistics of the enemy.
-     * @param damage       The damage inflicted by the enemy.
-     */
-    public Enemy(String name, boolean livingStatus, int health, EntityData stats, int damage) {
-        super(name, livingStatus, health, stats);
-        this.damage = damage;
-    }
-
-    /**
-     * Constructs a new object with the specified parameters, including damage.
-     *
-     * @param name         The name of the enemy.
-     * @param livingStatus The living status of the enemy.
-     * @param health       The health points of the enemy.
      * @param damage       The damage inflicted by the enemy.
      */
     public Enemy(String name, boolean livingStatus, int health, int damage) {
