@@ -209,4 +209,6 @@ public class Player extends Entity implements Subscriber{
         // get the objects coordinates
         // can't move anywhere beyond this pt
     }
+
+
 }

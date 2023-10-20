@@ -12,12 +12,14 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.team1game.Model.Player;
+import com.example.team1game.Model.PlayerMovement;
 import com.example.team1game.R;
 import com.example.team1game.View.Room2;
 //TODO make this file easier to read, not so big
 
 public class GameScreen extends AppCompatActivity {
     private Player player;
+    private PlayerMovement playerMovement;
     private int characterX;
     private int characterY;
     private TextView playerNameTextView;
@@ -35,7 +37,9 @@ public class GameScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_screen);
-        Player player = Player.getPlayer();
+        player = Player.getPlayer();
+
+
         player.setScore(100);
 
         // Textviews and buttons
@@ -98,13 +102,15 @@ public class GameScreen extends AppCompatActivity {
         handler.postDelayed(updateScoreRunnable, 1000);  // Start after 1 second
 
         // detect player pos and move it
-        detectPlayerPos(player);
-
+        detectPlayerPos();
+        // this moves u to next screen
         characterSprite.post(() -> {
             spriteWidth = characterSprite.getWidth();
             spriteHeight = characterSprite.getHeight();
             screenWidth = findViewById(android.R.id.content).getWidth();
             screenHeight = findViewById(android.R.id.content).getHeight();
+
+            playerMovement = new PlayerMovement(screenWidth, screenHeight, spriteWidth, spriteHeight);
         });
 
         Button upButton = findViewById(R.id.upButton);
@@ -112,43 +118,41 @@ public class GameScreen extends AppCompatActivity {
         Button leftButton = findViewById(R.id.leftButton);
         Button rightButton = findViewById(R.id.rightButton);
 
-        upButton.setOnClickListener(view -> {
-            characterY = Math.max(characterY - 10, 0);
-            characterSprite.setY(characterY);
-            checkCharacterPosition();
-        });
-
-        downButton.setOnClickListener(view -> {
-            characterY = Math.min(characterY + 10, screenHeight - spriteHeight);
-            characterSprite.setY(characterY);
-            checkCharacterPosition();
-        });
-
         leftButton.setOnClickListener(view -> {
-            characterX = Math.max(characterX - 10, 0);
-            characterSprite.setX(characterX);
+            playerMovement.moveLeft();
+            characterSprite.setX(player.getX());
             checkCharacterPosition();
         });
 
         rightButton.setOnClickListener(view -> {
-            characterX = Math.min(characterX + 10, screenWidth - spriteWidth);
-            characterSprite.setX(characterX);
+            playerMovement.moveRight();
+            characterSprite.setX(player.getX());
+            checkCharacterPosition();
+        });
+
+        upButton.setOnClickListener(view -> {
+            playerMovement.moveUp();
+            characterSprite.setY(player.getY());
+            checkCharacterPosition();
+        });
+
+        downButton.setOnClickListener(view -> {
+            playerMovement.moveDown();
+            characterSprite.setY(player.getY());
             checkCharacterPosition();
         });
     }
-    public void detectPlayerPos(Player player){
+    public void detectPlayerPos() {
         // Set up a ViewTreeObserver to get the position of the character ImageView
         ViewTreeObserver viewTreeObserver = characterSprite.getViewTreeObserver();
         viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                characterX = characterSprite.getLeft();
-                characterY = characterSprite.getTop();
+                player.setX(characterSprite.getLeft());
+                player.setY(characterSprite.getTop());
                 characterSprite.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
-        player.setX(characterX);
-        player.setY(characterY);
     }
     // for testing purposes ONLY, repl w real coordinates later
     @Override

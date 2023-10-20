@@ -1,28 +1,38 @@
 package com.example.team1game.Model;
 
-/**
- * should be implemented w WASD gui buttons on phone
- * some questions. do we need a game loop? do we really need to implement observer pattern?
- * for now I don't think we should (it doesn't make sense even tho there's an ed post)
- */
-public class PlayerMovement implements Movement{
+public class PlayerMovement implements Movement {
     Player player;
-    // replace these x and y w the player singleton
-    private int x, y; // Current position
+    int screenWidth, screenHeight, spriteWidth, spriteHeight;
+
+    public PlayerMovement(int screenWidth, int screenHeight, int spriteWidth, int spriteHeight) {
+        this.player = Player.getPlayer();
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
+        this.spriteWidth = spriteWidth;
+        this.spriteHeight = spriteHeight;
+    }
 
     public void moveLeft() {
-        x -= 1;
+        int x = player.getX();
+        x = Math.max(x - 10, 0);
+        player.setX(x);
     }
 
     public void moveRight() {
-        x += 1;
+        int x = player.getX();
+        x = Math.min(x + 10, screenWidth - spriteWidth);
+        player.setX(x);
     }
 
     public void moveUp() {
-        y -= 1;
+        int y = player.getY();
+        y = Math.max(y - 10, 0);
+        player.setY(y);
     }
 
     public void moveDown() {
-        y += 1;
+        int y = player.getY();
+        y = Math.min(y + 10, screenHeight - spriteHeight);
+        player.setY(y);
     }
 }
