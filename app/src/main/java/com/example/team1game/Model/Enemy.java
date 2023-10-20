@@ -4,6 +4,7 @@ package com.example.team1game.Model;
  * Represents an enemy entity in a game, extending the Entity class.
  * It adds the ability to specify enemy-specific damage.
  */
+// TODO: implement subscriber
 public class Enemy extends Entity {
     private int damage;
 
@@ -60,4 +61,13 @@ public class Enemy extends Entity {
     public void setDamage(int damage) {
         this.damage = damage;
     }
+    /*
+    @Override
+    public void onCollision(Object object1, Object object2) {
+        if (object1 instanceof Player && object2 instanceof Enemy) {
+            Player player = (Player) object1;
+            player.loseHealth(damage);
+        }
+    }
+     */
 }
