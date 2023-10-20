@@ -4,7 +4,7 @@ package com.example.team1game.Model;
  * Represents a player character in a game, extending the {@code Entity} class.
  * It includes attributes such as attack, score, difficulty level, and the player's weapon.
  */
-public class Player extends Entity {
+public class Player extends Entity implements Subscriber{
     private int attack;
     private int score;
     private String difficulty;
@@ -199,5 +199,14 @@ public class Player extends Entity {
      */
     public void setWeapon(Weapons weapon) {
         this.weapon = weapon;
+    }
+
+    @Override
+    public void onCollision(Object object1, Object object2) {
+        stopPlayerMovement();
+    }
+    private void stopPlayerMovement() {
+        // get the objects coordinates
+        // can't move anywhere beyond this pt
     }
 }
