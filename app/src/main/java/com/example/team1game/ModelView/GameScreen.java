@@ -31,6 +31,9 @@ public class GameScreen extends AppCompatActivity {
         setupScoreUpdater();
         initializePlayerMovementControls();
         detectPlayerInitialPos();
+
+        Button nextButton = findViewById(R.id.nextButton);
+        nextButton.setOnClickListener(view -> goToRoom2());
     }
 
     private void initializeGame() {
@@ -168,5 +171,11 @@ public class GameScreen extends AppCompatActivity {
             intent.putExtra("sprite", sprite);
             startActivity(intent);
         }
+    }
+    private void goToRoom2() {
+        String sprite = getIntent().getStringExtra("sprite");
+        Intent intent = new Intent(GameScreen.this, Room2.class);
+        intent.putExtra("sprite", sprite);
+        startActivity(intent);
     }
 }
