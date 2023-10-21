@@ -3,6 +3,8 @@ package com.example.team1game.Model;
  * grace is working on, no touchy
  */
 
+import android.graphics.Rect;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,9 +21,9 @@ public class Collision {
     public void removeObserver(Subscriber observer) {
         observers.remove(observer);
     }
-    private void notifyObservers(Object object1, Object object2) {
+    private void notifyObservers(Rect object1, Rect object2) {
         for (Subscriber observer : observers) {
-            observer.onCollision(object1, object2);
+            observer.handleCollision(object1, object2);
         }
     }
 }

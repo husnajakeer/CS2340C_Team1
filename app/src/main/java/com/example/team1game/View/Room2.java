@@ -163,20 +163,12 @@ public class Room2 extends AppCompatActivity {
         characterSprite.setY(player.getY());
         checkCharacterPosition();
     }
-    public void detectAllObstacles() {
-        View obstacle1;
-        View obstacle2;
-        obstacles = new ArrayList<View>();
-        obstacle1 = findViewById(R.id.obstacleView1);
-        obstacle2 = findViewById(R.id.obstacleView2);
-        obstacles.add(obstacle1);
-        obstacles.add(obstacle2);
-
-        Collision collision = new Collision();
-        collision.addObserver(playerMovement);
+    private void detectAllObstacles() {
+        obstacles = new ArrayList<>();
+        obstacles.add(findViewById(R.id.obstacleView1));
+        obstacles.add(findViewById(R.id.obstacleView2));
 
         Handler handler = new Handler();
-// Define a Runnable to check for collisions
         Runnable collisionCheckRunnable = new Runnable() {
             @Override
             public void run() {
@@ -184,40 +176,17 @@ public class Room2 extends AppCompatActivity {
                 characterSprite.getHitRect(playerRect);
 
                 for (View obstacle : obstacles) {
-                    Rect containerRect = new Rect();
-                    obstacle.getHitRect(containerRect);
+                    Rect obstacleRect = new Rect();
+                    obstacle.getHitRect(obstacleRect);
 
-                    // TODO: ideally this would be in the playerMovement, collision method
-                    // like collision.notifyAll(), this would call collision method
-                    if (Rect.intersects(playerRect, containerRect)) {
-                        // Collision detected, trigger your event here.
-                        // For example, change the background color of the container view.
-                        obstacle.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
-
-                        if (playerRect.left < containerRect.left) {
-                            // TODO: if obstacle is to the right of the player, stop the player from moving left
-                            playerMovement.setCanMoveRight(false);
-                            characterSprite.setX(player.getX());
-                            //respawn();
-                        } else if (playerRect.right > containerRect.right) {
-                            // TODO: if obstacle is to the left of the player, stop the player from moving right
-                            playerMovement.setCanMoveLeft(false);
-                            characterSprite.setX(player.getX());
-                        }
-                    } else {
-                        // No collision, reset the background color.
-                        obstacle.setBackgroundColor(0);
-                        // make everything movable again
-                        playerMovement.setCanMoveRight(true);
+                    if (Rect.intersects(playerRect, obstacleRect)) {
+                        playerMovement.handleCollision(obstacleRect, playerRect);
                     }
+                    playerMovement.handleMovementFlags(obstacleRect, playerRect);
                 }
-
-                // Schedule the next collision check after 1000 milliseconds (1 second)
-                handler.postDelayed(this, 1);
+                handler.postDelayed(this, 16); // Check for collisions every 16 milliseconds
             }
         };
-
-        // Start the collision check by posting the initial Runnable
         handler.post(collisionCheckRunnable);
     }
     public void respawn(){

@@ -1,5 +1,7 @@
 package com.example.team1game.Model;
 
+import android.graphics.Rect;
+
 public class PlayerMovement implements Movement, Subscriber {
     Player player;
     private boolean canMoveLeft = true;
@@ -48,10 +50,78 @@ public class PlayerMovement implements Movement, Subscriber {
         }
     }
 
-    @Override
-    public void onCollision(Object object1, Object object2) {
-        // maybe here we stop the correct player movement
+
+    public void handleCollision(Rect obstacleRect, Rect playerRect) {
+        // Calculate the sides of the player and obstacle
+        int playerLeft = playerRect.left;
+        int playerRight = playerRect.right;
+        int playerTop = playerRect.top;
+        int playerBottom = playerRect.bottom;
+
+        int obstacleLeft = obstacleRect.left;
+        int obstacleRight = obstacleRect.right;
+        int obstacleTop = obstacleRect.top;
+        int obstacleBottom = obstacleRect.bottom;
+
+        // Check collision on each side and adjust position
+        if (playerBottom > obstacleTop && playerTop < obstacleBottom) {
+            if (playerRight > obstacleLeft && playerLeft < obstacleRight) {
+                if (playerBottom - obstacleTop < obstacleBottom - playerTop) {
+                    // Player is above the obstacle
+                    player.setY(obstacleTop - spriteHeight);
+                } else {
+                    // Player is below the obstacle
+                    player.setY(obstacleBottom);
+                }
+            }
+        } else if (playerRight > obstacleLeft && playerLeft < obstacleRight) {
+            if (playerBottom > obstacleTop && playerTop < obstacleBottom) {
+                if (playerRight - obstacleLeft < obstacleRight - playerLeft) {
+                    // Player is to the left of the obstacle
+                    player.setX(obstacleLeft - spriteWidth);
+                } else {
+                    // Player is to the right of the obstacle
+                    player.setX(obstacleRight);
+                }
+            }
+        }
     }
+
+    public void handleMovementFlags(Rect obstacleRect, Rect playerRect) {
+        // Calculate the sides of the player and obstacle
+        int playerLeft = playerRect.left;
+        int playerRight = playerRect.right;
+        int playerTop = playerRect.top;
+        int playerBottom = playerRect.bottom;
+
+        int obstacleLeft = obstacleRect.left;
+        int obstacleRight = obstacleRect.right;
+        int obstacleTop = obstacleRect.top;
+        int obstacleBottom = obstacleRect.bottom;
+
+        // Reset movement flags
+        setCanMoveLeft(true);
+        setCanMoveRight(true);
+        setCanMoveUp(true);
+        setCanMoveDown(true);
+
+        // Check if player is touching the obstacle and adjust movement flags
+        if (playerBottom == obstacleTop) {
+            setCanMoveDown(false);
+        }
+        if (playerTop == obstacleBottom) {
+            setCanMoveUp(false);
+        }
+        if (playerRight == obstacleLeft) {
+            setCanMoveRight(false);
+        }
+        if (playerLeft == obstacleRight) {
+            setCanMoveLeft(false);
+        }
+    }
+
+
+
     public boolean isCanMoveLeft() {
         return canMoveLeft;
     }
@@ -84,4 +154,3 @@ public class PlayerMovement implements Movement, Subscriber {
         this.canMoveDown = canMoveDown;
     }
 }
-
