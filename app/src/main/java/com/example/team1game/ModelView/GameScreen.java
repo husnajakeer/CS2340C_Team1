@@ -3,71 +3,76 @@ package com.example.team1game.ModelView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.team1game.Model.Player;
 import com.example.team1game.Model.PlayerMovement;
 import com.example.team1game.R;
 import com.example.team1game.View.Room2;
-//TODO make this file easier to read, not so big
+import com.example.team1game.View.Room3;
 
 public class GameScreen extends AppCompatActivity {
     private Player player;
     private PlayerMovement playerMovement;
-    private int characterX;
-    private int characterY;
-    private TextView playerNameTextView;
-    private TextView healthPointsTextView;
-    private TextView difficultyTextView;
-    private TextView scoreTextView;
     private ImageView characterSprite;
-
-    private int screenWidth;
-    private int screenHeight;
-    private int spriteWidth;
-    private int spriteHeight;
+    private Handler scoreHandler = new Handler();
+    private Handler movementHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_screen);
+
+        initializeGame();
+        setupScoreUpdater();
+        initializePlayerMovementControls();
+        detectPlayerInitialPos();
+    }
+
+    private void initializeGame() {
         player = Player.getPlayer();
-
-
         player.setScore(100);
 
-        // Textviews and buttons
-        playerNameTextView = findViewById(R.id.playerNameTextView);
-        healthPointsTextView = findViewById(R.id.healthPointsTextView);
-        difficultyTextView = findViewById(R.id.difficultyTextView);
         characterSprite = findViewById(R.id.characterSprite);
-        scoreTextView = findViewById(R.id.scoreTextView);
-        Button nextButton = findViewById(R.id.nextButton);
+        setupUIElements();
+    }
 
-        // Player singleton variables
+    private void setupUIElements() {
+        TextView playerNameTextView = findViewById(R.id.playerNameTextView);
+        TextView healthPointsTextView = findViewById(R.id.healthPointsTextView);
+        TextView difficultyTextView = findViewById(R.id.difficultyTextView);
+        TextView scoreTextView = findViewById(R.id.scoreTextView);
+
         String playerName = player.getName();
         String difficulty = player.getDifficulty();
         String sprite = getIntent().getStringExtra("sprite");
 
-        int numOfHearts = 0;
-        if ("Easy".equals(difficulty)) {
-            numOfHearts = 5;
-        } else if ("Medium".equals(difficulty)) {
-            numOfHearts = 3;
-        } else if ("Hard".equals(difficulty)) {
-            numOfHearts = 1;
-        }
+        int numOfHearts = determineNumberOfHearts(difficulty);
 
         playerNameTextView.setText("Name: " + playerName);
         healthPointsTextView.setText("Health: " + numOfHearts + " hearts");
         difficultyTextView.setText("Difficulty: " + difficulty);
+        setCharacterSprite(sprite);
+    }
 
+    private int determineNumberOfHearts(String difficulty) {
+        switch (difficulty) {
+            case "Easy":
+                return 5;
+            case "Medium":
+                return 3;
+            case "Hard":
+                return 1;
+            default:
+                return 0;
+        }
+    }
+
+    private void setCharacterSprite(String sprite) {
         if ("eva_idle".equals(sprite)) {
             characterSprite.setImageResource(R.drawable.eva_idle);
         } else if ("kaya_idle".equals(sprite)) {
@@ -75,75 +80,69 @@ public class GameScreen extends AppCompatActivity {
         } else if ("rika_idle".equals(sprite)) {
             characterSprite.setImageResource(R.drawable.rika_idle);
         }
+    }
 
-        final Handler handler = new Handler();
-        final Runnable updateScoreRunnable = new Runnable() {
+    private void setupScoreUpdater() {
+        scoreHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-
-                scoreTextView.setText("Score: " + player.getScore());
+                TextView scoreTextView = findViewById(R.id.scoreTextView);
                 if (player.getScore() > 0) {
-                    //postDelayed(this, 1000);  // Recall every second
                     player.setScore(player.getScore() - 1);
                     scoreTextView.setText("Score: " + player.getScore());
-                    handler.postDelayed(this, 1000);
+                    scoreHandler.postDelayed(this, 1000);
                 }
             }
-        };
+        }, 1000);
+    }
 
-        nextButton.setOnClickListener(view -> {
-            handler.removeCallbacks(updateScoreRunnable);
-
-            Intent intent = new Intent(GameScreen.this, Room2.class);
-            intent.putExtra("sprite", sprite);
-            startActivity(intent);
-        });
-
-        handler.postDelayed(updateScoreRunnable, 1000);  // Start after 1 second
-
-        // detect player pos and move it
-        detectPlayerPos();
-        // this moves u to next screen
-        characterSprite.post(() -> {
-            spriteWidth = characterSprite.getWidth();
-            spriteHeight = characterSprite.getHeight();
-            screenWidth = findViewById(android.R.id.content).getWidth();
-            screenHeight = findViewById(android.R.id.content).getHeight();
-
-            playerMovement = new PlayerMovement(screenWidth, screenHeight, spriteWidth, spriteHeight);
-        });
-
+    private void initializePlayerMovementControls() {
         Button upButton = findViewById(R.id.upButton);
         Button downButton = findViewById(R.id.downButton);
         Button leftButton = findViewById(R.id.leftButton);
         Button rightButton = findViewById(R.id.rightButton);
 
-        leftButton.setOnClickListener(view -> {
-            playerMovement.moveLeft();
-            characterSprite.setX(player.getX());
-            checkCharacterPosition();
-        });
-
-        rightButton.setOnClickListener(view -> {
-            playerMovement.moveRight();
-            characterSprite.setX(player.getX());
-            checkCharacterPosition();
-        });
-
-        upButton.setOnClickListener(view -> {
-            playerMovement.moveUp();
-            characterSprite.setY(player.getY());
-            checkCharacterPosition();
-        });
-
-        downButton.setOnClickListener(view -> {
-            playerMovement.moveDown();
-            characterSprite.setY(player.getY());
-            checkCharacterPosition();
-        });
+        upButton.setOnTouchListener((view, motionEvent) -> handleTouch(motionEvent, () -> playerMovement.moveUp()));
+        downButton.setOnTouchListener((view, motionEvent) -> handleTouch(motionEvent, () -> playerMovement.moveDown()));
+        leftButton.setOnTouchListener((view, motionEvent) -> handleTouch(motionEvent, () -> playerMovement.moveLeft()));
+        rightButton.setOnTouchListener((view, motionEvent) -> handleTouch(motionEvent, () -> playerMovement.moveRight()));
     }
-    public void detectPlayerPos() {
-        // Set up a ViewTreeObserver to get the position of the character ImageView
+
+    private boolean handleTouch(MotionEvent motionEvent, Runnable movementMethod) {
+        switch (motionEvent.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                startContinuousMovement(movementMethod);
+                break;
+            case MotionEvent.ACTION_UP:
+                stopContinuousMovement();
+                break;
+        }
+        return true;
+    }
+
+    private void startContinuousMovement(Runnable movementMethod) {
+        movementHandler.removeCallbacksAndMessages(null);
+        movementHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                movementMethod.run();
+                updateCharacterPosition();
+                movementHandler.postDelayed(this, 50); // Adjust this delay for movement speed
+            }
+        }, 0);
+    }
+
+    private void stopContinuousMovement() {
+        movementHandler.removeCallbacksAndMessages(null);
+    }
+
+    private void updateCharacterPosition() {
+        characterSprite.setX(player.getX());
+        characterSprite.setY(player.getY());
+        checkCharacterPosition();
+    }
+
+    private void detectPlayerInitialPos() {
         ViewTreeObserver viewTreeObserver = characterSprite.getViewTreeObserver();
         viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -151,36 +150,21 @@ public class GameScreen extends AppCompatActivity {
                 player.setX(characterSprite.getLeft());
                 player.setY(characterSprite.getTop());
                 characterSprite.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+
+                int spriteWidth = characterSprite.getWidth();
+                int spriteHeight = characterSprite.getHeight();
+                int screenWidth = findViewById(android.R.id.content).getWidth();
+                int screenHeight = findViewById(android.R.id.content).getHeight();
+
+                playerMovement = new PlayerMovement(screenWidth, screenHeight, spriteWidth, spriteHeight);
             }
         });
     }
-    // for testing purposes ONLY, repl w real coordinates later
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_W:
-                characterY = Math.max(characterY - 10, 0);
-                break;
-            case KeyEvent.KEYCODE_A:
-                characterX = Math.max(characterX - 10, 0);
-                break;
-            case KeyEvent.KEYCODE_S:
-                characterY = Math.min(characterY + 10, screenHeight - spriteHeight);
-                break;
-            case KeyEvent.KEYCODE_D:
-                characterX = Math.min(characterX + 10, screenWidth - spriteWidth);
-                break;
-        }
-        characterSprite.setX(characterX);
-        characterSprite.setY(characterY);
-        return true;
-    }
 
     private void checkCharacterPosition() {
-        if (characterX == 0 && characterY == screenHeight - spriteHeight) {
-            // Launch the next activity
-            Intent intent = new Intent(GameScreen.this, Room2.class);
+        if (player.getX() == 0 && player.getY() == findViewById(android.R.id.content).getHeight() - characterSprite.getHeight()) {
             String sprite = getIntent().getStringExtra("sprite");
+            Intent intent = new Intent(GameScreen.this, Room2.class);
             intent.putExtra("sprite", sprite);
             startActivity(intent);
         }
