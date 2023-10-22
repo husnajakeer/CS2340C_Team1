@@ -1,7 +1,4 @@
 package com.example.team1game.Model;
-import android.view.WindowManager;
-import android.util.DisplayMetrics;
-import android.content.res.Resources;
 
 public class PlayerMovement implements Movement, Subscriber {
     Player player;
@@ -19,24 +16,6 @@ public class PlayerMovement implements Movement, Subscriber {
         this.spriteHeight = spriteHeight;
     }
 
-    public PlayerMovement() {
-        this.player = Player.getPlayer();
-        this.screenWidth = 1080;
-        this.screenHeight = 2160;
-        this.spriteWidth = 32;
-        this.spriteHeight = 32;
-    }
-    private static volatile  PlayerMovement playerMovement;
-    public static PlayerMovement getPlayerMovement() {
-        if (playerMovement == null) {
-            synchronized (Player.class) {
-                if (playerMovement == null) {
-                    playerMovement = new PlayerMovement();
-                }
-            }
-        }
-        return playerMovement;
-    }
     public void moveLeft() {
         if (canMoveLeft) {
             int x = player.getX();
@@ -103,26 +82,6 @@ public class PlayerMovement implements Movement, Subscriber {
 
     public void setCanMoveDown(boolean canMoveDown) {
         this.canMoveDown = canMoveDown;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public int getScreenWidth() {
-        return screenWidth;
-    }
-
-    public int getScreenHeight() {
-        return screenHeight;
-    }
-
-    public int getSpriteWidth() {
-        return spriteWidth;
-    }
-
-    public int getSpriteHeight() {
-        return spriteHeight;
     }
 }
 
