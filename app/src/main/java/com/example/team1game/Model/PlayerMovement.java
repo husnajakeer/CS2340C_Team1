@@ -37,6 +37,7 @@ public class PlayerMovement implements Movement, Subscriber {
         }
         return playerMovement;
     }
+    
     public void moveLeft() {
         if (canMoveLeft) {
             int x = player.getX();
