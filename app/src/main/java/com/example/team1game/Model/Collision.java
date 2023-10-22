@@ -26,4 +26,7 @@ public class Collision {
             observer.handleCollision(object1, object2);
         }
     }
+    public List<Subscriber> getObservers() {
+        return observers;
+    }
 }
