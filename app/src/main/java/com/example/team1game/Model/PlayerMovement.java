@@ -1,7 +1,4 @@
 package com.example.team1game.Model;
-import android.view.WindowManager;
-import android.util.DisplayMetrics;
-import android.content.res.Resources;
 
 public class PlayerMovement implements Movement, Subscriber {
     Player player;
@@ -9,6 +6,8 @@ public class PlayerMovement implements Movement, Subscriber {
     private boolean canMoveRight = true;
     private boolean canMoveUp = true;
     private boolean canMoveDown = true;
+
+    private static volatile  PlayerMovement playerMovement;
     int screenWidth, screenHeight, spriteWidth, spriteHeight;
 
     public PlayerMovement(int screenWidth, int screenHeight, int spriteWidth, int spriteHeight) {
@@ -26,7 +25,7 @@ public class PlayerMovement implements Movement, Subscriber {
         this.spriteWidth = 32;
         this.spriteHeight = 32;
     }
-    private static volatile  PlayerMovement playerMovement;
+
     public static PlayerMovement getPlayerMovement() {
         if (playerMovement == null) {
             synchronized (Player.class) {
@@ -37,7 +36,7 @@ public class PlayerMovement implements Movement, Subscriber {
         }
         return playerMovement;
     }
-    
+
     public void moveLeft() {
         if (canMoveLeft) {
             int x = player.getX();
@@ -104,26 +103,6 @@ public class PlayerMovement implements Movement, Subscriber {
 
     public void setCanMoveDown(boolean canMoveDown) {
         this.canMoveDown = canMoveDown;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public int getScreenWidth() {
-        return screenWidth;
-    }
-
-    public int getScreenHeight() {
-        return screenHeight;
-    }
-
-    public int getSpriteWidth() {
-        return spriteWidth;
-    }
-
-    public int getSpriteHeight() {
-        return spriteHeight;
     }
 }
 
