@@ -67,20 +67,16 @@ public class PlayerMovement implements Movement, Subscriber {
         if (playerBottom > obstacleTop && playerTop < obstacleBottom) {
             if (playerRight > obstacleLeft && playerLeft < obstacleRight) {
                 if (playerBottom - obstacleTop < obstacleBottom - playerTop) {
-                    // Player is above the obstacle
                     player.setY(obstacleTop - spriteHeight);
                 } else {
-                    // Player is below the obstacle
                     player.setY(obstacleBottom);
                 }
             }
         } else if (playerRight > obstacleLeft && playerLeft < obstacleRight) {
             if (playerBottom > obstacleTop && playerTop < obstacleBottom) {
                 if (playerRight - obstacleLeft < obstacleRight - playerLeft) {
-                    // Player is to the left of the obstacle
                     player.setX(obstacleLeft - spriteWidth);
                 } else {
-                    // Player is to the right of the obstacle
                     player.setX(obstacleRight);
                 }
             }
@@ -105,17 +101,16 @@ public class PlayerMovement implements Movement, Subscriber {
         setCanMoveUp(true);
         setCanMoveDown(true);
 
-        // Check if player is touching the obstacle and adjust movement flags
-        if (playerBottom == obstacleTop) {
+        if (playerBottom == obstacleTop && playerLeft <= obstacleRight) {
             setCanMoveDown(false);
         }
-        if (playerTop == obstacleBottom) {
+        if (playerTop == obstacleBottom && playerRight >= obstacleLeft) {
             setCanMoveUp(false);
         }
         if (playerRight == obstacleLeft) {
             setCanMoveRight(false);
         }
-        if (playerLeft == obstacleRight) {
+        if (playerLeft == obstacleRight && playerTop >= obstacleBottom) {
             setCanMoveLeft(false);
         }
     }

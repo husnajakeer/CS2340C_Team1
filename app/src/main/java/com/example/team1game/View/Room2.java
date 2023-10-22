@@ -49,11 +49,12 @@ public class Room2 extends AppCompatActivity {
         setupScoreUpdater();
         initializePlayerMovementControls();
         detectPlayerInitialPos();
-        detectAllObstacles();
+        //detectAllObstacles();
 
         Button nextButton = findViewById(R.id.nextButton);
         nextButton.setOnClickListener(view -> goToRoom2());
     }
+
 
     private void initializeGame() {
         player = Player.getPlayer();
@@ -179,11 +180,10 @@ public class Room2 extends AppCompatActivity {
                     Rect obstacleRect = new Rect();
                     obstacle.getHitRect(obstacleRect);
 
-                    if (Rect.intersects(playerRect, obstacleRect)) {
-                        playerMovement.handleCollision(obstacleRect, playerRect);
-                    }
-                    playerMovement.handleMovementFlags(obstacleRect, playerRect);
+                    playerMovement.handleMovementFlags(obstacleRect, playerRect); // Update movement flags
+                    playerMovement.handleCollision(obstacleRect, playerRect); // Handle collisions
                 }
+
                 handler.postDelayed(this, 16); // Check for collisions every 16 milliseconds
             }
         };
@@ -212,9 +212,12 @@ public class Room2 extends AppCompatActivity {
                 int screenHeight = findViewById(android.R.id.content).getHeight();
 
                 playerMovement = new PlayerMovement(screenWidth, screenHeight, spriteWidth, spriteHeight);
+                detectAllObstacles();
             }
         });
     }
+
+
 
     private void checkCharacterPosition() {
         if (player.getX() == 0 && player.getY() == findViewById(android.R.id.content).getHeight() - characterSprite.getHeight()) {
