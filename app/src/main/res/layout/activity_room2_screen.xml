@@ -5,6 +5,20 @@
     android:layout_height="match_parent"
     android:background="@drawable/screen5">
 
+    <TextView
+        android:id="@+id/exitArea"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:background="#FF0000"
+        android:gravity="center"
+        android:text="Exit"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
     <View
         android:id="@+id/obstacleView1"
         android:layout_width="171dp"
@@ -39,8 +53,8 @@
         android:id="@+id/characterSprite"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginStart="125dp"
-        android:layout_marginTop="91dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="186dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -92,17 +106,6 @@
         <!-- Hearts will be dynamically added here -->
     </LinearLayout>
 
-    <Button
-        android:id="@+id/nextButton"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_marginBottom="0dp"
-        android:backgroundTint="#4CAF50"
-        android:padding="0dp"
-        android:text="Next"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.constraintlayout.widget.Group
         android:layout_width="wrap_content"

@@ -6,6 +6,40 @@
     android:background="@drawable/screen6">
 
     <TextView
+        android:id="@+id/exitArea"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:background="#FF0000"
+        android:gravity="center"
+        android:text="Exit"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <View
+        android:id="@+id/obstacleView1"
+        android:layout_width="171dp"
+        android:layout_height="139dp"
+        android:layout_marginTop="4dp"
+        android:background="#FF0000"
+        android:tag="obstacle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/obstacleView2"
+        android:layout_width="135dp"
+        android:layout_height="146dp"
+        android:layout_marginBottom="28dp"
+        android:background="#FF0000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:tag="obstacle"/>
+
+    <TextView
         android:id="@+id/playerNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,8 +53,8 @@
         android:id="@+id/characterSprite"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginStart="125dp"
-        android:layout_marginTop="91dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="186dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -72,15 +106,39 @@
         <!-- Hearts will be dynamically added here -->
     </LinearLayout>
 
-    <Button
-        android:id="@+id/nextButton"
+
+    <androidx.constraintlayout.widget.Group
         android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_marginBottom="0dp"
-        android:backgroundTint="#4CAF50"
-        android:padding="0dp"
-        android:text="Next"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        tools:ignore="MissingConstraints">
+
+        <Button
+            android:id="@+id/upButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="↑"
+            tools:ignore="MissingConstraints" />
+
+        <Button
+            android:id="@+id/leftButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="←" />
+
+        <Button
+            android:id="@+id/downButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="↓" />
+
+        <Button
+            android:id="@+id/rightButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="→" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
