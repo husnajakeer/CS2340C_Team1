@@ -13,6 +13,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.util.Log;
+
+import com.example.team1game.Model.Attempt;
+import com.example.team1game.Model.Leaderboard;
 import com.example.team1game.View.Room3;
 
 
@@ -39,7 +42,7 @@ public class Room3 extends AppCompatActivity {
     private Handler obstacleHandler = new Handler();
 
     private ArrayList<View> obstacles;
-    private Grid grid;
+    private boolean isTransitioning = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,14 +54,15 @@ public class Room3 extends AppCompatActivity {
         initializePlayerMovementControls();
         detectPlayerInitialPos();
 
-        Button nextButton = findViewById(R.id.nextButton);
-        nextButton.setOnClickListener(view -> goToRoom3());
     }
 
 
     private void initializeGame() {
+        Intent intent = getIntent();
         player = Player.getPlayer();
-        player.setScore(100);
+        player.setScore(intent.getIntExtra("endingScore", 0));
+        TextView scoreTextView = findViewById(R.id.scoreTextView);
+        scoreTextView.setText("Score: " + player.getScore());
 
         characterSprite = findViewById(R.id.characterSprite);
         setupUIElements();
@@ -162,7 +166,7 @@ public class Room3 extends AppCompatActivity {
     private void updateCharacterPosition() {
         characterSprite.setX(player.getX());
         characterSprite.setY(player.getY());
-        checkCharacterPosition();
+        checkPlayerOnExit();
     }
     private void detectAllObstacles() {
         obstacles = new ArrayList<>();
@@ -219,15 +223,58 @@ public class Room3 extends AppCompatActivity {
 
 
 
-    private void checkCharacterPosition() {
-        //if (player.getX() == 0 && player.getY() == findViewById(android.R.id.content).getHeight() - characterSprite.getHeight()) {
-        //goToRoom2();
-        //}
+    private void checkPlayerOnExit() {
+        TextView exitArea = findViewById(R.id.exitArea);
+
+        int[] exitLocation = new int[2];
+        exitArea.getLocationOnScreen(exitLocation);
+
+        int exitX = exitLocation[0];
+        int exitY = exitLocation[1];
+        int exitWidth = exitArea.getWidth();
+        int exitHeight = exitArea.getHeight();
+
+        int playerX = (int) characterSprite.getX();
+        int playerY = (int) characterSprite.getY();
+        int playerWidth = characterSprite.getWidth();
+        int playerHeight = characterSprite.getHeight();
+
+        boolean overlap = playerX + playerWidth > exitX &&
+                playerX < exitX + exitWidth &&
+                playerY + playerHeight > exitY &&
+                playerY < exitY + exitHeight;
+
+        if (overlap) {
+            if(isTransitioning) return;
+            isTransitioning = true;
+            finishGame();
+        }
+
     }
-    private void goToRoom3() {
-        String sprite = getIntent().getStringExtra("sprite");
+    private void finishGame() {
+        String playerName = player.getName();
+        String difficulty = player.getDifficulty();
+        Leaderboard.getInstance();
+        Attempt attempt = new Attempt(playerName, player.getScore(), difficulty);
+        Leaderboard.getInstance().addAttempt(attempt);
+        goToEndScreen();
+    }
+
+    private void goToEndScreen() {
         Intent intent = new Intent(Room3.this, EndScreen.class);
-        intent.putExtra("sprite", sprite);
         startActivity(intent);
+        finish();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        pauseGame();
+    }
+    private void pauseGame() {
+        scoreHandler.removeCallbacksAndMessages(null);
+        movementHandler.removeCallbacksAndMessages(null);
+        obstacleHandler.removeCallbacksAndMessages(null);
+
     }
 }

@@ -40,8 +40,6 @@ public class GameScreen extends AppCompatActivity {
         initializePlayerMovementControls();
         detectPlayerInitialPos();
 
-        Button nextButton = findViewById(R.id.nextButton);
-        nextButton.setOnClickListener(view -> goToRoom2());
     }
 
     private void initializeGame() {
@@ -176,7 +174,6 @@ public class GameScreen extends AppCompatActivity {
     }
 
     private void checkPlayerOnExit() {
-        /*
         TextView exitArea = findViewById(R.id.exitArea);
 
         int[] exitLocation = new int[2];
@@ -202,7 +199,7 @@ public class GameScreen extends AppCompatActivity {
             isTransitioning = true;
             goToRoom2();
         }
-         */
+
     }
 
     private void detectAllObstacles() {
@@ -234,6 +231,7 @@ public class GameScreen extends AppCompatActivity {
         String sprite = getIntent().getStringExtra("sprite");
         Intent intent = new Intent(GameScreen.this, Room2.class);
         intent.putExtra("sprite", sprite);
+        intent.putExtra("endingScore", player.getScore());
         startActivity(intent);
         finish();
     }

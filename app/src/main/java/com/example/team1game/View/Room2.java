@@ -39,7 +39,7 @@ public class Room2 extends AppCompatActivity {
     private Handler obstacleHandler = new Handler();
 
     private ArrayList<View> obstacles;
-    private Grid grid;
+    private boolean isTransitioning = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,15 +50,15 @@ public class Room2 extends AppCompatActivity {
         setupScoreUpdater();
         initializePlayerMovementControls();
         detectPlayerInitialPos();
-
-        Button nextButton = findViewById(R.id.nextButton);
-        nextButton.setOnClickListener(view -> goToRoom3());
     }
 
 
     private void initializeGame() {
+        Intent intent = getIntent();
         player = Player.getPlayer();
-        player.setScore(100);
+        player.setScore(intent.getIntExtra("endingScore", 0));
+        TextView scoreTextView = findViewById(R.id.scoreTextView);
+        scoreTextView.setText("Score: " + player.getScore());
 
         characterSprite = findViewById(R.id.characterSprite);
         setupUIElements();
@@ -68,7 +68,6 @@ public class Room2 extends AppCompatActivity {
         TextView playerNameTextView = findViewById(R.id.playerNameTextView);
         TextView healthPointsTextView = findViewById(R.id.healthPointsTextView);
         TextView difficultyTextView = findViewById(R.id.difficultyTextView);
-        TextView scoreTextView = findViewById(R.id.scoreTextView);
 
         String playerName = player.getName();
         String difficulty = player.getDifficulty();
@@ -162,14 +161,14 @@ public class Room2 extends AppCompatActivity {
     private void updateCharacterPosition() {
         characterSprite.setX(player.getX());
         characterSprite.setY(player.getY());
-        checkCharacterPosition();
+        checkPlayerOnExit();
     }
     private void detectAllObstacles() {
         obstacles = new ArrayList<>();
         obstacles.add(findViewById(R.id.obstacleView1));
         obstacles.add(findViewById(R.id.obstacleView2));
 
-        Handler handler = new Handler();
+        obstacleHandler = new Handler();
         Runnable collisionCheckRunnable = new Runnable() {
             @Override
             public void run() {
@@ -184,10 +183,10 @@ public class Room2 extends AppCompatActivity {
                     playerMovement.handleCollision(obstacleRect, playerRect); // Handle collisions
                 }
 
-                handler.postDelayed(this, 16); // Check for collisions every 16 milliseconds
+                obstacleHandler.postDelayed(this, 16); // Check for collisions every 16 milliseconds
             }
         };
-        handler.post(collisionCheckRunnable);
+        obstacleHandler.post(collisionCheckRunnable);
     }
     public void respawn(){
         player.setX(50);
@@ -219,15 +218,51 @@ public class Room2 extends AppCompatActivity {
 
 
 
-    private void checkCharacterPosition() {
-        //if (player.getX() == 0 && player.getY() == findViewById(android.R.id.content).getHeight() - characterSprite.getHeight()) {
-        //goToRoom2();
-        //}
+    private void checkPlayerOnExit() {
+        TextView exitArea = findViewById(R.id.exitArea);
+
+        int[] exitLocation = new int[2];
+        exitArea.getLocationOnScreen(exitLocation);
+
+        int exitX = exitLocation[0];
+        int exitY = exitLocation[1];
+        int exitWidth = exitArea.getWidth();
+        int exitHeight = exitArea.getHeight();
+
+        int playerX = (int) characterSprite.getX();
+        int playerY = (int) characterSprite.getY();
+        int playerWidth = characterSprite.getWidth();
+        int playerHeight = characterSprite.getHeight();
+
+        boolean overlap = playerX + playerWidth > exitX &&
+                playerX < exitX + exitWidth &&
+                playerY + playerHeight > exitY &&
+                playerY < exitY + exitHeight;
+
+        if (overlap) {
+            if(isTransitioning) return;
+            isTransitioning = true;
+            goToRoom3();
+        }
+
     }
     private void goToRoom3() {
         String sprite = getIntent().getStringExtra("sprite");
         Intent intent = new Intent(Room2.this, Room3.class);
         intent.putExtra("sprite", sprite);
+        intent.putExtra("endingScore", player.getScore());
         startActivity(intent);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        pauseGame();
+    }
+    private void pauseGame() {
+        scoreHandler.removeCallbacksAndMessages(null);
+        movementHandler.removeCallbacksAndMessages(null);
+        obstacleHandler.removeCallbacksAndMessages(null);
+
     }
 }
