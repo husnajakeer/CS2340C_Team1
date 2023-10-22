@@ -4,7 +4,6 @@ package com.example.team1game.Model;
  * Represents a player character in a game, extending the {@code Entity} class.
  * It includes attributes such as attack, score, difficulty level, and the player's weapon.
  */
-
 public class Player extends Entity {
     private int attack;
     private int score;
