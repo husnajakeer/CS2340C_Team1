@@ -8,6 +8,8 @@ public class PlayerMovement implements Movement, Subscriber {
     private boolean canMoveRight = true;
     private boolean canMoveUp = true;
     private boolean canMoveDown = true;
+
+    private static volatile  PlayerMovement playerMovement;
     int screenWidth, screenHeight, spriteWidth, spriteHeight;
 
     public PlayerMovement(int screenWidth, int screenHeight, int spriteWidth, int spriteHeight) {
@@ -16,6 +18,25 @@ public class PlayerMovement implements Movement, Subscriber {
         this.screenHeight = screenHeight;
         this.spriteWidth = spriteWidth;
         this.spriteHeight = spriteHeight;
+    }
+
+    public PlayerMovement() {
+        this.player = Player.getPlayer();
+        this.screenWidth = 1080;
+        this.screenHeight = 2160;
+        this.spriteWidth = 32;
+        this.spriteHeight = 32;
+    }
+
+    public static PlayerMovement getPlayerMovement() {
+        if (playerMovement == null) {
+            synchronized (Player.class) {
+                if (playerMovement == null) {
+                    playerMovement = new PlayerMovement();
+                }
+            }
+        }
+        return playerMovement;
     }
 
     public void moveLeft() {
