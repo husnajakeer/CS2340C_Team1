@@ -17,7 +17,6 @@ public class Attempt {
         this.attemptTime = new SimpleDateFormat("yyyy-MM-dd HH:mm",
                 Locale.getDefault()).format(new Date());
     }
-
     public String getPlayerName() {
         return playerName;
     }

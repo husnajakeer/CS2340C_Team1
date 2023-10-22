@@ -43,7 +43,20 @@ public class Enemy extends Entity {
         super(name);
         this.damage = damage;
     }
-
+    private Enemy() {
+        this("enemy", true, 5, 10);
+    }
+    private static volatile  Enemy enemy;
+    public static Enemy getEnemy() {
+        if (enemy == null) {
+            synchronized (Enemy.class) {
+                if (enemy == null) {
+                    enemy = new Enemy();
+                }
+            }
+        }
+        return enemy;
+    }
     /**
      * Gets the damage inflicted by the enemy.
      *
