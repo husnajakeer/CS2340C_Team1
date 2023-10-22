@@ -115,6 +115,12 @@ public class PlayerMovement implements Movement, Subscriber {
         }
     }
 
+    public boolean isPlayerOnExit(Rect playerRect, Rect exitRect) {
+        return playerRect.bottom >= exitRect.top &&
+                playerRect.left < exitRect.right &&
+                playerRect.right > exitRect.left;
+    }
+
 
 
     public boolean isCanMoveLeft() {

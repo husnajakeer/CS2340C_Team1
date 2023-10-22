@@ -1,9 +1,11 @@
 package com.example.team1game.ModelView;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,12 +17,18 @@ import com.example.team1game.R;
 import com.example.team1game.View.Room2;
 import com.example.team1game.View.Room3;
 
+import java.util.ArrayList;
+
 public class GameScreen extends AppCompatActivity {
     private Player player;
     private PlayerMovement playerMovement;
     private ImageView characterSprite;
     private Handler scoreHandler = new Handler();
     private Handler movementHandler = new Handler();
+    private Handler obstacleHandler = new Handler();
+
+    private ArrayList<View> obstacles;
+    private boolean isTransitioning = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,10 +148,12 @@ public class GameScreen extends AppCompatActivity {
     }
 
     private void updateCharacterPosition() {
+        if(isTransitioning) return;
         characterSprite.setX(player.getX());
         characterSprite.setY(player.getY());
-        checkCharacterPosition();
+        checkPlayerOnExit();
     }
+
 
     private void detectPlayerInitialPos() {
         ViewTreeObserver viewTreeObserver = characterSprite.getViewTreeObserver();
@@ -160,22 +170,86 @@ public class GameScreen extends AppCompatActivity {
                 int screenHeight = findViewById(android.R.id.content).getHeight();
 
                 playerMovement = new PlayerMovement(screenWidth, screenHeight, spriteWidth, spriteHeight);
+                detectAllObstacles();
             }
         });
     }
 
-    private void checkCharacterPosition() {
-        if (player.getX() == 0 && player.getY() == findViewById(android.R.id.content).getHeight() - characterSprite.getHeight()) {
-            String sprite = getIntent().getStringExtra("sprite");
-            Intent intent = new Intent(GameScreen.this, Room2.class);
-            intent.putExtra("sprite", sprite);
-            startActivity(intent);
+    private void checkPlayerOnExit() {
+        /*
+        TextView exitArea = findViewById(R.id.exitArea);
+
+        int[] exitLocation = new int[2];
+        exitArea.getLocationOnScreen(exitLocation);
+
+        int exitX = exitLocation[0];
+        int exitY = exitLocation[1];
+        int exitWidth = exitArea.getWidth();
+        int exitHeight = exitArea.getHeight();
+
+        int playerX = (int) characterSprite.getX();
+        int playerY = (int) characterSprite.getY();
+        int playerWidth = characterSprite.getWidth();
+        int playerHeight = characterSprite.getHeight();
+
+        boolean overlap = playerX + playerWidth > exitX &&
+                playerX < exitX + exitWidth &&
+                playerY + playerHeight > exitY &&
+                playerY < exitY + exitHeight;
+
+        if (overlap) {
+            if(isTransitioning) return;
+            isTransitioning = true;
+            goToRoom2();
         }
+         */
+    }
+
+    private void detectAllObstacles() {
+        obstacles = new ArrayList<>();
+        obstacles.add(findViewById(R.id.obstacleView1));
+        obstacles.add(findViewById(R.id.obstacleView2));
+
+        obstacleHandler = new Handler();
+        Runnable collisionCheckRunnable = new Runnable() {
+            @Override
+            public void run() {
+                Rect playerRect = new Rect();
+                characterSprite.getHitRect(playerRect);
+
+                for (View obstacle : obstacles) {
+                    Rect obstacleRect = new Rect();
+                    obstacle.getHitRect(obstacleRect);
+
+                    playerMovement.handleMovementFlags(obstacleRect, playerRect); // Update movement flags
+                    playerMovement.handleCollision(obstacleRect, playerRect); // Handle collisions
+                }
+
+                obstacleHandler.postDelayed(this, 16); // Check for collisions every 16 milliseconds
+            }
+        };
+        obstacleHandler.post(collisionCheckRunnable);
     }
     private void goToRoom2() {
         String sprite = getIntent().getStringExtra("sprite");
         Intent intent = new Intent(GameScreen.this, Room2.class);
         intent.putExtra("sprite", sprite);
         startActivity(intent);
+        finish();
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        pauseGame();
+    }
+
+    private void pauseGame() {
+        scoreHandler.removeCallbacksAndMessages(null);
+        movementHandler.removeCallbacksAndMessages(null);
+        obstacleHandler.removeCallbacksAndMessages(null);
+
+    }
+
+
 }

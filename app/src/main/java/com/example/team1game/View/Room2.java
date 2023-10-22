@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.util.Log;
+import com.example.team1game.View.Room3;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -49,10 +50,9 @@ public class Room2 extends AppCompatActivity {
         setupScoreUpdater();
         initializePlayerMovementControls();
         detectPlayerInitialPos();
-        //detectAllObstacles();
 
         Button nextButton = findViewById(R.id.nextButton);
-        nextButton.setOnClickListener(view -> goToRoom2());
+        nextButton.setOnClickListener(view -> goToRoom3());
     }
 
 
@@ -220,14 +220,11 @@ public class Room2 extends AppCompatActivity {
 
 
     private void checkCharacterPosition() {
-        if (player.getX() == 0 && player.getY() == findViewById(android.R.id.content).getHeight() - characterSprite.getHeight()) {
-            String sprite = getIntent().getStringExtra("sprite");
-            Intent intent = new Intent(Room2.this, Room3.class);
-            intent.putExtra("sprite", sprite);
-            startActivity(intent);
-        }
+        //if (player.getX() == 0 && player.getY() == findViewById(android.R.id.content).getHeight() - characterSprite.getHeight()) {
+        //goToRoom2();
+        //}
     }
-    private void goToRoom2() {
+    private void goToRoom3() {
         String sprite = getIntent().getStringExtra("sprite");
         Intent intent = new Intent(Room2.this, Room3.class);
         intent.putExtra("sprite", sprite);
