@@ -1,4 +1,7 @@
 package com.example.team1game.Model;
+import android.view.WindowManager;
+import android.util.DisplayMetrics;
+import android.content.res.Resources;
 
 public class PlayerMovement implements Movement, Subscriber {
     Player player;
