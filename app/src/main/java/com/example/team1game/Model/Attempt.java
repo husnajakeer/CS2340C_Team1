@@ -12,7 +12,11 @@ public class Attempt {
 
     public Attempt(String playerName, int score, String difficulty) {
         this.playerName = playerName;
-        this.score = score;
+        if (score < 0) {
+            this.score = 0;
+        } else {
+            this.score = score;
+        }
         this.difficulty = difficulty;
         this.attemptTime = new SimpleDateFormat("yyyy-MM-dd HH:mm",
                 Locale.getDefault()).format(new Date());

@@ -13,7 +13,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-public class LeaderboardTest2 {
+public class NewLeaderBoardTests {
     private Leaderboard leaderboard;
 
     @Before
