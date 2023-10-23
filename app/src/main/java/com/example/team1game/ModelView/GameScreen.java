@@ -15,7 +15,6 @@ import com.example.team1game.Model.Player;
 import com.example.team1game.Model.PlayerMovement;
 import com.example.team1game.R;
 import com.example.team1game.View.Room2;
-import com.example.team1game.View.Room3;
 
 import java.util.ArrayList;
 
@@ -70,14 +69,14 @@ public class GameScreen extends AppCompatActivity {
 
     private int determineNumberOfHearts(String difficulty) {
         switch (difficulty) {
-            case "Easy":
-                return 5;
-            case "Medium":
-                return 3;
-            case "Hard":
-                return 1;
-            default:
-                return 0;
+        case "Easy":
+            return 5;
+        case "Medium":
+            return 3;
+        case "Hard":
+            return 1;
+        default:
+            return 0;
         }
     }
 
@@ -111,20 +110,26 @@ public class GameScreen extends AppCompatActivity {
         Button leftButton = findViewById(R.id.leftButton);
         Button rightButton = findViewById(R.id.rightButton);
 
-        upButton.setOnTouchListener((view, motionEvent) -> handleTouch(motionEvent, () -> playerMovement.moveUp()));
-        downButton.setOnTouchListener((view, motionEvent) -> handleTouch(motionEvent, () -> playerMovement.moveDown()));
-        leftButton.setOnTouchListener((view, motionEvent) -> handleTouch(motionEvent, () -> playerMovement.moveLeft()));
-        rightButton.setOnTouchListener((view, motionEvent) -> handleTouch(motionEvent, () -> playerMovement.moveRight()));
+        upButton.setOnTouchListener((view, motionEvent) ->
+                handleTouch(motionEvent, () -> playerMovement.moveUp()));
+        downButton.setOnTouchListener((view, motionEvent) ->
+                handleTouch(motionEvent, () -> playerMovement.moveDown()));
+        leftButton.setOnTouchListener((view, motionEvent) ->
+                handleTouch(motionEvent, () -> playerMovement.moveLeft()));
+        rightButton.setOnTouchListener((view, motionEvent) ->
+                handleTouch(motionEvent, () -> playerMovement.moveRight()));
     }
 
     private boolean handleTouch(MotionEvent motionEvent, Runnable movementMethod) {
         switch (motionEvent.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                startContinuousMovement(movementMethod);
-                break;
-            case MotionEvent.ACTION_UP:
-                stopContinuousMovement();
-                break;
+        case MotionEvent.ACTION_DOWN:
+            startContinuousMovement(movementMethod);
+            break;
+        case MotionEvent.ACTION_UP:
+            stopContinuousMovement();
+            break;
+        default:
+            break;
         }
         return true;
     }
@@ -146,7 +151,9 @@ public class GameScreen extends AppCompatActivity {
     }
 
     private void updateCharacterPosition() {
-        if(isTransitioning) return;
+        if (isTransitioning) {
+            return;
+        }
         characterSprite.setX(player.getX());
         characterSprite.setY(player.getY());
         checkPlayerOnExit();
@@ -165,9 +172,11 @@ public class GameScreen extends AppCompatActivity {
                 int spriteWidth = characterSprite.getWidth();
                 int spriteHeight = characterSprite.getHeight();
                 int screenWidth = findViewById(android.R.id.content).getWidth();
-                int screenHeight = findViewById(android.R.id.content).getHeight();
+                int screenHeight = findViewById(android.R.id.content).
+                        getHeight();
 
-                playerMovement = new PlayerMovement(screenWidth, screenHeight, spriteWidth, spriteHeight);
+                playerMovement = new PlayerMovement(screenWidth, screenHeight,
+                        spriteWidth, spriteHeight);
                 detectAllObstacles();
             }
         });
@@ -189,13 +198,15 @@ public class GameScreen extends AppCompatActivity {
         int playerWidth = characterSprite.getWidth();
         int playerHeight = characterSprite.getHeight();
 
-        boolean overlap = playerX + playerWidth > exitX &&
-                playerX < exitX + exitWidth &&
-                playerY + playerHeight > exitY &&
-                playerY < exitY + exitHeight;
+        boolean overlap = playerX + playerWidth > exitX
+                && playerX < exitX + exitWidth
+                && playerY + playerHeight > exitY
+                && playerY < exitY + exitHeight;
 
         if (overlap) {
-            if(isTransitioning) return;
+            if (isTransitioning) {
+                return;
+            }
             isTransitioning = true;
             goToRoom2();
         }
@@ -218,7 +229,8 @@ public class GameScreen extends AppCompatActivity {
                     Rect obstacleRect = new Rect();
                     obstacle.getHitRect(obstacleRect);
 
-                    playerMovement.handleMovementFlags(obstacleRect, playerRect); // Update movement flags
+                    playerMovement.handleMovementFlags(obstacleRect,
+                            playerRect); // Update movement flags
                     playerMovement.handleCollision(obstacleRect, playerRect); // Handle collisions
                 }
 
