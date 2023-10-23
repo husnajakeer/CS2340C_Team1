@@ -4,7 +4,6 @@ package com.example.team1game.Model;
  * Represents an enemy entity in a game, extending the Entity class.
  * It adds the ability to specify enemy-specific damage.
  */
-// TODO: implement subscriber
 public class Enemy extends Entity {
     private int damage;
 
