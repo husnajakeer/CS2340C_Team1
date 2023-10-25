@@ -3,12 +3,32 @@ package com.example.team1game.Model;
 import android.graphics.Rect;
 
 public class PlayerMovement implements Movement, Subscriber {
-    Player player;
+    private Player player;
     private boolean canMoveLeft = true;
     private boolean canMoveRight = true;
     private boolean canMoveUp = true;
     private boolean canMoveDown = true;
-    int screenWidth, screenHeight, spriteWidth, spriteHeight;
+    private int screenWidth;
+    private int screenHeight;
+    private int spriteWidth;
+    private int spriteHeight;
+    private static volatile  PlayerMovement playerMovement;
+
+    public int getScreenWidth() {
+        return screenWidth;
+    }
+
+    public int getScreenHeight() {
+        return screenHeight;
+    }
+
+    public int getSpriteWidth() {
+        return spriteWidth;
+    }
+
+    public int getSpriteHeight() {
+        return spriteHeight;
+    }
 
     public PlayerMovement(int screenWidth, int screenHeight, int spriteWidth, int spriteHeight) {
         this.player = Player.getPlayer();
@@ -16,6 +36,25 @@ public class PlayerMovement implements Movement, Subscriber {
         this.screenHeight = screenHeight;
         this.spriteWidth = spriteWidth;
         this.spriteHeight = spriteHeight;
+    }
+
+    public PlayerMovement() {
+        this.player = Player.getPlayer();
+        this.screenWidth = 1080;
+        this.screenHeight = 2160;
+        this.spriteWidth = 32;
+        this.spriteHeight = 32;
+    }
+
+    public static PlayerMovement getPlayerMovement() {
+        if (playerMovement == null) {
+            synchronized (Player.class) {
+                if (playerMovement == null) {
+                    playerMovement = new PlayerMovement();
+                }
+            }
+        }
+        return playerMovement;
     }
 
     public void moveLeft() {
@@ -116,9 +155,9 @@ public class PlayerMovement implements Movement, Subscriber {
     }
 
     public boolean isPlayerOnExit(Rect playerRect, Rect exitRect) {
-        return playerRect.bottom >= exitRect.top &&
-                playerRect.left < exitRect.right &&
-                playerRect.right > exitRect.left;
+        return playerRect.bottom >= exitRect.top
+                && playerRect.left < exitRect.right
+                && playerRect.right > exitRect.left;
     }
 
 
@@ -153,5 +192,9 @@ public class PlayerMovement implements Movement, Subscriber {
 
     public void setCanMoveDown(boolean canMoveDown) {
         this.canMoveDown = canMoveDown;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }

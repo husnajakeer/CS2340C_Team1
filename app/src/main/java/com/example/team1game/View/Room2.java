@@ -1,31 +1,22 @@
 package com.example.team1game.View;
 
 import android.content.Intent;
-import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.util.Log;
-import com.example.team1game.View.Room3;
 
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.team1game.Model.Collision;
-import com.example.team1game.Model.Grid;
 import com.example.team1game.Model.Player;
 import com.example.team1game.Model.PlayerMovement;
-import com.example.team1game.Model.Subscriber;
-import com.example.team1game.ModelView.GameScreen;
 import com.example.team1game.R;
-import com.example.team1game.View.Room3;
 
 import java.util.ArrayList;
 //TODO make this file easier to read, not so big
@@ -83,14 +74,14 @@ public class Room2 extends AppCompatActivity {
 
     private int determineNumberOfHearts(String difficulty) {
         switch (difficulty) {
-            case "Easy":
-                return 5;
-            case "Medium":
-                return 3;
-            case "Hard":
-                return 1;
-            default:
-                return 0;
+        case "Easy":
+            return 5;
+        case "Medium":
+            return 3;
+        case "Hard":
+            return 1;
+        default:
+            return 0;
         }
     }
 
@@ -124,20 +115,26 @@ public class Room2 extends AppCompatActivity {
         Button leftButton = findViewById(R.id.leftButton);
         Button rightButton = findViewById(R.id.rightButton);
 
-        upButton.setOnTouchListener((view, motionEvent) -> handleTouch(motionEvent, () -> playerMovement.moveUp()));
-        downButton.setOnTouchListener((view, motionEvent) -> handleTouch(motionEvent, () -> playerMovement.moveDown()));
-        leftButton.setOnTouchListener((view, motionEvent) -> handleTouch(motionEvent, () -> playerMovement.moveLeft()));
-        rightButton.setOnTouchListener((view, motionEvent) -> handleTouch(motionEvent, () -> playerMovement.moveRight()));
+        upButton.setOnTouchListener((view, motionEvent) ->
+                handleTouch(motionEvent, () -> playerMovement.moveUp()));
+        downButton.setOnTouchListener((view, motionEvent) ->
+                handleTouch(motionEvent, () -> playerMovement.moveDown()));
+        leftButton.setOnTouchListener((view, motionEvent) ->
+                handleTouch(motionEvent, () -> playerMovement.moveLeft()));
+        rightButton.setOnTouchListener((view, motionEvent) ->
+                handleTouch(motionEvent, () -> playerMovement.moveRight()));
     }
 
     private boolean handleTouch(MotionEvent motionEvent, Runnable movementMethod) {
         switch (motionEvent.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                startContinuousMovement(movementMethod);
-                break;
-            case MotionEvent.ACTION_UP:
-                stopContinuousMovement();
-                break;
+        case MotionEvent.ACTION_DOWN:
+            startContinuousMovement(movementMethod);
+            break;
+        case MotionEvent.ACTION_UP:
+            stopContinuousMovement();
+            break;
+        default:
+            break;
         }
         return true;
     }
@@ -179,7 +176,8 @@ public class Room2 extends AppCompatActivity {
                     Rect obstacleRect = new Rect();
                     obstacle.getHitRect(obstacleRect);
 
-                    playerMovement.handleMovementFlags(obstacleRect, playerRect); // Update movement flags
+                    playerMovement.handleMovementFlags(obstacleRect,
+                            playerRect); // Update movement flags
                     playerMovement.handleCollision(obstacleRect, playerRect); // Handle collisions
                 }
 
@@ -188,7 +186,7 @@ public class Room2 extends AppCompatActivity {
         };
         obstacleHandler.post(collisionCheckRunnable);
     }
-    public void respawn(){
+    public void respawn() {
         player.setX(50);
         player.setY(50);
         // Update the character's position
@@ -210,7 +208,8 @@ public class Room2 extends AppCompatActivity {
                 int screenWidth = findViewById(android.R.id.content).getWidth();
                 int screenHeight = findViewById(android.R.id.content).getHeight();
 
-                playerMovement = new PlayerMovement(screenWidth, screenHeight, spriteWidth, spriteHeight);
+                playerMovement = new PlayerMovement(screenWidth, screenHeight,
+                        spriteWidth, spriteHeight);
                 detectAllObstacles();
             }
         });
@@ -234,13 +233,15 @@ public class Room2 extends AppCompatActivity {
         int playerWidth = characterSprite.getWidth();
         int playerHeight = characterSprite.getHeight();
 
-        boolean overlap = playerX + playerWidth > exitX &&
-                playerX < exitX + exitWidth &&
-                playerY + playerHeight > exitY &&
-                playerY < exitY + exitHeight;
+        boolean overlap = playerX + playerWidth > exitX
+                && playerX < exitX + exitWidth
+                && playerY + playerHeight > exitY
+                && playerY < exitY + exitHeight;
 
         if (overlap) {
-            if(isTransitioning) return;
+            if (isTransitioning) {
+                return;
+            }
             isTransitioning = true;
             goToRoom3();
         }

@@ -4,21 +4,25 @@ package com.example.team1game.Model;
  * Represents an enemy entity in a game, extending the Entity class.
  * It adds the ability to specify enemy-specific damage.
  */
-// TODO: implement subscriber
 public class Enemy extends Entity {
     private int damage;
+    // 1, 2, 3, with 3 being the fastest
+    private int movementSpeed;
+    private EnemyMovement enemyMovement;
 
     /**
      * Constructs a new object with the specified parameters, including damage.
      *
-     * @param name         The name of the enemy.
-     * @param livingStatus The living status of the enemy.
-     * @param health       The health points of the enemy.
-     * @param damage       The damage inflicted by the enemy.
+     * @param name          The name of the enemy.
+     * @param livingStatus  The living status of the enemy.
+     * @param health        The health points of the enemy.
+     * @param damage        The damage inflicted by the enemy.
+     * @param movementSpeed
      */
-    public Enemy(String name, boolean livingStatus, int health, int damage) {
+    public Enemy(String name, boolean livingStatus, int health, int damage, int movementSpeed) {
         super(name, livingStatus, health);
         this.damage = damage;
+        this.movementSpeed = movementSpeed;
     }
 
     /**
@@ -60,6 +64,14 @@ public class Enemy extends Entity {
      */
     public void setDamage(int damage) {
         this.damage = damage;
+    }
+
+    public int getMovementSpeed() {
+        return movementSpeed;
+    }
+
+    public void setMovementSpeed(int movementSpeed) {
+        this.movementSpeed = movementSpeed;
     }
     /*
     @Override

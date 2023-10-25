@@ -6,9 +6,9 @@ import android.graphics.Paint;
 public class Grid {
     private int numRows = 32;
     private int numColumns = 48;
-    int[][] grid = new int[numRows][numColumns];
+    private int[][] grid = new int[numRows][numColumns];
 
-    public void grid(){
+    public void grid() {
         // Fill the grid with zeros
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numColumns; j++) {

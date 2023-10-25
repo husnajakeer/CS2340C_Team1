@@ -10,6 +10,7 @@ public class Entity {
     private int health;
     private int x;
     private int y;
+    private String spriteName;
 
 
     /**

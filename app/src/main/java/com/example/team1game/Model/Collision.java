@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Collision {
     private List<Subscriber> observers = new ArrayList<>();
-    public void collided(){
+    public void collided() {
 
         System.out.println("collide, stop movement");
     }
@@ -25,5 +25,8 @@ public class Collision {
         for (Subscriber observer : observers) {
             observer.handleCollision(object1, object2);
         }
+    }
+    public List<Subscriber> getObservers() {
+        return observers;
     }
 }
