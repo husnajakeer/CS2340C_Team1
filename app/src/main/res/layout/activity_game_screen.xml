@@ -156,4 +156,12 @@
             android:text="→"
             android:textSize="20sp"/>
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/FastEnemy"
+        android:layout_width="128dp"
+        android:layout_height="117dp"
+        app:srcCompat="@drawable/eva_idle"
+        tools:layout_editor_absoluteX="66dp"
+        tools:layout_editor_absoluteY="383dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -29,11 +29,14 @@ public class GameScreen extends AppCompatActivity {
     private PlayerMovement playerMovement;
     private ImageView characterSprite;
     private List<Enemy> enemies;
+    private List<ImageView> enemyViews;
     private GameLoop gameLoop;
 
     private Handler scoreHandler = new Handler();
     private Handler movementHandler = new Handler();
     private Handler obstacleHandler = new Handler();
+    private Handler enemyMovementHandler = new Handler();
+    private static final int ENEMY_MOVEMENT_INTERVAL = 30;
 
     private ArrayList<View> obstacles;
     private boolean isTransitioning = false;
@@ -47,6 +50,7 @@ public class GameScreen extends AppCompatActivity {
         setupScoreUpdater();
         initializePlayerMovementControls();
         detectPlayerInitialPos();
+        startEnemyMovementTimer();
 
     }
 
@@ -56,17 +60,28 @@ public class GameScreen extends AppCompatActivity {
 
         characterSprite = findViewById(R.id.characterSprite);
         enemies = new ArrayList<>();
+        enemyViews = new ArrayList<>();
 
-        // problem here
-        /*gameLoop = new GameLoop(this);
-        setContentView(gameLoop);*/
+        // Create a fast enemy and set its sprite
+        Enemy fastEnemy = EnemyFactory.createFastEnemy("FastEnemy", 100, 10, 20);
+        ImageView fastEnemySprite = findViewById(R.id.FastEnemy);
+        enemies.add(fastEnemy);
+        enemyViews.add(fastEnemySprite);
 
-        // Append different types of enemies to the ArrayList
-        EnemyFactory enemyFactory = new EnemyFactory();
-        enemies.add(EnemyFactory.createFastEnemy("FastEnemy", 100, 10, 20));
-        enemies.add(EnemyFactory.createSlowEnemy("SlowEnemy", 150, 5, 5));
-        enemies.add(EnemyFactory.createSmallEnemy("SmallEnemy", 75, 15, 10));
-        enemies.add(EnemyFactory.createBigEnemy("BigEnemy", 200, 20, 15));
+        /*// Create a slow enemy and set its sprite
+        Enemy slowEnemy = EnemyFactory.createSlowEnemy("SlowEnemy", 150, 5, 5);
+        //slowEnemy.setSprite(R.drawable.slow_enemy_sprite); // Set the appropriate sprite resource
+        enemies.add(slowEnemy);
+
+        // Create a small enemy and set its sprite
+        Enemy smallEnemy = EnemyFactory.createSmallEnemy("SmallEnemy", 75, 15, 10);
+        //smallEnemy.setSprite(R.drawable.small_enemy_sprite); // Set the appropriate sprite resource
+        enemies.add(smallEnemy);
+
+        // Create a big enemy and set its sprite
+        Enemy bigEnemy = EnemyFactory.createBigEnemy("BigEnemy", 200, 20, 15);
+        //bigEnemy.setSprite(R.drawable.big_enemy_sprite); // Set the appropriate sprite resource
+        enemies.add(bigEnemy);*/
         setupUIElements();
     }
 
@@ -260,6 +275,41 @@ public class GameScreen extends AppCompatActivity {
         };
         obstacleHandler.post(collisionCheckRunnable);
     }
+    private void moveEnemies() {
+        for (int i = 0; i < enemies.size(); i++) {
+            Enemy enemy = enemies.get(i);
+
+            // Calculate random position changes for each enemy
+            int deltaX = getRandomDelta();
+            int deltaY = getRandomDelta();
+
+            // Update the enemy's position
+            enemy.setX(enemy.getX() + deltaX);
+            enemy.setY(enemy.getY() + deltaY);
+            enemyViews.get(i).setX(enemy.getX() + deltaX);
+            enemyViews.get(i).setY(enemy.getY() + deltaY);
+            System.out.println(enemy.getX() + "" + enemy.getY());
+        }
+
+    }
+    private void startEnemyMovementTimer() {
+        enemyMovementHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                moveEnemies();
+                enemyMovementHandler.postDelayed(this, ENEMY_MOVEMENT_INTERVAL);
+            }
+        }, ENEMY_MOVEMENT_INTERVAL);
+    }
+    private void stopEnemyMovementTimer() {
+        enemyMovementHandler.removeCallbacksAndMessages(null);
+    }
+
+    private int getRandomDelta() {
+        // Generate a random delta value within a reasonable range
+        return (int) (Math.random() * 20 - 10); // Adjust the range as needed
+    }
+
     private void goToRoom2() {
         String sprite = getIntent().getStringExtra("sprite");
         Intent intent = new Intent(GameScreen.this, Room2.class);
