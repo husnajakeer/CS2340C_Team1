@@ -11,17 +11,26 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.team1game.Model.Enemy;
+import com.example.team1game.Model.EnemyFactory;
+import com.example.team1game.Model.GameLoop;
 import com.example.team1game.Model.Player;
 import com.example.team1game.Model.PlayerMovement;
 import com.example.team1game.R;
 import com.example.team1game.View.Room2;
+import com.google.android.gms.games.Game;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GameScreen extends AppCompatActivity {
     private Player player;
     private PlayerMovement playerMovement;
     private ImageView characterSprite;
+    private List<Enemy> enemies;
+    private GameLoop gameLoop;
+
     private Handler scoreHandler = new Handler();
     private Handler movementHandler = new Handler();
     private Handler obstacleHandler = new Handler();
@@ -46,6 +55,18 @@ public class GameScreen extends AppCompatActivity {
         player.setScore(100);
 
         characterSprite = findViewById(R.id.characterSprite);
+        enemies = new ArrayList<>();
+
+        // problem here
+        /*gameLoop = new GameLoop(this);
+        setContentView(gameLoop);*/
+
+        // Append different types of enemies to the ArrayList
+        EnemyFactory enemyFactory = new EnemyFactory();
+        enemies.add(EnemyFactory.createFastEnemy("FastEnemy", 100, 10, 20));
+        enemies.add(EnemyFactory.createSlowEnemy("SlowEnemy", 150, 5, 5));
+        enemies.add(EnemyFactory.createSmallEnemy("SmallEnemy", 75, 15, 10));
+        enemies.add(EnemyFactory.createBigEnemy("BigEnemy", 200, 20, 15));
         setupUIElements();
     }
 
