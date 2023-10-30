@@ -19,7 +19,6 @@ import com.example.team1game.Model.Player;
 import com.example.team1game.Model.PlayerMovement;
 import com.example.team1game.R;
 import com.example.team1game.View.Room2;
-import com.google.android.gms.games.Game;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +29,6 @@ public class GameScreen extends AppCompatActivity {
     private ImageView characterSprite;
     private List<Enemy> enemies;
     private List<ImageView> enemyViews;
-    private GameLoop gameLoop;
-
     private Handler scoreHandler = new Handler();
     private Handler movementHandler = new Handler();
     private Handler obstacleHandler = new Handler();
@@ -64,24 +61,36 @@ public class GameScreen extends AppCompatActivity {
 
         // Create a fast enemy and set its sprite
         Enemy fastEnemy = EnemyFactory.createFastEnemy("FastEnemy", 100, 10, 20);
-        ImageView fastEnemySprite = findViewById(R.id.FastEnemy);
+        ImageView fastEnemySprite = findViewById(R.id.fastEnemy);
+        fastEnemy.setX(100);
+        fastEnemy.setY(800);
         enemies.add(fastEnemy);
         enemyViews.add(fastEnemySprite);
 
-        /*// Create a slow enemy and set its sprite
+        // Create a slow enemy and set its sprite
         Enemy slowEnemy = EnemyFactory.createSlowEnemy("SlowEnemy", 150, 5, 5);
-        //slowEnemy.setSprite(R.drawable.slow_enemy_sprite); // Set the appropriate sprite resource
+        ImageView slowEnemySprite = findViewById(R.id.slowEnemy);
+        slowEnemy.setX(800);
+        slowEnemy.setY(800);
         enemies.add(slowEnemy);
+        enemyViews.add(slowEnemySprite);
 
         // Create a small enemy and set its sprite
         Enemy smallEnemy = EnemyFactory.createSmallEnemy("SmallEnemy", 75, 15, 10);
-        //smallEnemy.setSprite(R.drawable.small_enemy_sprite); // Set the appropriate sprite resource
+        ImageView smallEnemySprite = findViewById(R.id.smallEnemy);
+        slowEnemy.setX(1000);
+        slowEnemy.setY(1000);
         enemies.add(smallEnemy);
+        enemyViews.add(smallEnemySprite);
 
         // Create a big enemy and set its sprite
         Enemy bigEnemy = EnemyFactory.createBigEnemy("BigEnemy", 200, 20, 15);
-        //bigEnemy.setSprite(R.drawable.big_enemy_sprite); // Set the appropriate sprite resource
-        enemies.add(bigEnemy);*/
+        ImageView bigEnemySprite = findViewById(R.id.bigEnemy);
+        slowEnemy.setX(500);
+        slowEnemy.setY(1000);
+        enemies.add(bigEnemy);
+        enemyViews.add(bigEnemySprite);
+
         setupUIElements();
     }
 
@@ -276,18 +285,28 @@ public class GameScreen extends AppCompatActivity {
         obstacleHandler.post(collisionCheckRunnable);
     }
     private void moveEnemies() {
-        for (int i = 0; i < enemies.size(); i++) {
+        // first half move randomly
+        for (int i = 0; i < enemies.size() / 2; i++) {
             Enemy enemy = enemies.get(i);
 
-            // Calculate random position changes for each enemy
-            int deltaX = getRandomDelta();
-            int deltaY = getRandomDelta();
+            // Update the enemy's position
+            enemy.getEnemyMovement().moveRandomly();
+            enemy.setX(enemy.getX());
+            enemy.setY(enemy.getY());
+            enemyViews.get(i).setX(enemy.getX());
+            enemyViews.get(i).setY(enemy.getY());
+            System.out.println(enemy.getX() + "" + enemy.getY());
+        }
+        // 2nd half move linearly (be careful of starting arr size)
+        for (int i = enemies.size() / 2; i < enemies.size() ; i++) {
+            Enemy enemy = enemies.get(i);
 
             // Update the enemy's position
-            enemy.setX(enemy.getX() + deltaX);
-            enemy.setY(enemy.getY() + deltaY);
-            enemyViews.get(i).setX(enemy.getX() + deltaX);
-            enemyViews.get(i).setY(enemy.getY() + deltaY);
+            enemy.getEnemyMovement().moveLinearly();
+            enemy.setX(enemy.getX());
+            enemy.setY(enemy.getY());
+            enemyViews.get(i).setX(enemy.getX());
+            enemyViews.get(i).setY(enemy.getY());
             System.out.println(enemy.getX() + "" + enemy.getY());
         }
 
@@ -305,10 +324,6 @@ public class GameScreen extends AppCompatActivity {
         enemyMovementHandler.removeCallbacksAndMessages(null);
     }
 
-    private int getRandomDelta() {
-        // Generate a random delta value within a reasonable range
-        return (int) (Math.random() * 20 - 10); // Adjust the range as needed
-    }
 
     private void goToRoom2() {
         String sprite = getIntent().getStringExtra("sprite");
@@ -329,6 +344,7 @@ public class GameScreen extends AppCompatActivity {
         scoreHandler.removeCallbacksAndMessages(null);
         movementHandler.removeCallbacksAndMessages(null);
         obstacleHandler.removeCallbacksAndMessages(null);
+        enemyMovementHandler.removeCallbacksAndMessages(null);
 
     }
 
