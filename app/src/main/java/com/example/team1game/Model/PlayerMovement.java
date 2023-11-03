@@ -1,6 +1,8 @@
 package com.example.team1game.Model;
 
 import android.graphics.Rect;
+import android.os.Handler;
+import android.util.Log;
 
 public class PlayerMovement implements Movement, Subscriber {
     private Player player;
@@ -13,6 +15,8 @@ public class PlayerMovement implements Movement, Subscriber {
     private int spriteWidth;
     private int spriteHeight;
     private static volatile  PlayerMovement playerMovement;
+
+    private Handler damageHandler = new Handler();
 
     public int getScreenWidth() {
         return screenWidth;
@@ -37,6 +41,8 @@ public class PlayerMovement implements Movement, Subscriber {
         this.spriteWidth = spriteWidth;
         this.spriteHeight = spriteHeight;
     }
+
+
 
     public PlayerMovement() {
         this.player = Player.getPlayer();
@@ -120,6 +126,7 @@ public class PlayerMovement implements Movement, Subscriber {
                 }
             }
         }
+
     }
 
     public void handleMovementFlags(Rect obstacleRect, Rect playerRect) {

@@ -1,5 +1,10 @@
 package com.example.team1game.Model;
 
+import android.graphics.Rect;
+import android.widget.TextView;
+
+import com.example.team1game.ModelView.GameScreen;
+
 /**
  * Represents an enemy entity in a game, extending the Entity class.
  * It adds the ability to specify enemy-specific damage.
@@ -9,6 +14,11 @@ public class Enemy extends Entity {
     // 1, 2, 3, with 3 being the fastest
     private int movementSpeed;
     private EnemyMovement enemyMovement;
+
+    private GameScreen gameScreen;
+
+    private Rect enemyRect = new Rect(); // Cached Rect to avoid allocations
+    private boolean isPlayerInContactWithEnemy = false; // State flag
 
     /**
      * Constructs a new object with the specified parameters, including damage.
@@ -62,6 +72,14 @@ public class Enemy extends Entity {
         return damage;
     }
 
+    public static boolean update(Rect playerRect, Rect enemyRect) {
+        if (Rect.intersects(playerRect, enemyRect)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * Sets the damage inflicted by the enemy.
      *
@@ -86,6 +104,7 @@ public class Enemy extends Entity {
     public void setEnemyMovement(EnemyMovement enemyMovement) {
         this.enemyMovement = enemyMovement;
     }
+  
     /*
     @Override
     public void onCollision(Object object1, Object object2) {
