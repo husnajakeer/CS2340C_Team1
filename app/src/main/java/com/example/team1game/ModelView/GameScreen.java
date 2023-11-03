@@ -18,6 +18,7 @@ import com.example.team1game.Model.GameLoop;
 import com.example.team1game.Model.Player;
 import com.example.team1game.Model.PlayerMovement;
 import com.example.team1game.R;
+import com.example.team1game.View.LoseScreen;
 import com.example.team1game.View.Room2;
 import com.google.android.gms.games.Game;
 
@@ -41,6 +42,7 @@ public class GameScreen extends AppCompatActivity {
     private ArrayList<View> obstacles;
     private boolean isTransitioning = false;
 
+    private boolean gameLost = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,6 +133,10 @@ public class GameScreen extends AppCompatActivity {
             @Override
             public void run() {
                 TextView scoreTextView = findViewById(R.id.scoreTextView);
+                if (player.getScore() == 0) {
+                    gameLost = true;
+                    goToRoom2();
+                }
                 if (player.getScore() > 0) {
                     player.setScore(player.getScore() - 1);
                     scoreTextView.setText("Score: " + player.getScore());
@@ -311,12 +317,20 @@ public class GameScreen extends AppCompatActivity {
     }
 
     private void goToRoom2() {
-        String sprite = getIntent().getStringExtra("sprite");
-        Intent intent = new Intent(GameScreen.this, Room2.class);
-        intent.putExtra("sprite", sprite);
-        intent.putExtra("endingScore", player.getScore());
-        startActivity(intent);
-        finish();
+        if (!gameLost) {
+            String sprite = getIntent().getStringExtra("sprite");
+            Intent intent = new Intent(GameScreen.this, Room2.class);
+            intent.putExtra("sprite", sprite);
+            intent.putExtra("endingScore", player.getScore());
+            startActivity(intent);
+            finish();
+        }
+        else {
+            Intent intent = new Intent(GameScreen.this, LoseScreen.class);
+            startActivity(intent);
+            finish();
+        }
+
     }
 
     @Override
