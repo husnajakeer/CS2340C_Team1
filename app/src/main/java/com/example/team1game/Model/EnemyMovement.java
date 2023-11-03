@@ -1,11 +1,13 @@
 package com.example.team1game.Model;
 
-
 import android.graphics.Rect;
 
 import java.util.Random;
 
-public class EnemyMovement implements Movement{
+/**
+ * The EnemyMovement class provides methods for controlling the movement of an enemy character within a game.
+ */
+public class EnemyMovement implements Movement {
     private Enemy enemy;
     private boolean canMoveLeft = true;
     private boolean canMoveRight = true;
@@ -16,14 +18,23 @@ public class EnemyMovement implements Movement{
     private int spriteWidth;
     private int spriteHeight;
     private Random random = new Random();
-    public EnemyMovement(Enemy enemy){
 
+    /**
+     * Constructs an EnemyMovement object for a specific enemy character.
+     *
+     * @param enemy The enemy character for which movement is controlled.
+     */
+    public EnemyMovement(Enemy enemy) {
         this.enemy = enemy;
         this.screenWidth = 1080;
         this.screenHeight = 2160;
         this.spriteWidth = 32;
         this.spriteHeight = 32;
     }
+
+    /**
+     * Moves the enemy character in a random direction.
+     */
     public void moveRandomly() {
         int randomDirection = random.nextInt(4); // 0: Left, 1: Right, 2: Up, 3: Down
         switch (randomDirection) {
@@ -42,9 +53,13 @@ public class EnemyMovement implements Movement{
         }
         System.out.println(enemy.getX() + " " + enemy.getY());
     }
+
+    /**
+     * Moves the enemy character linearly, switching direction when reaching the screen's boundaries.
+     */
     public void moveLinearly() {
         int currentY = enemy.getY();
-        // implement movement speed later
+        // Implement movement speed later
         int movementSpeed = enemy.getMovementSpeed();
 
         if (currentY <= 0) {
@@ -75,7 +90,10 @@ public class EnemyMovement implements Movement{
             enemy.setX(x);
         }
     }
-    // TODO: implement these methods
+
+    /**
+     * Moves the enemy character to the right.
+     */
     @Override
     public void moveRight() {
         if (canMoveRight) {
@@ -84,6 +102,10 @@ public class EnemyMovement implements Movement{
             enemy.setX(x);
         }
     }
+
+    /**
+     * Moves the enemy character upwards.
+     */
     @Override
     public void moveUp() {
         if (canMoveUp) {
@@ -92,6 +114,10 @@ public class EnemyMovement implements Movement{
             enemy.setY(y);
         }
     }
+
+    /**
+     * Moves the enemy character downwards.
+     */
     @Override
     public void moveDown() {
         if (canMoveDown) {
