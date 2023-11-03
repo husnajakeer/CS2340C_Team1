@@ -20,7 +20,6 @@ import com.example.team1game.Model.PlayerMovement;
 import com.example.team1game.R;
 import com.example.team1game.View.LoseScreen;
 import com.example.team1game.View.Room2;
-import com.google.android.gms.games.Game;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,12 +30,18 @@ public class GameScreen extends AppCompatActivity {
     private ImageView characterSprite;
     private List<Enemy> enemies;
     private List<ImageView> enemyViews;
-    private GameLoop gameLoop;
+
+
+    private Runnable healthReductionRunnable;
+    private boolean isPlayerInContactWithEnemy = false;
+
+    private int numOfHearts;
 
     private Handler scoreHandler = new Handler();
     private Handler movementHandler = new Handler();
     private Handler obstacleHandler = new Handler();
     private Handler enemyMovementHandler = new Handler();
+    private Handler healthReductionHandler = new Handler();
     private static final int ENEMY_MOVEMENT_INTERVAL = 30;
 
     private ArrayList<View> obstacles;
@@ -66,24 +71,36 @@ public class GameScreen extends AppCompatActivity {
 
         // Create a fast enemy and set its sprite
         Enemy fastEnemy = EnemyFactory.createFastEnemy("FastEnemy", 100, 10, 20);
-        ImageView fastEnemySprite = findViewById(R.id.FastEnemy);
+        ImageView fastEnemySprite = findViewById(R.id.fastEnemy);
+        fastEnemy.setX(100);
+        fastEnemy.setY(800);
         enemies.add(fastEnemy);
         enemyViews.add(fastEnemySprite);
 
-        /*// Create a slow enemy and set its sprite
+        // Create a slow enemy and set its sprite
         Enemy slowEnemy = EnemyFactory.createSlowEnemy("SlowEnemy", 150, 5, 5);
-        //slowEnemy.setSprite(R.drawable.slow_enemy_sprite); // Set the appropriate sprite resource
+        ImageView slowEnemySprite = findViewById(R.id.slowEnemy);
+        slowEnemy.setX(800);
+        slowEnemy.setY(800);
         enemies.add(slowEnemy);
+        enemyViews.add(slowEnemySprite);
 
         // Create a small enemy and set its sprite
         Enemy smallEnemy = EnemyFactory.createSmallEnemy("SmallEnemy", 75, 15, 10);
-        //smallEnemy.setSprite(R.drawable.small_enemy_sprite); // Set the appropriate sprite resource
+        ImageView smallEnemySprite = findViewById(R.id.smallEnemy);
+        slowEnemy.setX(1000);
+        slowEnemy.setY(1000);
         enemies.add(smallEnemy);
+        enemyViews.add(smallEnemySprite);
 
         // Create a big enemy and set its sprite
         Enemy bigEnemy = EnemyFactory.createBigEnemy("BigEnemy", 200, 20, 15);
-        //bigEnemy.setSprite(R.drawable.big_enemy_sprite); // Set the appropriate sprite resource
-        enemies.add(bigEnemy);*/
+        ImageView bigEnemySprite = findViewById(R.id.bigEnemy);
+        slowEnemy.setX(500);
+        slowEnemy.setY(1000);
+        enemies.add(bigEnemy);
+        enemyViews.add(bigEnemySprite);
+
         setupUIElements();
     }
 
@@ -97,7 +114,7 @@ public class GameScreen extends AppCompatActivity {
         String difficulty = player.getDifficulty();
         String sprite = getIntent().getStringExtra("sprite");
 
-        int numOfHearts = determineNumberOfHearts(difficulty);
+        numOfHearts = determineNumberOfHearts(difficulty);
 
         playerNameTextView.setText("Name: " + playerName);
         healthPointsTextView.setText("Health: " + numOfHearts + " hearts");
@@ -107,14 +124,14 @@ public class GameScreen extends AppCompatActivity {
 
     private int determineNumberOfHearts(String difficulty) {
         switch (difficulty) {
-        case "Easy":
-            return 5;
-        case "Medium":
-            return 3;
-        case "Hard":
-            return 1;
-        default:
-            return 0;
+            case "Easy":
+                return 50;
+            case "Medium":
+                return 30;
+            case "Hard":
+                return 10;
+            default:
+                return 0;
         }
     }
 
@@ -164,14 +181,14 @@ public class GameScreen extends AppCompatActivity {
 
     private boolean handleTouch(MotionEvent motionEvent, Runnable movementMethod) {
         switch (motionEvent.getAction()) {
-        case MotionEvent.ACTION_DOWN:
-            startContinuousMovement(movementMethod);
-            break;
-        case MotionEvent.ACTION_UP:
-            stopContinuousMovement();
-            break;
-        default:
-            break;
+            case MotionEvent.ACTION_DOWN:
+                startContinuousMovement(movementMethod);
+                break;
+            case MotionEvent.ACTION_UP:
+                stopContinuousMovement();
+                break;
+            default:
+                break;
         }
         return true;
     }
@@ -183,7 +200,7 @@ public class GameScreen extends AppCompatActivity {
             public void run() {
                 movementMethod.run();
                 updateCharacterPosition();
-                movementHandler.postDelayed(this, 50); // Adjust this delay for movement speed
+                movementHandler.postDelayed(this, 50);
             }
         }, 0);
     }
@@ -199,6 +216,69 @@ public class GameScreen extends AppCompatActivity {
         characterSprite.setX(player.getX());
         characterSprite.setY(player.getY());
         checkPlayerOnExit();
+        checkCollisionWithEnemies();
+    }
+
+    private void checkCollisionWithEnemies() {
+        TextView healthPointsTextView = findViewById(R.id.healthPointsTextView);
+        Rect playerRect = new Rect();
+        characterSprite.getHitRect(playerRect);
+
+        boolean isCurrentlyInContact = false;
+        int buffer = 80;
+        for (ImageView enemyView : enemyViews) {
+            Rect enemyRect = getAdjustedEnemyRect(enemyView, buffer);
+
+            if (Enemy.update(playerRect, enemyRect)) {
+                isCurrentlyInContact = true;
+                if (!isPlayerInContactWithEnemy) {
+                    isPlayerInContactWithEnemy = true;
+                    startHealthReductionTimer(healthPointsTextView);
+                }
+                break;
+            }
+        }
+
+        if (isPlayerInContactWithEnemy && !isCurrentlyInContact) {
+            isPlayerInContactWithEnemy = false;
+            stopHealthReductionTimer();
+        }
+    }
+
+    public void startHealthReductionTimer(TextView healthPointsTextView) {
+        if (healthReductionRunnable != null) {
+            healthReductionHandler.removeCallbacks(healthReductionRunnable);
+        }
+        healthReductionRunnable = new Runnable() {
+            @Override
+            public void run() {
+                if (numOfHearts > 0) {
+                    numOfHearts -= 1;
+                    healthPointsTextView.setText("Health: " + numOfHearts + " hearts");
+                    if (numOfHearts <= 0) {
+                        // Stop the game or transition to game over screen
+                    }
+                    healthReductionHandler.postDelayed(this, 500);
+                }
+            }
+        };
+        healthReductionHandler.postDelayed(healthReductionRunnable, 500);
+    }
+
+    public void stopHealthReductionTimer() {
+        if (healthReductionRunnable != null) {
+            healthReductionHandler.removeCallbacks(healthReductionRunnable);
+        }
+    }
+
+    private Rect getAdjustedEnemyRect(ImageView enemyView, int buffer) {
+        Rect originalRect = new Rect();
+        enemyView.getHitRect(originalRect);
+        originalRect.left += buffer;
+        originalRect.top += buffer;
+        originalRect.right -= buffer;
+        originalRect.bottom -= buffer;
+        return originalRect;
     }
 
 
@@ -282,20 +362,37 @@ public class GameScreen extends AppCompatActivity {
         obstacleHandler.post(collisionCheckRunnable);
     }
     private void moveEnemies() {
-        for (int i = 0; i < enemies.size(); i++) {
+        // first half move randomly
+        for (int i = 0; i < enemies.size() / 2; i++) {
             Enemy enemy = enemies.get(i);
 
-            // Calculate random position changes for each enemy
-            int deltaX = getRandomDelta();
-            int deltaY = getRandomDelta();
-
             // Update the enemy's position
-            enemy.setX(enemy.getX() + deltaX);
-            enemy.setY(enemy.getY() + deltaY);
-            enemyViews.get(i).setX(enemy.getX() + deltaX);
-            enemyViews.get(i).setY(enemy.getY() + deltaY);
+            enemy.getEnemyMovement().moveRandomly();
+            enemy.setX(enemy.getX());
+            enemy.setY(enemy.getY());
+
+            checkCollisionWithEnemies();
+
+            enemyViews.get(i).setX(enemy.getX());
+            enemyViews.get(i).setY(enemy.getY());
             System.out.println(enemy.getX() + "" + enemy.getY());
         }
+        // 2nd half move linearly (be careful of starting arr size)
+        for (int i = enemies.size() / 2; i < enemies.size() ; i++) {
+            Enemy enemy = enemies.get(i);
+
+            // Update the enemy's position
+            enemy.getEnemyMovement().moveLinearly();
+            enemy.setX(enemy.getX());
+            enemy.setY(enemy.getY());
+
+            checkCollisionWithEnemies();
+
+            enemyViews.get(i).setX(enemy.getX());
+            enemyViews.get(i).setY(enemy.getY());
+            System.out.println(enemy.getX() + "" + enemy.getY());
+        }
+
 
     }
     private void startEnemyMovementTimer() {
@@ -311,10 +408,6 @@ public class GameScreen extends AppCompatActivity {
         enemyMovementHandler.removeCallbacksAndMessages(null);
     }
 
-    private int getRandomDelta() {
-        // Generate a random delta value within a reasonable range
-        return (int) (Math.random() * 20 - 10); // Adjust the range as needed
-    }
 
     private void goToRoom2() {
         if (!gameLost) {
@@ -343,8 +436,23 @@ public class GameScreen extends AppCompatActivity {
         scoreHandler.removeCallbacksAndMessages(null);
         movementHandler.removeCallbacksAndMessages(null);
         obstacleHandler.removeCallbacksAndMessages(null);
+        enemyMovementHandler.removeCallbacksAndMessages(null);
+
+        enemyMovementHandler.removeCallbacksAndMessages(null);
+        healthReductionHandler.removeCallbacksAndMessages(null);
+        stopHealthReductionTimer();
+
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isPlayerInContactWithEnemy) {
+            startHealthReductionTimer((TextView) findViewById(R.id.healthPointsTextView));
+        }
+    }
+
 
 
 }
