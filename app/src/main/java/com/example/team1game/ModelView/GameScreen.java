@@ -30,10 +30,12 @@ public class GameScreen extends AppCompatActivity {
     private List<Enemy> enemies;
     private List<ImageView> enemyViews;
 
+
     private Runnable healthReductionRunnable;
     private boolean isPlayerInContactWithEnemy = false;
 
     private int numOfHearts;
+
     private Handler scoreHandler = new Handler();
     private Handler movementHandler = new Handler();
     private Handler obstacleHandler = new Handler();
@@ -362,7 +364,9 @@ public class GameScreen extends AppCompatActivity {
             enemy.getEnemyMovement().moveRandomly();
             enemy.setX(enemy.getX());
             enemy.setY(enemy.getY());
+
             checkCollisionWithEnemies();
+
             enemyViews.get(i).setX(enemy.getX());
             enemyViews.get(i).setY(enemy.getY());
             System.out.println(enemy.getX() + "" + enemy.getY());
@@ -375,7 +379,9 @@ public class GameScreen extends AppCompatActivity {
             enemy.getEnemyMovement().moveLinearly();
             enemy.setX(enemy.getX());
             enemy.setY(enemy.getY());
+
             checkCollisionWithEnemies();
+
             enemyViews.get(i).setX(enemy.getX());
             enemyViews.get(i).setY(enemy.getY());
             System.out.println(enemy.getX() + "" + enemy.getY());
@@ -417,9 +423,11 @@ public class GameScreen extends AppCompatActivity {
         movementHandler.removeCallbacksAndMessages(null);
         obstacleHandler.removeCallbacksAndMessages(null);
         enemyMovementHandler.removeCallbacksAndMessages(null);
+
         enemyMovementHandler.removeCallbacksAndMessages(null);
         healthReductionHandler.removeCallbacksAndMessages(null);
         stopHealthReductionTimer();
+
 
     }
 

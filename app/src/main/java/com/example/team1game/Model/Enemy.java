@@ -104,14 +104,7 @@ public class Enemy extends Entity {
     public void setEnemyMovement(EnemyMovement enemyMovement) {
         this.enemyMovement = enemyMovement;
     }
-
-    public void setGameScreen(GameScreen gameScreen) {
-        this.gameScreen = gameScreen;
-    }
-
-
-
-
+  
     /*
     @Override
     public void onCollision(Object object1, Object object2) {
