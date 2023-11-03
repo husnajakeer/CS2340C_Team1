@@ -23,6 +23,7 @@ public class Enemy extends Entity {
         super(name, livingStatus, health);
         this.damage = damage;
         this.movementSpeed = movementSpeed;
+        this.enemyMovement = new EnemyMovement(this);
     }
 
     /**
@@ -35,6 +36,8 @@ public class Enemy extends Entity {
     public Enemy(String name, boolean livingStatus, int damage) {
         super(name, livingStatus);
         this.damage = damage;
+        this.enemyMovement = new EnemyMovement(this);
+
     }
 
     /**
@@ -46,6 +49,8 @@ public class Enemy extends Entity {
     public Enemy(String name, int damage) {
         super(name);
         this.damage = damage;
+        this.enemyMovement = new EnemyMovement(this);
+
     }
 
     /**
@@ -72,6 +77,14 @@ public class Enemy extends Entity {
 
     public void setMovementSpeed(int movementSpeed) {
         this.movementSpeed = movementSpeed;
+    }
+
+    public EnemyMovement getEnemyMovement() {
+        return enemyMovement;
+    }
+
+    public void setEnemyMovement(EnemyMovement enemyMovement) {
+        this.enemyMovement = enemyMovement;
     }
     /*
     @Override
