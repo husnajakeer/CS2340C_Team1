@@ -1,7 +1,7 @@
 package com.example.team1game.Model;
 
 /**
- * The EnemyFactory class provides static methods for creating different types of enemy characters with specified attributes.
+ * The EnemyFactory class provides static methods for creating different types of enemy characters.
  */
 public class EnemyFactory {
     /**
