@@ -35,6 +35,7 @@ public class Room3 extends AppCompatActivity {
     private ArrayList<View> obstacles;
     private boolean isTransitioning = false;
 
+    private boolean gameLost = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,6 +106,10 @@ public class Room3 extends AppCompatActivity {
             @Override
             public void run() {
                 TextView scoreTextView = findViewById(R.id.scoreTextView);
+                if (player.getScore() == 0) {
+                    gameLost = true;
+                    goToEndScreen();
+                }
                 if (player.getScore() > 0) {
                     player.setScore(player.getScore() - 1);
                     scoreTextView.setText("Score: " + player.getScore());
@@ -261,9 +266,16 @@ public class Room3 extends AppCompatActivity {
     }
 
     private void goToEndScreen() {
-        Intent intent = new Intent(Room3.this, EndScreen.class);
-        startActivity(intent);
-        finish();
+        if (!gameLost) {
+            Intent intent = new Intent(Room3.this, EndScreen.class);
+            startActivity(intent);
+            finish();
+        }
+        else {
+            Intent intent = new Intent(Room3.this, LoseScreen.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     @Override
