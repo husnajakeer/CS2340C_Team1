@@ -221,7 +221,7 @@ public class GameScreen extends AppCompatActivity {
         for (ImageView enemyView : enemyViews) {
             Rect enemyRect = getAdjustedEnemyRect(enemyView, buffer);
 
-            if (Rect.intersects(playerRect, enemyRect)) {
+            if (Enemy.update(playerRect, enemyRect)) {
                 isCurrentlyInContact = true;
                 if (!isPlayerInContactWithEnemy) {
                     isPlayerInContactWithEnemy = true;
@@ -237,7 +237,7 @@ public class GameScreen extends AppCompatActivity {
         }
     }
 
-    private void startHealthReductionTimer(TextView healthPointsTextView) {
+    public void startHealthReductionTimer(TextView healthPointsTextView) {
         if (healthReductionRunnable != null) {
             healthReductionHandler.removeCallbacks(healthReductionRunnable);
         }
@@ -257,7 +257,7 @@ public class GameScreen extends AppCompatActivity {
         healthReductionHandler.postDelayed(healthReductionRunnable, 500);
     }
 
-    private void stopHealthReductionTimer() {
+    public void stopHealthReductionTimer() {
         if (healthReductionRunnable != null) {
             healthReductionHandler.removeCallbacks(healthReductionRunnable);
         }
