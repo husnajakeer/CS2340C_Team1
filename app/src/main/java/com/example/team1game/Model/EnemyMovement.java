@@ -29,7 +29,7 @@ public class EnemyMovement implements Movement {
         this.screenWidth = 1080;
         this.screenHeight = 2160;
         this.spriteWidth = 32;
-        this.spriteHeight = 32;
+        this.spriteHeight = 60;
     }
 
     /**
@@ -62,12 +62,12 @@ public class EnemyMovement implements Movement {
         // Implement movement speed later
         int movementSpeed = enemy.getMovementSpeed();
 
-        if (currentY <= 0) {
+        if (currentY <= 50) {
             // At the top of the screen, switch to move downwards
             canMoveUp = false;
             canMoveDown = true;
             moveDown();
-        } else if (currentY >= screenHeight - spriteHeight) {
+        } else if (currentY >= screenHeight - 800) {
             // At the bottom of the screen, switch to move upwards
             canMoveUp = true;
             canMoveDown = false;
@@ -86,7 +86,7 @@ public class EnemyMovement implements Movement {
     public void moveLeft() {
         if (canMoveLeft) {
             int x = enemy.getX();
-            x = Math.max(x - 10, 0);
+            x = Math.max(x - 10, 50);
             enemy.setX(x);
         }
     }
@@ -98,7 +98,7 @@ public class EnemyMovement implements Movement {
     public void moveRight() {
         if (canMoveRight) {
             int x = enemy.getX();
-            x = Math.min(x + 10, screenWidth - spriteWidth);
+            x = Math.min(x + 10, screenWidth - spriteWidth - 50);
             enemy.setX(x);
         }
     }
@@ -110,7 +110,7 @@ public class EnemyMovement implements Movement {
     public void moveUp() {
         if (canMoveUp) {
             int y = enemy.getY();
-            y = Math.max(y - 10, 0);
+            y = Math.max(y - 10, 10);
             enemy.setY(y);
         }
     }
@@ -122,7 +122,7 @@ public class EnemyMovement implements Movement {
     public void moveDown() {
         if (canMoveDown) {
             int y = enemy.getY();
-            y = Math.min(y + 10, screenHeight - spriteHeight);
+            y = Math.min(y + 10, screenHeight - spriteHeight - 50);
             enemy.setY(y);
         }
     }
