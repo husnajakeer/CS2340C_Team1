@@ -12,7 +12,7 @@
         android:layout_height="100dp"
         android:layout_marginEnd="0dp"
         android:layout_marginBottom="0dp"
-        android:background="#FF0000"
+        android:background="#20FF5733"
         android:gravity="center"
         android:text="Exit"
         android:textColor="#FFFFFF"
@@ -25,7 +25,7 @@
         android:layout_width="171dp"
         android:layout_height="139dp"
         android:layout_marginTop="4dp"
-        android:background="#FF0000"
+        android:background="#20FF5733"
         android:tag="obstacle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -35,7 +35,7 @@
         android:layout_width="135dp"
         android:layout_height="146dp"
         android:layout_marginBottom="28dp"
-        android:background="#FF0000"
+        android:background="#20FF5733"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:tag="obstacle"/>
@@ -189,4 +189,3 @@
         tools:layout_editor_absoluteY="468dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
