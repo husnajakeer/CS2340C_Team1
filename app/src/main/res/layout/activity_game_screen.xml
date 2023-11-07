@@ -162,14 +162,14 @@
         android:layout_width="68dp"
         android:layout_height="64dp"
         app:srcCompat="@drawable/mushroom_enemy"
-        tools:layout_editor_absoluteX="72dp"
-        tools:layout_editor_absoluteY="406dp" />
+        tools:layout_editor_absoluteX="343dp"
+        tools:layout_editor_absoluteY="535dp" />
 
     <ImageView
         android:id="@+id/slowEnemy"
         android:layout_width="89dp"
         android:layout_height="82dp"
-        app:srcCompat="@drawable/mushroom_enemy"
+        app:srcCompat="@drawable/blue_mushroom_enemy"
         tools:layout_editor_absoluteX="164dp"
         tools:layout_editor_absoluteY="468dp" />
     <ImageView
