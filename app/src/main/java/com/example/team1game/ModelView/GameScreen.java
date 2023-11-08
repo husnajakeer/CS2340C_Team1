@@ -12,12 +12,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.team1game.Model.BigEnemy;
 import com.example.team1game.Model.Enemy;
-import com.example.team1game.Model.EnemyFactory;
-import com.example.team1game.Model.GameLoop;
+import com.example.team1game.Model.FastEnemy;
 import com.example.team1game.Model.Player;
 import com.example.team1game.Model.PlayerMovement;
+import com.example.team1game.Model.SlowEnemy;
+import com.example.team1game.Model.SmallEnemy;
 import com.example.team1game.R;
+import com.example.team1game.View.LoseScreen;
 import com.example.team1game.View.Room2;
 
 import java.util.ArrayList;
@@ -46,6 +49,7 @@ public class GameScreen extends AppCompatActivity {
     private ArrayList<View> obstacles;
     private boolean isTransitioning = false;
 
+    private boolean gameLost = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,42 +68,48 @@ public class GameScreen extends AppCompatActivity {
         player.setScore(100);
 
         characterSprite = findViewById(R.id.characterSprite);
+        setUpEnemies();
+        setupUIElements();
+    }
+    private void setUpEnemies() {
+        FastEnemy fastEnemyFactory = new FastEnemy();
+        SlowEnemy slowEnemyFactory = new SlowEnemy();
+        BigEnemy bigEnemyFactory = new BigEnemy();
+        SmallEnemy smallEnemyFactory = new SmallEnemy();
         enemies = new ArrayList<>();
         enemyViews = new ArrayList<>();
 
         // Create a fast enemy and set its sprite
-        Enemy fastEnemy = EnemyFactory.createFastEnemy("FastEnemy", 100, 10, 20);
+        Enemy fastEnemy = fastEnemyFactory.createEnemy("FastEnemy", 100, 10, 20);
         ImageView fastEnemySprite = findViewById(R.id.fastEnemy);
-        fastEnemy.setX(100);
-        fastEnemy.setY(800);
+        fastEnemy.setX(500);
+        fastEnemy.setY(100);
         enemies.add(fastEnemy);
         enemyViews.add(fastEnemySprite);
 
         // Create a slow enemy and set its sprite
-        Enemy slowEnemy = EnemyFactory.createSlowEnemy("SlowEnemy", 150, 5, 5);
+        Enemy slowEnemy = slowEnemyFactory.createEnemy("SlowEnemy", 150, 5, 5);
         ImageView slowEnemySprite = findViewById(R.id.slowEnemy);
-        slowEnemy.setX(800);
+        slowEnemy.setX(500);
         slowEnemy.setY(800);
         enemies.add(slowEnemy);
         enemyViews.add(slowEnemySprite);
 
         // Create a small enemy and set its sprite
-        Enemy smallEnemy = EnemyFactory.createSmallEnemy("SmallEnemy", 75, 15, 10);
+        Enemy smallEnemy = smallEnemyFactory.createEnemy("SmallEnemy", 75, 15, 10);
         ImageView smallEnemySprite = findViewById(R.id.smallEnemy);
-        slowEnemy.setX(1000);
-        slowEnemy.setY(1000);
+        smallEnemy.setX(800);
+        smallEnemy.setY(800);
         enemies.add(smallEnemy);
         enemyViews.add(smallEnemySprite);
 
         // Create a big enemy and set its sprite
-        Enemy bigEnemy = EnemyFactory.createBigEnemy("BigEnemy", 200, 20, 15);
+        Enemy bigEnemy = bigEnemyFactory.createEnemy("BigEnemy", 200, 20, 15);
         ImageView bigEnemySprite = findViewById(R.id.bigEnemy);
-        slowEnemy.setX(500);
-        slowEnemy.setY(1000);
+        bigEnemy.setX(700);
+        bigEnemy.setY(700);
         enemies.add(bigEnemy);
         enemyViews.add(bigEnemySprite);
-
-        setupUIElements();
     }
 
     private void setupUIElements() {
@@ -148,6 +158,10 @@ public class GameScreen extends AppCompatActivity {
             @Override
             public void run() {
                 TextView scoreTextView = findViewById(R.id.scoreTextView);
+                if (player.getScore() == 0) {
+                    gameLost = true;
+                    goToRoom2();
+                }
                 if (player.getScore() > 0) {
                     player.setScore(player.getScore() - 1);
                     scoreTextView.setText("Score: " + player.getScore());
@@ -404,12 +418,20 @@ public class GameScreen extends AppCompatActivity {
 
 
     private void goToRoom2() {
-        String sprite = getIntent().getStringExtra("sprite");
-        Intent intent = new Intent(GameScreen.this, Room2.class);
-        intent.putExtra("sprite", sprite);
-        intent.putExtra("endingScore", player.getScore());
-        startActivity(intent);
-        finish();
+        if (!gameLost) {
+            String sprite = getIntent().getStringExtra("sprite");
+            Intent intent = new Intent(GameScreen.this, Room2.class);
+            intent.putExtra("sprite", sprite);
+            intent.putExtra("endingScore", player.getScore());
+            startActivity(intent);
+            finish();
+        }
+        else {
+            Intent intent = new Intent(GameScreen.this, LoseScreen.class);
+            startActivity(intent);
+            finish();
+        }
+
     }
 
     @Override
