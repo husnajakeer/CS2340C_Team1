@@ -4,7 +4,7 @@ import android.graphics.Rect;
 import android.widget.TextView;
 
 public interface Observer {
-    static boolean update(Rect playerRect, TextView healthPointsTextView) {
+    static boolean update(Rect playerRect, Rect enemyRect) {
         return false;
     }
 }

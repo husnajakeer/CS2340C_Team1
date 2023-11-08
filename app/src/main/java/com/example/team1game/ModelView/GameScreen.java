@@ -252,7 +252,7 @@ public class GameScreen extends AppCompatActivity {
                     if (numOfHearts <= 0) {
                         // Stop the game or transition to game over screen
                     }
-                    healthReductionHandler.postDelayed(this, 500);
+                    healthReductionHandler.postDelayed(this, 1000);
                 }
             }
         };
