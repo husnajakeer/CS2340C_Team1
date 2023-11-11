@@ -180,6 +180,8 @@ public abstract class BaseScreen extends AppCompatActivity {
                     healthPointsTextView.setText("Health: " + numOfHearts + " hearts");
                     if (numOfHearts <= 0) {
                         // Stop the game or transition to game over screen
+                        gameLost = true;
+                        finishGame();
                     }
                     healthReductionHandler.postDelayed(this, 1000);
                 }
@@ -301,7 +303,14 @@ public abstract class BaseScreen extends AppCompatActivity {
     protected void stopEnemyMovementTimer() {
         enemyMovementHandler.removeCallbacksAndMessages(null);
     }
-
+    protected void finishGame() {
+        String playerName = player.getName();
+        String difficulty = player.getDifficulty();
+        Leaderboard.getInstance();
+        Attempt attempt = new Attempt(playerName, player.getScore(), difficulty);
+        Leaderboard.getInstance().addAttempt(attempt);
+        //goToEndScreen();
+    }
 
 
 }

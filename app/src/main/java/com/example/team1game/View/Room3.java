@@ -94,10 +94,12 @@ public class Room3 extends BaseScreen {
             @Override
             public void run() {
                 TextView scoreTextView = findViewById(R.id.scoreTextView);
+                /*
                 if (player.getScore() == 0) {
                     gameLost = true;
                     goToEndScreen();
                 }
+                */
                 if (player.getScore() > 0) {
                     player.setScore(player.getScore() - 1);
                     scoreTextView.setText("Score: " + player.getScore());
@@ -138,7 +140,8 @@ public class Room3 extends BaseScreen {
         }
 
     }
-    private void finishGame() {
+    @Override
+    protected void finishGame() {
         String playerName = player.getName();
         String difficulty = player.getDifficulty();
         Leaderboard.getInstance();

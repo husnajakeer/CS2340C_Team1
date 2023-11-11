@@ -12,9 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.team1game.Model.Attempt;
 import com.example.team1game.Model.BigEnemy;
 import com.example.team1game.Model.Enemy;
 import com.example.team1game.Model.FastEnemy;
+import com.example.team1game.Model.Leaderboard;
 import com.example.team1game.Model.Player;
 import com.example.team1game.Model.PlayerMovement;
 import com.example.team1game.Model.SlowEnemy;
@@ -158,10 +160,12 @@ public class GameScreen extends AppCompatActivity {
             @Override
             public void run() {
                 TextView scoreTextView = findViewById(R.id.scoreTextView);
+                /*
                 if (player.getScore() == 0) {
                     gameLost = true;
                     goToRoom2();
                 }
+                */
                 if (player.getScore() > 0) {
                     player.setScore(player.getScore() - 1);
                     scoreTextView.setText("Score: " + player.getScore());
@@ -265,6 +269,8 @@ public class GameScreen extends AppCompatActivity {
                     healthPointsTextView.setText("Health: " + numOfHearts + " hearts");
                     if (numOfHearts <= 0) {
                         // Stop the game or transition to game over screen
+                        gameLost = true;
+                        finishGame();
                     }
                     healthReductionHandler.postDelayed(this, 1000);
                 }
@@ -383,7 +389,7 @@ public class GameScreen extends AppCompatActivity {
 
             enemyViews.get(i).setX(enemy.getX());
             enemyViews.get(i).setY(enemy.getY());
-            System.out.println(enemy.getX() + "" + enemy.getY());
+            //System.out.println(enemy.getX() + "" + enemy.getY());
         }
         // 2nd half move linearly (be careful of starting arr size)
         for (int i = enemies.size() / 2; i < enemies.size() ; i++) {
@@ -398,7 +404,7 @@ public class GameScreen extends AppCompatActivity {
 
             enemyViews.get(i).setX(enemy.getX());
             enemyViews.get(i).setY(enemy.getY());
-            System.out.println(enemy.getX() + "" + enemy.getY());
+            //System.out.println(enemy.getX() + "" + enemy.getY());
         }
 
 
@@ -416,6 +422,14 @@ public class GameScreen extends AppCompatActivity {
         enemyMovementHandler.removeCallbacksAndMessages(null);
     }
 
+    private void finishGame() {
+        String playerName = player.getName();
+        String difficulty = player.getDifficulty();
+        Leaderboard.getInstance();
+        Attempt attempt = new Attempt(playerName, player.getScore(), difficulty);
+        Leaderboard.getInstance().addAttempt(attempt);
+        goToRoom2();
+    }
 
     private void goToRoom2() {
         if (!gameLost) {
