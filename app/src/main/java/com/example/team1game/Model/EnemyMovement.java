@@ -51,7 +51,7 @@ public class EnemyMovement implements Movement {
                 moveDown();
                 break;
         }
-        System.out.println(enemy.getX() + " " + enemy.getY());
+        //System.out.println(enemy.getX() + " " + enemy.getY());
     }
 
     /**
