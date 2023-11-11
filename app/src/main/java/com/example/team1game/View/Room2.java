@@ -6,10 +6,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.example.team1game.Model.Attempt;
 import com.example.team1game.Model.BaseScreen;
 import com.example.team1game.Model.BigEnemy;
 import com.example.team1game.Model.Enemy;
 import com.example.team1game.Model.FastEnemy;
+import com.example.team1game.Model.Leaderboard;
 import com.example.team1game.Model.Player;
 import com.example.team1game.Model.SlowEnemy;
 import com.example.team1game.Model.SmallEnemy;
@@ -86,10 +88,12 @@ public class Room2 extends BaseScreen {
             @Override
             public void run() {
                 TextView scoreTextView = findViewById(R.id.scoreTextView);
+                /*
                 if (player.getScore() == 0) {
                     gameLost = true;
                     goToRoom3();
                 }
+                */
                 if (player.getScore() > 0) {
                     player.setScore(player.getScore() - 1);
                     scoreTextView.setText("Score: " + player.getScore());
@@ -128,8 +132,19 @@ public class Room2 extends BaseScreen {
         }
 
     }
+
+    @Override
+    protected void finishGame() {
+        String playerName = player.getName();
+        String difficulty = player.getDifficulty();
+        Leaderboard.getInstance();
+        Attempt attempt = new Attempt(playerName, player.getScore(), difficulty);
+        Leaderboard.getInstance().addAttempt(attempt);
+        goToRoom3();
+    }
+
     private void goToRoom3() {
-        System.out.println(gameLost + "gameLost");
+        //System.out.println(gameLost + "gameLost");
         if (!gameLost) {
             String sprite = getIntent().getStringExtra("sprite");
             Intent intent = new Intent(Room2.this, Room3.class);
