@@ -155,4 +155,34 @@
             android:text="→"
             android:textSize="20sp"/>
     </LinearLayout>
+    <ImageView
+        android:id="@+id/fastEnemy"
+        android:layout_width="68dp"
+        android:layout_height="64dp"
+        app:srcCompat="@drawable/mushroom_enemy"
+        tools:layout_editor_absoluteX="343dp"
+        tools:layout_editor_absoluteY="535dp" />
+
+    <ImageView
+        android:id="@+id/slowEnemy"
+        android:layout_width="89dp"
+        android:layout_height="82dp"
+        app:srcCompat="@drawable/blue_mushroom_enemy"
+        tools:layout_editor_absoluteX="164dp"
+        tools:layout_editor_absoluteY="468dp" />
+    <ImageView
+        android:id="@+id/bigEnemy"
+        android:layout_width="128dp"
+        android:layout_height="117dp"
+        app:srcCompat="@drawable/mushroom_enemy"
+        tools:layout_editor_absoluteX="191dp"
+        tools:layout_editor_absoluteY="535dp" />
+
+    <ImageView
+        android:id="@+id/smallEnemy"
+        android:layout_width="47dp"
+        android:layout_height="43dp"
+        app:srcCompat="@drawable/mushroom_enemy"
+        tools:layout_editor_absoluteX="272dp"
+        tools:layout_editor_absoluteY="468dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
