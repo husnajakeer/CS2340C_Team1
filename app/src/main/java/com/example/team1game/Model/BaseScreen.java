@@ -54,7 +54,7 @@ public abstract class BaseScreen extends AppCompatActivity {
         String sprite = getIntent().getStringExtra("sprite");
 
         // if num of hearts hasn't been set before, then
-        if(numOfHearts == -1){
+        if (numOfHearts == -1) {
             numOfHearts = determineNumberOfHearts(difficulty);
             healthDecrease = determineHealthDecrease(difficulty);
         }
@@ -66,28 +66,28 @@ public abstract class BaseScreen extends AppCompatActivity {
     }
     protected int determineNumberOfHearts(String difficulty) {
         switch (difficulty) {
-            case "Easy":
-                return 50;
-            case "Medium":
-                return 30;
-            case "Hard":
-                return 20;
-            default:
-                return 0;
+        case "Easy":
+            return 50;
+        case "Medium":
+            return 30;
+        case "Hard":
+            return 20;
+        default:
+            return 0;
         }
     }
 
     // determines by how much health will be decresed when collision occurs
     protected int determineHealthDecrease(String difficulty) {
         switch (difficulty) {
-            case "Easy":
-                return 1;
-            case "Medium":
-                return 3;
-            case "Hard":
-                return 5;
-            default:
-                return 0;
+        case "Easy":
+            return 1;
+        case "Medium":
+            return 3;
+        case "Hard":
+            return 5;
+        default:
+            return 0;
         }
     }
 
