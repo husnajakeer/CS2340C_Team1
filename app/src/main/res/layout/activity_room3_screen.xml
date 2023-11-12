@@ -21,9 +21,8 @@
 
     <View
         android:id="@+id/obstacleView1"
-        android:layout_width="171dp"
-        android:layout_height="139dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="133dp"
+        android:layout_height="365dp"
         android:background="#20FF5733"
         android:tag="obstacle"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,13 +30,12 @@
 
     <View
         android:id="@+id/obstacleView2"
-        android:layout_width="135dp"
-        android:layout_height="146dp"
-        android:layout_marginBottom="28dp"
+        android:layout_width="105dp"
+        android:layout_height="353dp"
         android:background="#20FF5733"
+        android:tag="obstacle"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:tag="obstacle"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/playerNameTextView"
@@ -54,9 +52,10 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="80dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="200dp"
         android:layout_marginEnd="186dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -150,6 +149,8 @@
             android:layout_height="wrap_content"
             android:text="→"
             android:textSize="20sp"/>
+
+
     </LinearLayout>
     <ImageView
         android:id="@+id/fastEnemy"

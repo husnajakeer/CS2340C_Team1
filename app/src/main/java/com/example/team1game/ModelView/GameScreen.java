@@ -225,11 +225,29 @@ public class GameScreen extends AppCompatActivity {
         if (isTransitioning) {
             return;
         }
+
+        int dpValue = 95; // Replace 70 with the actual dp value
+        int density = (int) getResources().getDisplayMetrics().density;
+        int minLeftMargin = dpValue * density;
+
+        // Get current X and Y positions
+        int currentX = player.getX();
+        int currentY = player.getY();
+
+        // Check if the character is too close to the left wall
+        if (currentX < minLeftMargin) {
+            player.setX(minLeftMargin);
+        } else {
+            player.setX(currentX);
+        }
+
+        // Update the character's position
         characterSprite.setX(player.getX());
-        characterSprite.setY(player.getY());
+        characterSprite.setY(currentY);
         checkPlayerOnExit();
         checkCollisionWithEnemies();
     }
+
 
     private void checkCollisionWithEnemies() {
         TextView healthPointsTextView = findViewById(R.id.healthPointsTextView);
