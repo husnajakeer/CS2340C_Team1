@@ -8,13 +8,13 @@ import android.widget.TextView;
 
 import com.example.team1game.Model.Attempt;
 import com.example.team1game.Model.BaseScreen;
-import com.example.team1game.Model.BigEnemy;
-import com.example.team1game.Model.Enemy;
-import com.example.team1game.Model.FastEnemy;
+import com.example.team1game.Model.Enemy.BigEnemy;
+import com.example.team1game.Model.Enemy.Enemy;
+import com.example.team1game.Model.Enemy.FastEnemy;
 import com.example.team1game.Model.Leaderboard;
 import com.example.team1game.Model.Player;
-import com.example.team1game.Model.SlowEnemy;
-import com.example.team1game.Model.SmallEnemy;
+import com.example.team1game.Model.Enemy.SlowEnemy;
+import com.example.team1game.Model.Enemy.SmallEnemy;
 import com.example.team1game.R;
 
 import java.util.ArrayList;

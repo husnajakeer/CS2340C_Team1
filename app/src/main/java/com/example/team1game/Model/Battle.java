@@ -1,5 +1,7 @@
 package com.example.team1game.Model;
 
+import com.example.team1game.Model.Enemy.Enemy;
+
 /**
  * Represents a battle between a player and an enemy in a game.
  * It holds information about the player, the enemy, and the status of the battle.

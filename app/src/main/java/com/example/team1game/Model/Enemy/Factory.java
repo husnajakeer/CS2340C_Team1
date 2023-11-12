@@ -1,4 +1,6 @@
-package com.example.team1game.Model;
+package com.example.team1game.Model.Enemy;
+
+import com.example.team1game.Model.Enemy.Enemy;
 
 // follows abstract factory creation pattern
 public interface Factory {

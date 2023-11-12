@@ -1,4 +1,4 @@
-package com.example.team1game.Model;
+package com.example.team1game.Model.Enemy;
 
 public class SmallEnemy implements Factory {
     /**
