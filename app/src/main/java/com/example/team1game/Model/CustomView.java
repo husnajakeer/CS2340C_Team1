@@ -6,8 +6,10 @@ import android.graphics.Rect;
 import android.view.View;
 
 /**
- * The CustomView class represents a custom view used to draw and interact with a square shape on an Android canvas.
- * It provides methods for handling touch events and drawing the square on the canvas.
+ * The CustomView class represents a custom view
+ * used to draw and interact with a square shape on an Android canvas.
+ * It provides methods for handling touch
+ * events and drawing the square on the canvas.
  */
 public class CustomView extends View {
     private Rect squareRect; // This is the square's bounding rectangle
@@ -28,7 +30,8 @@ public class CustomView extends View {
     }
 
     // /**
-    //  * Handles touch events for the square. This method is called when a touch event occurs on the view.
+    //  * Handles touch events for the square. This method is called
+    //  when a touch event occurs on the view.
     //  *
     //  * @param event The MotionEvent representing the touch event.
     //  * @return True if the touch event is handled, false otherwise.

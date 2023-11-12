@@ -5,14 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The Collision class is used to handle collision detection and management in a game. It allows game objects
- * to register as observers and be notified when a collision occurs, providing the means to respond to collisions.
+ * The Collision class is used to handle collision detection and
+ * management in a game. It allows game objects
+ * to register as observers and be notified when a collision
+ * occurs, providing the means to respond to collisions.
  */
 public class Collision {
     private List<Subscriber> observers = new ArrayList<>();
 
     /**
-     * This method is called when a collision is detected. It prints a message to indicate that a collision has occurred.
+     * This method is called when a collision is detected.
+     * It prints a message to indicate that a collision has occurred.
      */
     public void collided() {
         System.out.println("Collide, stop movement");

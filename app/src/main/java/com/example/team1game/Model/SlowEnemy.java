@@ -1,6 +1,6 @@
 package com.example.team1game.Model;
 
-public class SlowEnemy implements Factory{
+public class SlowEnemy implements Factory {
     /**
      * Creates a slow enemy with the given attributes.
      *

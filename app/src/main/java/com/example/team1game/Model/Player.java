@@ -1,6 +1,5 @@
 package com.example.team1game.Model;
 
-import android.util.Log;
 
 /**
  * Represents a player character in a game, extending the {@code Entity} class.
