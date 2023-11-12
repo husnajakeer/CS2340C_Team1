@@ -1,6 +1,8 @@
-package com.example.team1game.Model;
+package com.example.team1game.Model.Enemy;
 
 //import android.graphics.Rect;
+
+import com.example.team1game.Model.Movement;
 
 import java.util.Random;
 

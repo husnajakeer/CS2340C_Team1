@@ -5,6 +5,9 @@ import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.example.team1game.Model.Enemy.Enemy;
+import com.example.team1game.Model.Enemy.EnemyMovement;
+
 public class GameLoop extends SurfaceView implements Runnable {
     private Thread gameThread;
     private boolean isPlaying = true;
