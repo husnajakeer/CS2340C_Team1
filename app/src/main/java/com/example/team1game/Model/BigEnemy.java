@@ -1,6 +1,6 @@
 package com.example.team1game.Model;
 
-public class BigEnemy implements Factory{
+public class BigEnemy implements Factory {
     /**
      * Creates a big enemy with the given attributes.
      *

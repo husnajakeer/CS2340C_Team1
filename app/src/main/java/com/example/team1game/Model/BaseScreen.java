@@ -121,14 +121,14 @@ public abstract class BaseScreen extends AppCompatActivity {
 
     protected boolean handleTouch(MotionEvent motionEvent, Runnable movementMethod) {
         switch (motionEvent.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                startContinuousMovement(movementMethod);
-                break;
-            case MotionEvent.ACTION_UP:
-                stopContinuousMovement();
-                break;
-            default:
-                break;
+        case MotionEvent.ACTION_DOWN:
+            startContinuousMovement(movementMethod);
+            break;
+        case MotionEvent.ACTION_UP:
+            stopContinuousMovement();
+            break;
+        default:
+            break;
         }
         return true;
     }
@@ -291,7 +291,7 @@ public abstract class BaseScreen extends AppCompatActivity {
             //System.out.println(enemy.getX() + "" + enemy.getY());
         }
         // 2nd half move linearly (be careful of starting arr size)
-        for (int i = enemies.size() / 2; i < enemies.size() ; i++) {
+        for (int i = enemies.size() / 2; i < enemies.size(); i++) {
             Enemy enemy = enemies.get(i);
 
             // Update the enemy's position

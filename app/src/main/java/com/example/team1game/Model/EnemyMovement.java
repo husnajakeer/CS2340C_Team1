@@ -1,11 +1,12 @@
 package com.example.team1game.Model;
 
-import android.graphics.Rect;
+//import android.graphics.Rect;
 
 import java.util.Random;
 
 /**
- * The EnemyMovement class provides methods for controlling the movement of an enemy character within a game.
+ * The EnemyMovement class provides methods for controlling
+ * the movement of an enemy character within a game.
  */
 public class EnemyMovement implements Movement {
     private Enemy enemy;
@@ -38,24 +39,27 @@ public class EnemyMovement implements Movement {
     public void moveRandomly() {
         int randomDirection = random.nextInt(4); // 0: Left, 1: Right, 2: Up, 3: Down
         switch (randomDirection) {
-            case 0:
-                moveLeft();
-                break;
-            case 1:
-                moveRight();
-                break;
-            case 2:
-                moveUp();
-                break;
-            case 3:
-                moveDown();
-                break;
+        case 0:
+            moveLeft();
+            break;
+        case 1:
+            moveRight();
+            break;
+        case 2:
+            moveUp();
+            break;
+        case 3:
+            moveDown();
+            break;
+        default:
+            break;
         }
         //System.out.println(enemy.getX() + " " + enemy.getY());
     }
 
     /**
-     * Moves the enemy character linearly, switching direction when reaching the screen's boundaries.
+     * Moves the enemy character linearly, switching direction when
+     * reaching the screen's boundaries.
      */
     public void moveLinearly() {
         int currentY = enemy.getY();

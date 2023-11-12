@@ -18,7 +18,6 @@ import com.example.team1game.Model.SmallEnemy;
 import com.example.team1game.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Room2 extends BaseScreen {
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +30,7 @@ public class Room2 extends BaseScreen {
         detectPlayerInitialPos();
         startEnemyMovementTimer();
     }
-    protected void initializeGame(){
+    protected void initializeGame() {
         Intent intent = getIntent();
         player = Player.getPlayer();
         player.setScore(intent.getIntExtra("endingScore", 0));
@@ -151,8 +150,7 @@ public class Room2 extends BaseScreen {
             intent.putExtra("sprite", sprite);
             intent.putExtra("endingScore", player.getScore());
             startActivity(intent);
-        }
-        else {
+        } else {
             Intent intent = new Intent(Room2.this, LoseScreen.class);
             startActivity(intent);
         }

@@ -136,26 +136,26 @@ public class GameScreen extends AppCompatActivity {
 
     private int determineNumberOfHearts(String difficulty) {
         switch (difficulty) {
-            case "Easy":
-                return 50;
-            case "Medium":
-                return 30;
-            case "Hard":
-                return 20;
-            default:
-                return 0;
+        case "Easy":
+            return 50;
+        case "Medium":
+            return 30;
+        case "Hard":
+            return 20;
+        default:
+            return 0;
         }
     }
     private int determineHealthDecrease(String difficulty) {
         switch (difficulty) {
-            case "Easy":
-                return 1;
-            case "Medium":
-                return 3;
-            case "Hard":
-                return 5;
-            default:
-                return 0;
+        case "Easy":
+            return 1;
+        case "Medium":
+            return 3;
+        case "Hard":
+            return 5;
+        default:
+            return 0;
         }
     }
     private void setCharacterSprite(String sprite) {
@@ -206,14 +206,14 @@ public class GameScreen extends AppCompatActivity {
 
     private boolean handleTouch(MotionEvent motionEvent, Runnable movementMethod) {
         switch (motionEvent.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                startContinuousMovement(movementMethod);
-                break;
-            case MotionEvent.ACTION_UP:
-                stopContinuousMovement();
-                break;
-            default:
-                break;
+        case MotionEvent.ACTION_DOWN:
+            startContinuousMovement(movementMethod);
+            break;
+        case MotionEvent.ACTION_UP:
+            stopContinuousMovement();
+            break;
+        default:
+            break;
         }
         return true;
     }
@@ -423,7 +423,7 @@ public class GameScreen extends AppCompatActivity {
             //System.out.println(enemy.getX() + "" + enemy.getY());
         }
         // 2nd half move linearly (be careful of starting arr size)
-        for (int i = enemies.size() / 2; i < enemies.size() ; i++) {
+        for (int i = enemies.size() / 2; i < enemies.size(); i++) {
             Enemy enemy = enemies.get(i);
 
             // Update the enemy's position
@@ -470,8 +470,8 @@ public class GameScreen extends AppCompatActivity {
             intent.putExtra("endingScore", player.getScore());
             startActivity(intent);
             finish();
-        }
-        else {
+
+        } else {
             Intent intent = new Intent(GameScreen.this, LoseScreen.class);
             startActivity(intent);
             finish();
