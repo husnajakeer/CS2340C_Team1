@@ -157,4 +157,22 @@ public class Room2 extends BaseScreen {
             startActivity(intent);
         }
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        pauseGame();
+    }
+
+    private void pauseGame() {
+        scoreHandler.removeCallbacksAndMessages(null);
+        movementHandler.removeCallbacksAndMessages(null);
+        obstacleHandler.removeCallbacksAndMessages(null);
+        enemyMovementHandler.removeCallbacksAndMessages(null);
+
+        enemyMovementHandler.removeCallbacksAndMessages(null);
+        healthReductionHandler.removeCallbacksAndMessages(null);
+        stopHealthReductionTimer();
+
+    }
 }

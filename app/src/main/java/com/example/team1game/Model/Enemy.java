@@ -9,7 +9,7 @@ import com.example.team1game.ModelView.GameScreen;
  * Represents an enemy entity in a game, extending the Entity class.
  * It adds the ability to specify enemy-specific damage.
  */
-public class Enemy extends Entity {
+public class Enemy extends Entity implements Observer {
     private int damage;
     // 1, 2, 3, with 3 being the fastest
     private int movementSpeed;
