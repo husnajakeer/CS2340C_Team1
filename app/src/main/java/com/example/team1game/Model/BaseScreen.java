@@ -27,6 +27,7 @@ public abstract class BaseScreen extends AppCompatActivity {
     protected boolean isPlayerInContactWithEnemy = false;
 
     protected int numOfHearts = -1;
+    protected int healthDecrease = 1;
 
     protected Handler scoreHandler = new Handler();
     protected Handler movementHandler = new Handler();
@@ -55,6 +56,7 @@ public abstract class BaseScreen extends AppCompatActivity {
         // if num of hearts hasn't been set before, then
         if(numOfHearts == -1){
             numOfHearts = determineNumberOfHearts(difficulty);
+            healthDecrease = determineHealthDecrease(difficulty);
         }
 
         playerNameTextView.setText("Name: " + playerName);
@@ -69,11 +71,26 @@ public abstract class BaseScreen extends AppCompatActivity {
             case "Medium":
                 return 30;
             case "Hard":
-                return 10;
+                return 20;
             default:
                 return 0;
         }
     }
+
+    // determines by how much health will be decresed when collision occurs
+    protected int determineHealthDecrease(String difficulty) {
+        switch (difficulty) {
+            case "Easy":
+                return 1;
+            case "Medium":
+                return 3;
+            case "Hard":
+                return 5;
+            default:
+                return 0;
+        }
+    }
+
     protected void setCharacterSprite(String sprite) {
         if ("eva_idle".equals(sprite)) {
             characterSprite.setImageResource(R.drawable.eva_idle);
@@ -176,7 +193,7 @@ public abstract class BaseScreen extends AppCompatActivity {
             @Override
             public void run() {
                 if (numOfHearts > 0) {
-                    numOfHearts -= 1;
+                    numOfHearts -= healthDecrease;
                     healthPointsTextView.setText("Health: " + numOfHearts + " hearts");
                     if (numOfHearts <= 0) {
                         // Stop the game or transition to game over screen
