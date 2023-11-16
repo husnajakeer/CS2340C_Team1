@@ -11,7 +11,7 @@
         android:layout_height="100dp"
         android:layout_marginEnd="0dp"
         android:layout_marginBottom="0dp"
-        android:background="#FF0000"
+        android:background="#20FF5733"
         android:gravity="center"
         android:text="Exit"
         android:textColor="#FFFFFF"
@@ -21,23 +21,21 @@
 
     <View
         android:id="@+id/obstacleView1"
-        android:layout_width="171dp"
-        android:layout_height="139dp"
-        android:layout_marginTop="4dp"
-        android:background="#FF0000"
+        android:layout_width="272dp"
+        android:layout_height="216dp"
+        android:background="#20FF5733"
         android:tag="obstacle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/obstacleView2"
-        android:layout_width="135dp"
-        android:layout_height="146dp"
-        android:layout_marginBottom="28dp"
-        android:background="#FF0000"
+        android:layout_width="152dp"
+        android:layout_height="251dp"
+        android:background="#20FF5733"
+        android:tag="obstacle"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:tag="obstacle"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/playerNameTextView"
@@ -54,9 +52,10 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="80dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="244dp"
         android:layout_marginEnd="186dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -146,6 +145,8 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
+
+
         <Button
             android:id="@+id/rightButton"
             android:layout_width="wrap_content"
@@ -154,5 +155,36 @@
             android:layout_toRightOf="@+id/wasdContainer"
             android:text="→"
             android:textSize="20sp"/>
+
     </LinearLayout>
+    <ImageView
+        android:id="@+id/fastEnemy"
+        android:layout_width="68dp"
+        android:layout_height="64dp"
+        app:srcCompat="@drawable/mushroom_enemy"
+        tools:layout_editor_absoluteX="343dp"
+        tools:layout_editor_absoluteY="535dp" />
+
+    <ImageView
+        android:id="@+id/slowEnemy"
+        android:layout_width="89dp"
+        android:layout_height="82dp"
+        app:srcCompat="@drawable/blue_mushroom_enemy"
+        tools:layout_editor_absoluteX="164dp"
+        tools:layout_editor_absoluteY="468dp" />
+    <ImageView
+        android:id="@+id/bigEnemy"
+        android:layout_width="128dp"
+        android:layout_height="117dp"
+        app:srcCompat="@drawable/mushroom_enemy"
+        tools:layout_editor_absoluteX="191dp"
+        tools:layout_editor_absoluteY="535dp" />
+
+    <ImageView
+        android:id="@+id/smallEnemy"
+        android:layout_width="47dp"
+        android:layout_height="43dp"
+        app:srcCompat="@drawable/mushroom_enemy"
+        tools:layout_editor_absoluteX="272dp"
+        tools:layout_editor_absoluteY="468dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

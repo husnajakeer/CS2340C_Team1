@@ -26,6 +26,9 @@
             android:name=".View.Room3"
             android:exported="false" />
         <activity
+            android:name=".View.LoseScreen"
+            android:exported="false" />
+        <activity
             android:name=".ModelView.InitialConfigScreen"
             android:exported="false" />
         <activity

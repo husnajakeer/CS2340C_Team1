@@ -5,7 +5,8 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * The Attempt class represents a player's attempt at a game, storing information such as the player's name,
+ * The Attempt class represents a player's attempt at a game,
+ * storing information such as the player's name,
  * attempt time, score, and game difficulty level.
  */
 public class Attempt {
