@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.team1game.Model.Enemy.Enemy;
 import com.example.team1game.R;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public abstract class BaseScreen extends AppCompatActivity {
     protected boolean isPlayerInContactWithEnemy = false;
 
     protected int numOfHearts = -1;
+    protected int healthDecrease = 1;
 
     protected Handler scoreHandler = new Handler();
     protected Handler movementHandler = new Handler();
@@ -53,8 +55,9 @@ public abstract class BaseScreen extends AppCompatActivity {
         String sprite = getIntent().getStringExtra("sprite");
 
         // if num of hearts hasn't been set before, then
-        if(numOfHearts == -1){
+        if (numOfHearts == -1) {
             numOfHearts = determineNumberOfHearts(difficulty);
+            healthDecrease = determineHealthDecrease(difficulty);
         }
 
         playerNameTextView.setText("Name: " + playerName);
@@ -64,16 +67,31 @@ public abstract class BaseScreen extends AppCompatActivity {
     }
     protected int determineNumberOfHearts(String difficulty) {
         switch (difficulty) {
-            case "Easy":
-                return 50;
-            case "Medium":
-                return 30;
-            case "Hard":
-                return 10;
-            default:
-                return 0;
+        case "Easy":
+            return 50;
+        case "Medium":
+            return 30;
+        case "Hard":
+            return 20;
+        default:
+            return 0;
         }
     }
+
+    // determines by how much health will be decresed when collision occurs
+    protected int determineHealthDecrease(String difficulty) {
+        switch (difficulty) {
+        case "Easy":
+            return 1;
+        case "Medium":
+            return 3;
+        case "Hard":
+            return 5;
+        default:
+            return 0;
+        }
+    }
+
     protected void setCharacterSprite(String sprite) {
         if ("eva_idle".equals(sprite)) {
             characterSprite.setImageResource(R.drawable.eva_idle);
@@ -104,14 +122,14 @@ public abstract class BaseScreen extends AppCompatActivity {
 
     protected boolean handleTouch(MotionEvent motionEvent, Runnable movementMethod) {
         switch (motionEvent.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                startContinuousMovement(movementMethod);
-                break;
-            case MotionEvent.ACTION_UP:
-                stopContinuousMovement();
-                break;
-            default:
-                break;
+        case MotionEvent.ACTION_DOWN:
+            startContinuousMovement(movementMethod);
+            break;
+        case MotionEvent.ACTION_UP:
+            stopContinuousMovement();
+            break;
+        default:
+            break;
         }
         return true;
     }
@@ -176,7 +194,7 @@ public abstract class BaseScreen extends AppCompatActivity {
             @Override
             public void run() {
                 if (numOfHearts > 0) {
-                    numOfHearts -= 1;
+                    numOfHearts -= healthDecrease;
                     healthPointsTextView.setText("Health: " + numOfHearts + " hearts");
                     if (numOfHearts <= 0) {
                         // Stop the game or transition to game over screen
@@ -274,7 +292,7 @@ public abstract class BaseScreen extends AppCompatActivity {
             //System.out.println(enemy.getX() + "" + enemy.getY());
         }
         // 2nd half move linearly (be careful of starting arr size)
-        for (int i = enemies.size() / 2; i < enemies.size() ; i++) {
+        for (int i = enemies.size() / 2; i < enemies.size(); i++) {
             Enemy enemy = enemies.get(i);
 
             // Update the enemy's position
@@ -311,6 +329,29 @@ public abstract class BaseScreen extends AppCompatActivity {
         Leaderboard.getInstance().addAttempt(attempt);
         //goToEndScreen();
     }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        pauseGame();
+    }
 
+    private void pauseGame() {
+        scoreHandler.removeCallbacksAndMessages(null);
+        movementHandler.removeCallbacksAndMessages(null);
+        obstacleHandler.removeCallbacksAndMessages(null);
+        enemyMovementHandler.removeCallbacksAndMessages(null);
+
+        enemyMovementHandler.removeCallbacksAndMessages(null);
+        healthReductionHandler.removeCallbacksAndMessages(null);
+        stopHealthReductionTimer();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isPlayerInContactWithEnemy) {
+            startHealthReductionTimer((TextView) findViewById(R.id.healthPointsTextView));
+        }
+    }
 
 }

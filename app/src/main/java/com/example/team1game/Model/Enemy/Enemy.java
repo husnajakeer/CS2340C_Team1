@@ -1,8 +1,10 @@
-package com.example.team1game.Model;
+package com.example.team1game.Model.Enemy;
 
 import android.graphics.Rect;
-import android.widget.TextView;
+//import android.widget.TextView;
 
+import com.example.team1game.Model.Entity;
+import com.example.team1game.Model.Observer;
 import com.example.team1game.ModelView.GameScreen;
 
 /**
@@ -27,7 +29,7 @@ public class Enemy extends Entity implements Observer {
      * @param livingStatus  The living status of the enemy.
      * @param health        The health points of the enemy.
      * @param damage        The damage inflicted by the enemy.
-     * @param movementSpeed
+     * @param movementSpeed The movement speed of the enemy.
      */
     public Enemy(String name, boolean livingStatus, int health, int damage, int movementSpeed) {
         super(name, livingStatus, health);
@@ -73,11 +75,7 @@ public class Enemy extends Entity implements Observer {
     }
 
     public static boolean update(Rect playerRect, Rect enemyRect) {
-        if (Rect.intersects(playerRect, enemyRect)) {
-            return true;
-        } else {
-            return false;
-        }
+        return (Rect.intersects(playerRect, enemyRect));
     }
 
     /**

@@ -8,7 +8,7 @@ import com.example.team1game.Model.PlayerMovement;
 import org.junit.Before;
 import org.junit.Test;
 
-public class PlayerMovementTest {
+public class NewPlayerMovementTest {
     private Player player;
     private PlayerMovement playerMovement;
     @Before

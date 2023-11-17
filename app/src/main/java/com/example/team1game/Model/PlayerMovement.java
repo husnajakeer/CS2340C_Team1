@@ -2,7 +2,6 @@ package com.example.team1game.Model;
 
 import android.graphics.Rect;
 import android.os.Handler;
-import android.util.Log;
 
 public class PlayerMovement implements Movement, Subscriber {
     private Player player;
