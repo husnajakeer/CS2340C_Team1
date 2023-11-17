@@ -329,6 +329,29 @@ public abstract class BaseScreen extends AppCompatActivity {
         Leaderboard.getInstance().addAttempt(attempt);
         //goToEndScreen();
     }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        pauseGame();
+    }
 
+    private void pauseGame() {
+        scoreHandler.removeCallbacksAndMessages(null);
+        movementHandler.removeCallbacksAndMessages(null);
+        obstacleHandler.removeCallbacksAndMessages(null);
+        enemyMovementHandler.removeCallbacksAndMessages(null);
+
+        enemyMovementHandler.removeCallbacksAndMessages(null);
+        healthReductionHandler.removeCallbacksAndMessages(null);
+        stopHealthReductionTimer();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isPlayerInContactWithEnemy) {
+            startHealthReductionTimer((TextView) findViewById(R.id.healthPointsTextView));
+        }
+    }
 
 }
