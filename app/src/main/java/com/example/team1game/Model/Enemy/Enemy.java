@@ -1,8 +1,10 @@
-package com.example.team1game.Model;
+package com.example.team1game.Model.Enemy;
 
 import android.graphics.Rect;
 //import android.widget.TextView;
 
+import com.example.team1game.Model.Entity;
+import com.example.team1game.Model.Observer;
 import com.example.team1game.ModelView.GameScreen;
 
 /**

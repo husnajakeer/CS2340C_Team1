@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.team1game.Model.Enemy.Enemy;
 import com.example.team1game.R;
 
 import java.util.ArrayList;

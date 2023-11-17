@@ -2,8 +2,8 @@ package com.example.team1game;
 
 import static org.junit.Assert.*;
 
-import com.example.team1game.Model.Enemy;
-import com.example.team1game.Model.FastEnemy;
+import com.example.team1game.Model.Enemy.Enemy;
+import com.example.team1game.Model.Enemy.FastEnemy;
 
 import org.junit.Before;
 import org.junit.Test;
