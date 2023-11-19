@@ -5,7 +5,6 @@ import android.graphics.Rect;
 
 import com.example.team1game.Model.Entity;
 import com.example.team1game.Model.Observer;
-import com.example.team1game.ModelView.GameScreen;
 
 /**
  * Represents an enemy entity in a game, extending the Entity class.
@@ -16,9 +15,7 @@ public class Enemy extends Entity implements Observer {
     // 1, 2, 3, with 3 being the fastest
     private int movementSpeed;
     private EnemyMovement enemyMovement;
-
-    private GameScreen gameScreen;
-
+    private String typeOfMovement;
     private Rect enemyRect = new Rect(); // Cached Rect to avoid allocations
     private boolean isPlayerInContactWithEnemy = false; // State flag
 
@@ -49,7 +46,6 @@ public class Enemy extends Entity implements Observer {
         super(name, livingStatus);
         this.damage = damage;
         this.enemyMovement = new EnemyMovement(this);
-
     }
 
     /**
@@ -63,6 +59,12 @@ public class Enemy extends Entity implements Observer {
         this.damage = damage;
         this.enemyMovement = new EnemyMovement(this);
 
+    }
+    public void setMovementType(String typeOfMovement) {
+        this.typeOfMovement = typeOfMovement;
+    }
+    public String getMovementType() {
+        return this.typeOfMovement;
     }
 
     /**

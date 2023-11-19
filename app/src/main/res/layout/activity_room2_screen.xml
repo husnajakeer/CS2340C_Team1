@@ -157,34 +157,60 @@
             android:textSize="20sp"/>
 
     </LinearLayout>
-    <ImageView
-        android:id="@+id/fastEnemy"
-        android:layout_width="68dp"
-        android:layout_height="64dp"
-        app:srcCompat="@drawable/mushroom_enemy"
-        tools:layout_editor_absoluteX="343dp"
-        tools:layout_editor_absoluteY="535dp" />
+    <Button
+        android:id="@+id/attackButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="120dp"
+        android:onClick="playerSwordAttack"
+        android:text="Attack"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/healthPointsTextView" />
+    <!-- rel layout stores enemies. rel layout makes it easy to delete enemy
+     views later-->
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/fastEnemy"
+            android:layout_width="68dp"
+            android:layout_height="64dp"
+            app:srcCompat="@drawable/mushroom_enemy"
+            tools:layout_editor_absoluteX="343dp"
+            tools:layout_editor_absoluteY="535dp" />
+
+        <ImageView
+            android:id="@+id/slowEnemy"
+            android:layout_width="89dp"
+            android:layout_height="82dp"
+            app:srcCompat="@drawable/blue_mushroom_enemy"
+            tools:layout_editor_absoluteX="164dp"
+            tools:layout_editor_absoluteY="468dp" />
+        <ImageView
+            android:id="@+id/bigEnemy"
+            android:layout_width="128dp"
+            android:layout_height="117dp"
+            app:srcCompat="@drawable/mushroom_enemy"
+            tools:layout_editor_absoluteX="191dp"
+            tools:layout_editor_absoluteY="535dp" />
+
+        <ImageView
+            android:id="@+id/smallEnemy"
+            android:layout_width="47dp"
+            android:layout_height="43dp"
+            app:srcCompat="@drawable/mushroom_enemy"
+            tools:layout_editor_absoluteX="272dp"
+            tools:layout_editor_absoluteY="468dp" />
+    </RelativeLayout>
 
     <ImageView
-        android:id="@+id/slowEnemy"
-        android:layout_width="89dp"
-        android:layout_height="82dp"
-        app:srcCompat="@drawable/blue_mushroom_enemy"
-        tools:layout_editor_absoluteX="164dp"
-        tools:layout_editor_absoluteY="468dp" />
-    <ImageView
-        android:id="@+id/bigEnemy"
-        android:layout_width="128dp"
-        android:layout_height="117dp"
-        app:srcCompat="@drawable/mushroom_enemy"
-        tools:layout_editor_absoluteX="191dp"
-        tools:layout_editor_absoluteY="535dp" />
-
-    <ImageView
-        android:id="@+id/smallEnemy"
-        android:layout_width="47dp"
-        android:layout_height="43dp"
-        app:srcCompat="@drawable/mushroom_enemy"
-        tools:layout_editor_absoluteX="272dp"
-        tools:layout_editor_absoluteY="468dp" />
+        android:id="@+id/swordSprite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/sprite2"
+        tools:layout_editor_absoluteX="151dp"
+        tools:layout_editor_absoluteY="189dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
