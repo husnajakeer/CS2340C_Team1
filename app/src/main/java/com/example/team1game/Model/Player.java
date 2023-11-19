@@ -201,4 +201,12 @@ public class Player extends Entity {
     public void setWeapon(Weapons weapon) {
         this.weapon = weapon;
     }
+
+    public void setWeaponPosition() {
+        if (weapon != null) {
+            // Set the weapon's position relative to the player
+            weapon.getSprite().setX(getX());
+            weapon.getSprite().setY(getY());
+        }
+    }
 }

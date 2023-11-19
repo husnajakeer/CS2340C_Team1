@@ -158,6 +158,17 @@
             android:textSize="20sp"/>
     </LinearLayout>
 
+    <Button
+        android:id="@+id/attackButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="120dp"
+        android:onClick="playerSwordAttack"
+        android:text="Attack"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/healthPointsTextView" />
+
     <ImageView
         android:id="@+id/fastEnemy"
         android:layout_width="68dp"
@@ -188,5 +199,13 @@
         app:srcCompat="@drawable/mushroom_enemy"
         tools:layout_editor_absoluteX="272dp"
         tools:layout_editor_absoluteY="468dp" />
+
+    <ImageView
+        android:id="@+id/swordSprite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/sprite2"
+        tools:layout_editor_absoluteX="151dp"
+        tools:layout_editor_absoluteY="189dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

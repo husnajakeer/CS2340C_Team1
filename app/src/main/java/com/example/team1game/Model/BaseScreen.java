@@ -15,12 +15,15 @@ import com.example.team1game.Model.Enemy.Enemy;
 import com.example.team1game.R;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public abstract class BaseScreen extends AppCompatActivity {
     protected Player player;
+    protected Weapons sword;
     protected PlayerMovement playerMovement;
     protected ImageView characterSprite;
+    protected ImageView playerSwordSprite;
 
     protected List<Enemy> enemies;
     protected List<ImageView> enemyViews;
@@ -48,7 +51,6 @@ public abstract class BaseScreen extends AppCompatActivity {
         TextView playerNameTextView = findViewById(R.id.playerNameTextView);
         TextView healthPointsTextView = findViewById(R.id.healthPointsTextView);
         TextView difficultyTextView = findViewById(R.id.difficultyTextView);
-        TextView scoreTextView = findViewById(R.id.scoreTextView);
 
         String playerName = player.getName();
         String difficulty = player.getDifficulty();
@@ -64,6 +66,7 @@ public abstract class BaseScreen extends AppCompatActivity {
         healthPointsTextView.setText("Health: " + numOfHearts + " hearts");
         difficultyTextView.setText("Difficulty: " + difficulty);
         setCharacterSprite(sprite);
+        setWeaponSprite();
     }
     protected int determineNumberOfHearts(String difficulty) {
         switch (difficulty) {
@@ -100,6 +103,11 @@ public abstract class BaseScreen extends AppCompatActivity {
         } else if ("rika_idle".equals(sprite)) {
             characterSprite.setImageResource(R.drawable.rika_idle);
         }
+    }
+    protected void setWeaponSprite(){
+        playerSwordSprite = findViewById(R.id.swordSprite); // Replace with your ImageView ID
+        sword = new Weapons("Sword", 10, playerSwordSprite);
+        player.setWeapon(sword);
     }
 
     protected abstract void setupScoreUpdater();
@@ -320,6 +328,33 @@ public abstract class BaseScreen extends AppCompatActivity {
     }
     protected void stopEnemyMovementTimer() {
         enemyMovementHandler.removeCallbacksAndMessages(null);
+    }
+    public void playerSwordAttack(View view) {
+        System.out.println("attack");
+        player.setWeaponPosition();
+        /*
+        swordImageView.setBackgroundResource(R.drawable.sword_animation);
+    AnimationDrawable swordAnimation = (AnimationDrawable) swordImageView.getBackground();
+    swordAnimation.start();
+         */
+        enemyTakeDamage(sword.getSprite());
+    }
+    private void enemyTakeDamage(ImageView swordImageView) {
+        Rect swordRect = new Rect();
+        swordImageView.getHitRect(swordRect);
+
+        Iterator<ImageView> iterator = enemyViews.iterator();
+        while (iterator.hasNext()) {
+            ImageView enemy = iterator.next();
+            Rect enemyRect = new Rect();
+            enemy.getHitRect(enemyRect);
+
+            if (Rect.intersects(swordRect, enemyRect)) {
+                //iterator.remove();
+                // problem is that the enemy is still there
+                enemy.setVisibility(View.GONE);
+            }
+        }
     }
     protected void finishGame() {
         String playerName = player.getName();
