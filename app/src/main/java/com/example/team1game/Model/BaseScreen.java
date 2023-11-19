@@ -4,6 +4,7 @@ import android.graphics.Rect;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,6 +18,7 @@ import com.example.team1game.R;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public abstract class BaseScreen extends AppCompatActivity {
     protected Player player;
@@ -24,7 +26,7 @@ public abstract class BaseScreen extends AppCompatActivity {
     protected PlayerMovement playerMovement;
     protected ImageView characterSprite;
     protected ImageView playerSwordSprite;
-
+    protected Map<Enemy, ImageView> enemyImageViewMap;
     protected List<Enemy> enemies;
     protected List<ImageView> enemyViews;
     protected Runnable healthReductionRunnable;
@@ -165,7 +167,7 @@ public abstract class BaseScreen extends AppCompatActivity {
         characterSprite.setX(player.getX());
         characterSprite.setY(player.getY());
         checkPlayerOnExit();
-        checkCollisionWithEnemies();
+        //checkCollisionWithEnemies();
     }
 
     protected void checkCollisionWithEnemies() {
@@ -175,7 +177,8 @@ public abstract class BaseScreen extends AppCompatActivity {
 
         boolean isCurrentlyInContact = false;
         int buffer = 80;
-        for (ImageView enemyView : enemyViews) {
+
+        for (ImageView enemyView : enemyImageViewMap.values()) {
             Rect enemyRect = getAdjustedEnemyRect(enemyView, buffer);
 
             if (Enemy.update(playerRect, enemyRect)) {
@@ -193,6 +196,7 @@ public abstract class BaseScreen extends AppCompatActivity {
             stopHealthReductionTimer();
         }
     }
+
 
     protected void startHealthReductionTimer(TextView healthPointsTextView) {
         if (healthReductionRunnable != null) {
@@ -284,38 +288,25 @@ public abstract class BaseScreen extends AppCompatActivity {
         obstacleHandler.post(collisionCheckRunnable);
     }
     protected void moveEnemies() {
-        // first half move randomly
-        for (int i = 0; i < enemies.size() / 2; i++) {
-            Enemy enemy = enemies.get(i);
+        for (Map.Entry<Enemy, ImageView> entry : enemyImageViewMap.entrySet()) {
+            Enemy enemy = entry.getKey();
+            ImageView enemyView = entry.getValue();
 
-            // Update the enemy's position
-            enemy.getEnemyMovement().moveRandomly();
+            if (enemy.getMovementType().equals("random")) {
+                enemy.getEnemyMovement().moveRandomly();
+            } else if (enemy.getMovementType().equals("linear")){
+                enemy.getEnemyMovement().moveLinearly();
+            } else {
+                System.out.print("no movement type so just move randomly");
+                enemy.getEnemyMovement().moveRandomly();
+            }
             enemy.setX(enemy.getX());
             enemy.setY(enemy.getY());
 
+            enemyView.setX(enemy.getX());
+            enemyView.setY(enemy.getY());
             checkCollisionWithEnemies();
-
-            enemyViews.get(i).setX(enemy.getX());
-            enemyViews.get(i).setY(enemy.getY());
-            //System.out.println(enemy.getX() + "" + enemy.getY());
         }
-        // 2nd half move linearly (be careful of starting arr size)
-        for (int i = enemies.size() / 2; i < enemies.size(); i++) {
-            Enemy enemy = enemies.get(i);
-
-            // Update the enemy's position
-            enemy.getEnemyMovement().moveLinearly();
-            enemy.setX(enemy.getX());
-            enemy.setY(enemy.getY());
-
-            checkCollisionWithEnemies();
-
-            enemyViews.get(i).setX(enemy.getX());
-            enemyViews.get(i).setY(enemy.getY());
-            //System.out.println(enemy.getX() + "" + enemy.getY());
-        }
-
-
     }
     protected void startEnemyMovementTimer() {
         enemyMovementHandler.postDelayed(new Runnable() {
@@ -343,16 +334,25 @@ public abstract class BaseScreen extends AppCompatActivity {
         Rect swordRect = new Rect();
         swordImageView.getHitRect(swordRect);
 
-        Iterator<ImageView> iterator = enemyViews.iterator();
+        Iterator<Map.Entry<Enemy, ImageView>> iterator = enemyImageViewMap.entrySet().iterator();
         while (iterator.hasNext()) {
-            ImageView enemy = iterator.next();
+            Map.Entry<Enemy, ImageView> entry = iterator.next();
+            ImageView enemyView = entry.getValue();
             Rect enemyRect = new Rect();
-            enemy.getHitRect(enemyRect);
+            enemyView.getHitRect(enemyRect);
 
             if (Rect.intersects(swordRect, enemyRect)) {
-                //iterator.remove();
-                // problem is that the enemy is still there
-                enemy.setVisibility(View.GONE);
+                // Remove the ImageView from the layout
+                ViewGroup viewGroup = (ViewGroup) enemyView.getParent();
+                if (viewGroup != null) {
+                    viewGroup.removeView(enemyView);
+                }
+
+                // Remove the entry from the HashMap
+                iterator.remove();
+
+                // Perform any other necessary actions here
+                // For example, update the enemy's status or initiate other logic for the damaged enemy
             }
         }
     }
@@ -374,8 +374,6 @@ public abstract class BaseScreen extends AppCompatActivity {
         scoreHandler.removeCallbacksAndMessages(null);
         movementHandler.removeCallbacksAndMessages(null);
         obstacleHandler.removeCallbacksAndMessages(null);
-        enemyMovementHandler.removeCallbacksAndMessages(null);
-
         enemyMovementHandler.removeCallbacksAndMessages(null);
         healthReductionHandler.removeCallbacksAndMessages(null);
         stopHealthReductionTimer();

@@ -168,6 +168,12 @@
         android:text="Attack"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/healthPointsTextView" />
+    <!-- rel layout stores enemies. rel layout makes it easy to delete enemy
+     views later-->
+    <RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/fastEnemy"
@@ -199,6 +205,7 @@
         app:srcCompat="@drawable/mushroom_enemy"
         tools:layout_editor_absoluteX="272dp"
         tools:layout_editor_absoluteY="468dp" />
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/swordSprite"

@@ -18,6 +18,7 @@ import com.example.team1game.R;
 import com.example.team1game.View.LoseScreen;
 import com.example.team1game.View.Room2;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GameScreen extends BaseScreen {
     @Override
@@ -41,44 +42,47 @@ public class GameScreen extends BaseScreen {
         setupUIElements();
     }
     protected void setUpEnemies() {
+        // declaring the factories
         FastEnemy fastEnemyFactory = new FastEnemy();
         SlowEnemy slowEnemyFactory = new SlowEnemy();
         BigEnemy bigEnemyFactory = new BigEnemy();
         SmallEnemy smallEnemyFactory = new SmallEnemy();
-        enemies = new ArrayList<>();
-        enemyViews = new ArrayList<>();
+
+        enemyImageViewMap = new HashMap<>();
 
         // Create a fast enemy and set its sprite
         Enemy fastEnemy = fastEnemyFactory.createEnemy("FastEnemy", 100, 10, 20);
         ImageView fastEnemySprite = findViewById(R.id.fastEnemy);
         fastEnemy.setX(500);
         fastEnemy.setY(100);
-        enemies.add(fastEnemy);
-        enemyViews.add(fastEnemySprite);
+        fastEnemy.setMovementType("random");
+        enemyImageViewMap.put(fastEnemy, fastEnemySprite);
+
 
         // Create a slow enemy and set its sprite
         Enemy slowEnemy = slowEnemyFactory.createEnemy("SlowEnemy", 150, 5, 5);
         ImageView slowEnemySprite = findViewById(R.id.slowEnemy);
         slowEnemy.setX(500);
         slowEnemy.setY(800);
-        enemies.add(slowEnemy);
-        enemyViews.add(slowEnemySprite);
+        slowEnemy.setMovementType("random");
+        enemyImageViewMap.put(slowEnemy, slowEnemySprite);
+
 
         // Create a small enemy and set its sprite
         Enemy smallEnemy = smallEnemyFactory.createEnemy("SmallEnemy", 75, 15, 10);
         ImageView smallEnemySprite = findViewById(R.id.smallEnemy);
         smallEnemy.setX(800);
         smallEnemy.setY(800);
-        enemies.add(smallEnemy);
-        enemyViews.add(smallEnemySprite);
+        smallEnemy.setMovementType("linear");
+        enemyImageViewMap.put(smallEnemy, smallEnemySprite);
 
         // Create a big enemy and set its sprite
         Enemy bigEnemy = bigEnemyFactory.createEnemy("BigEnemy", 200, 20, 15);
         ImageView bigEnemySprite = findViewById(R.id.bigEnemy);
         bigEnemy.setX(700);
         bigEnemy.setY(700);
-        enemies.add(bigEnemy);
-        enemyViews.add(bigEnemySprite);
+        bigEnemy.setMovementType("linear");
+        enemyImageViewMap.put(bigEnemy, bigEnemySprite);
     }
     protected void setupScoreUpdater() {
         scoreHandler.postDelayed(new Runnable() {
