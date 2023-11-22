@@ -146,7 +146,7 @@ public class Room2 extends BaseScreen {
         String playerName = player.getName();
         String difficulty = player.getDifficulty();
         Leaderboard.getInstance();
-        Attempt attempt = new Attempt(playerName, player.getScore(), difficulty);
+        Attempt attempt = new Attempt(playerName, score, difficulty);
         Leaderboard.getInstance().addAttempt(attempt);
         goToRoom3();
     }
