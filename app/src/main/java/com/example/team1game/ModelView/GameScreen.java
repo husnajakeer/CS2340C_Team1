@@ -27,7 +27,8 @@ public class GameScreen extends BaseScreen {
         setContentView(R.layout.activity_game_screen);
 
         initializeGame();
-        setupScoreUpdater();
+        setupTimeUpdater();
+        //setupScoreUpdater();
         initializePlayerMovementControls();
         detectPlayerInitialPos();
         startEnemyMovementTimer();
@@ -35,8 +36,9 @@ public class GameScreen extends BaseScreen {
 
     protected void initializeGame() {
         player = Player.getPlayer();
+        // setScore() is actually setting the time here
         player.setScore(100);
-
+        score = 0;
         characterSprite = findViewById(R.id.characterSprite);
         setUpEnemies();
         setupUIElements();
@@ -84,11 +86,12 @@ public class GameScreen extends BaseScreen {
         bigEnemy.setMovementType("linear");
         enemyImageViewMap.put(bigEnemy, bigEnemySprite);
     }
-    protected void setupScoreUpdater() {
-        scoreHandler.postDelayed(new Runnable() {
+    protected void setupTimeUpdater() {
+        timeHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 TextView scoreTextView = findViewById(R.id.scoreTextView);
+                TextView timeTextView = findViewById(R.id.timeTextView);
                 /*
                 if (player.getScore() == 0) {
                     gameLost = true;
@@ -97,12 +100,16 @@ public class GameScreen extends BaseScreen {
                 */
                 if (player.getScore() > 0) {
                     player.setScore(player.getScore() - 1);
-                    scoreTextView.setText("Score: " + player.getScore());
-                    scoreHandler.postDelayed(this, 1000);
+                    timeTextView.setText("Time " + player.getScore());
+                    timeHandler.postDelayed(this, 1000);
+                }
+                if (score >= 0) {
+                    scoreTextView.setText("Score " + score);
                 }
             }
         }, 1000);
     }
+
     protected void checkPlayerOnExit() {
         TextView exitArea = findViewById(R.id.exitArea);
 
@@ -149,6 +156,7 @@ public class GameScreen extends BaseScreen {
             Intent intent = new Intent(GameScreen.this, Room2.class);
             intent.putExtra("sprite", sprite);
             intent.putExtra("endingScore", player.getScore());
+            intent.putExtra("score", score);
             startActivity(intent);
             finish();
 

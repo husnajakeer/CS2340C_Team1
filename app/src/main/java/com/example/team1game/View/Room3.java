@@ -28,7 +28,7 @@ public class Room3 extends BaseScreen {
         setContentView(R.layout.activity_room3_screen);
 
         initializeGame();
-        setupScoreUpdater();
+        setupTimeUpdater();
         initializePlayerMovementControls();
         detectPlayerInitialPos();
         startEnemyMovementTimer();
@@ -89,11 +89,12 @@ public class Room3 extends BaseScreen {
         bigEnemy.setMovementType("linear");
         enemyImageViewMap.put(bigEnemy, bigEnemySprite);
     }
-    protected void setupScoreUpdater() {
-        scoreHandler.postDelayed(new Runnable() {
+    protected void setupTimeUpdater() {
+        timeHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 TextView scoreTextView = findViewById(R.id.scoreTextView);
+                TextView timeTextView = findViewById(R.id.timeTextView);
                 /*
                 if (player.getScore() == 0) {
                     gameLost = true;
@@ -102,13 +103,24 @@ public class Room3 extends BaseScreen {
                 */
                 if (player.getScore() > 0) {
                     player.setScore(player.getScore() - 1);
-                    scoreTextView.setText("Score: " + player.getScore());
-                    scoreHandler.postDelayed(this, 1000);
+                    timeTextView.setText("Time: " + player.getScore());
+                    timeHandler.postDelayed(this, 1000);
+                }
+                if (score >= 0) {
+                    scoreTextView.setText("Score " + score);
                 }
             }
         }, 1000);
     }
 
+    /*
+    protected void setupScoreUpdater() {
+        TextView scoreTextView = findViewById(R.id.scoreTextView);
+        if (score >= 0) {
+            scoreTextView.setText("Score " + score);
+        }
+    }
+    */
 
     protected void checkPlayerOnExit() {
         TextView exitArea = findViewById(R.id.exitArea);
@@ -167,7 +179,7 @@ public class Room3 extends BaseScreen {
         pauseGame();
     }
     private void pauseGame() {
-        scoreHandler.removeCallbacksAndMessages(null);
+        timeHandler.removeCallbacksAndMessages(null);
         movementHandler.removeCallbacksAndMessages(null);
         obstacleHandler.removeCallbacksAndMessages(null);
 
