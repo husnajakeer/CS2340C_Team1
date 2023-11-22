@@ -32,10 +32,10 @@ public abstract class BaseScreen extends AppCompatActivity {
     protected Runnable healthReductionRunnable;
     protected boolean isPlayerInContactWithEnemy = false;
 
+    protected static int score = 0;
     protected int numOfHearts = -1;
     protected int healthDecrease = 1;
-
-    protected Handler scoreHandler = new Handler();
+    protected Handler timeHandler = new Handler();
     protected Handler movementHandler = new Handler();
     protected Handler obstacleHandler = new Handler();
     protected Handler enemyMovementHandler = new Handler();
@@ -112,7 +112,8 @@ public abstract class BaseScreen extends AppCompatActivity {
         player.setWeapon(sword);
     }
 
-    protected abstract void setupScoreUpdater();
+    protected abstract void setupTimeUpdater();
+    //protected abstract void setupScoreUpdater();
 
     protected void initializePlayerMovementControls() {
         Button upButton = findViewById(R.id.upButton);
@@ -353,6 +354,7 @@ public abstract class BaseScreen extends AppCompatActivity {
 
                 // Perform any other necessary actions here
                 // For example, update the enemy's status or initiate other logic for the damaged enemy
+                score += 20;
             }
         }
     }
@@ -371,7 +373,7 @@ public abstract class BaseScreen extends AppCompatActivity {
     }
 
     private void pauseGame() {
-        scoreHandler.removeCallbacksAndMessages(null);
+        timeHandler.removeCallbacksAndMessages(null);
         movementHandler.removeCallbacksAndMessages(null);
         obstacleHandler.removeCallbacksAndMessages(null);
         enemyMovementHandler.removeCallbacksAndMessages(null);
