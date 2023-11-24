@@ -46,7 +46,7 @@ public class EndScreen extends AppCompatActivity {
 
         setLeaderboard();
         setCurrentAttempt();
-        saveInBackend();
+        //saveInBackend();
 
         restartButton = findViewById(R.id.restartButton);
         quitButton = findViewById(R.id.quitButton);

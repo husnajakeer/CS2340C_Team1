@@ -276,7 +276,6 @@
         android:id="@+id/swordSprite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/sprite2"
         tools:layout_editor_absoluteX="151dp"
         tools:layout_editor_absoluteY="189dp" />
 
