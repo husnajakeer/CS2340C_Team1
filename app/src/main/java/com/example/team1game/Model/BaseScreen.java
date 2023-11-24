@@ -1,6 +1,9 @@
 package com.example.team1game.Model;
 
+import static android.view.FrameMetrics.ANIMATION_DURATION;
+
 import android.graphics.Rect;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,8 +30,6 @@ public abstract class BaseScreen extends AppCompatActivity {
     protected ImageView characterSprite;
     protected ImageView playerSwordSprite;
     protected Map<Enemy, ImageView> enemyImageViewMap;
-    protected List<Enemy> enemies;
-    protected List<ImageView> enemyViews;
     protected Runnable healthReductionRunnable;
     protected boolean isPlayerInContactWithEnemy = false;
 
@@ -152,6 +153,9 @@ public abstract class BaseScreen extends AppCompatActivity {
             public void run() {
                 movementMethod.run();
                 updateCharacterPosition();
+                player.setWeaponPosition();
+                playerSwordSprite.setX(player.getX());
+                playerSwordSprite.setY(player.getY());
                 movementHandler.postDelayed(this, 50);
             }
         }, 0);
@@ -322,15 +326,22 @@ public abstract class BaseScreen extends AppCompatActivity {
         enemyMovementHandler.removeCallbacksAndMessages(null);
     }
     public void playerSwordAttack(View view) {
-        System.out.println("attack");
-        player.setWeaponPosition();
-        /*
-        swordImageView.setBackgroundResource(R.drawable.sword_animation);
-    AnimationDrawable swordAnimation = (AnimationDrawable) swordImageView.getBackground();
-    swordAnimation.start();
-         */
+        //playerSwordSprite.setVisibility(View.INVISIBLE);
+
+        // Set the background resource of the sword sprite to the sword swing animation
+        playerSwordSprite.setBackgroundResource(R.drawable.sword_slash_anim);
+        // Retrieve the animation drawable and start the animation
+        AnimationDrawable swordAnimation = (AnimationDrawable) playerSwordSprite.getBackground();
+        swordAnimation.start();
+
+        // Stop the animation after 1 second
+        new Handler().postDelayed(() -> {
+            swordAnimation.stop();
+            playerSwordSprite.setVisibility(View.VISIBLE); // Show the sword sprite again after 1 second
+        }, 1000);
         enemyTakeDamage(sword.getSprite());
     }
+
     private void enemyTakeDamage(ImageView swordImageView) {
         Rect swordRect = new Rect();
         swordImageView.getHitRect(swordRect);
