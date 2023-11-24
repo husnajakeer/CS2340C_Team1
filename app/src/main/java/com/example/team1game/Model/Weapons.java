@@ -1,6 +1,7 @@
 package com.example.team1game.Model;
 
 import android.graphics.Bitmap;
+import android.widget.ImageView;
 
 /**
  * Represents a weapon with attributes like name, attack power, and associated sprite.
@@ -14,7 +15,7 @@ public class Weapons {
     private int attackPower;
 
     /** Sprite or image associated with the weapon. */
-    private Bitmap sprite;
+    private ImageView sprite;
 
     /**
      * Constructs a new weapon with the specified name, attack power, and sprite.
@@ -23,7 +24,7 @@ public class Weapons {
      * @param attackPower the attack power of the weapon
      * @param sprite      the image or sprite of the weapon
      */
-    public Weapons(String weaponName, int attackPower, Bitmap sprite) {
+    public Weapons(String weaponName, int attackPower, ImageView sprite) {
         this.weaponName = weaponName;
         this.attackPower = attackPower;
         this.sprite = sprite;
@@ -36,7 +37,7 @@ public class Weapons {
      * @param weaponName the name of the weapon
      * @param sprite     the image or sprite of the weapon
      */
-    public Weapons(String weaponName, Bitmap sprite) {
+    public Weapons(String weaponName, ImageView sprite) {
         this.weaponName = weaponName;
         this.sprite = sprite;
     }
@@ -82,7 +83,7 @@ public class Weapons {
      *
      * @return the weapon sprite
      */
-    public Bitmap getSprite() {
+    public ImageView getSprite() {
         return sprite;
     }
 
@@ -91,7 +92,7 @@ public class Weapons {
      *
      * @param sprite the new sprite or image
      */
-    public void setSprite(Bitmap sprite) {
+    public void setSprite(ImageView sprite) {
         this.sprite = sprite;
     }
 }

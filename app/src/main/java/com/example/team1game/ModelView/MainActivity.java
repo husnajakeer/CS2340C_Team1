@@ -4,10 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.team1game.R;
 
+
 public class MainActivity extends AppCompatActivity {
+
     private Button startButton;
     private Button quitButton;
 
@@ -24,5 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
         quitButton = findViewById(R.id.quitButton);
         quitButton.setOnClickListener(view -> finish());
+
+
     }
 }

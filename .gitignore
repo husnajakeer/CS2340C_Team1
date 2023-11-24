@@ -24,3 +24,13 @@ gradle-app.setting
 
 /sdk/
 .DS_Store
+
+# Firebase/Firestore specific
+# Firebase service account credentials file
+serviceAccountKey.json
+
+# Ignore Google Services JSON file
+google-services.json
+
+# Firebase local emulators (if used during development)
+.firebase/

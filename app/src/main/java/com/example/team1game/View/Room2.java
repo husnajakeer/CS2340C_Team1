@@ -18,6 +18,7 @@ import com.example.team1game.Model.Enemy.SmallEnemy;
 import com.example.team1game.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Room2 extends BaseScreen {
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +26,7 @@ public class Room2 extends BaseScreen {
         setContentView(R.layout.activity_room2_screen);
 
         initializeGame();
-        setupScoreUpdater();
+        setupTimeUpdater();
         initializePlayerMovementControls();
         detectPlayerInitialPos();
         startEnemyMovementTimer();
@@ -35,58 +36,62 @@ public class Room2 extends BaseScreen {
         player = Player.getPlayer();
         player.setScore(intent.getIntExtra("endingScore", 0));
         TextView scoreTextView = findViewById(R.id.scoreTextView);
-        scoreTextView.setText("Score: " + player.getScore());
+        scoreTextView.setText("Time: " + player.getScore());
 
         characterSprite = findViewById(R.id.characterSprite);
         setUpEnemies();
         setupUIElements();
     }
     protected void setUpEnemies() {
+        // declaring the factories
         FastEnemy fastEnemyFactory = new FastEnemy();
         SlowEnemy slowEnemyFactory = new SlowEnemy();
         BigEnemy bigEnemyFactory = new BigEnemy();
         SmallEnemy smallEnemyFactory = new SmallEnemy();
-        enemies = new ArrayList<>();
-        enemyViews = new ArrayList<>();
+
+        enemyImageViewMap = new HashMap<>();
 
         // Create a fast enemy and set its sprite
         Enemy fastEnemy = fastEnemyFactory.createEnemy("FastEnemy", 100, 10, 20);
         ImageView fastEnemySprite = findViewById(R.id.fastEnemy);
         fastEnemy.setX(500);
         fastEnemy.setY(100);
-        enemies.add(fastEnemy);
-        enemyViews.add(fastEnemySprite);
+        fastEnemy.setMovementType("random");
+        enemyImageViewMap.put(fastEnemy, fastEnemySprite);
+
 
         // Create a slow enemy and set its sprite
         Enemy slowEnemy = slowEnemyFactory.createEnemy("SlowEnemy", 150, 5, 5);
         ImageView slowEnemySprite = findViewById(R.id.slowEnemy);
         slowEnemy.setX(500);
         slowEnemy.setY(800);
-        enemies.add(slowEnemy);
-        enemyViews.add(slowEnemySprite);
+        slowEnemy.setMovementType("random");
+        enemyImageViewMap.put(slowEnemy, slowEnemySprite);
+
 
         // Create a small enemy and set its sprite
         Enemy smallEnemy = smallEnemyFactory.createEnemy("SmallEnemy", 75, 15, 10);
         ImageView smallEnemySprite = findViewById(R.id.smallEnemy);
         smallEnemy.setX(800);
         smallEnemy.setY(800);
-        enemies.add(smallEnemy);
-        enemyViews.add(smallEnemySprite);
+        smallEnemy.setMovementType("linear");
+        enemyImageViewMap.put(smallEnemy, smallEnemySprite);
 
         // Create a big enemy and set its sprite
         Enemy bigEnemy = bigEnemyFactory.createEnemy("BigEnemy", 200, 20, 15);
         ImageView bigEnemySprite = findViewById(R.id.bigEnemy);
         bigEnemy.setX(700);
         bigEnemy.setY(700);
-        enemies.add(bigEnemy);
-        enemyViews.add(bigEnemySprite);
+        bigEnemy.setMovementType("linear");
+        enemyImageViewMap.put(bigEnemy, bigEnemySprite);
     }
     @Override
-    protected void setupScoreUpdater() {
-        scoreHandler.postDelayed(new Runnable() {
+    protected void setupTimeUpdater() {
+        timeHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 TextView scoreTextView = findViewById(R.id.scoreTextView);
+                TextView timeTextView = findViewById(R.id.timeTextView);
                 /*
                 if (player.getScore() == 0) {
                     gameLost = true;
@@ -95,12 +100,16 @@ public class Room2 extends BaseScreen {
                 */
                 if (player.getScore() > 0) {
                     player.setScore(player.getScore() - 1);
-                    scoreTextView.setText("Score: " + player.getScore());
-                    scoreHandler.postDelayed(this, 1000);
+                    timeTextView.setText("Time: " + player.getScore());
+                    timeHandler.postDelayed(this, 1000);
+                }
+                if (score >= 0) {
+                    scoreTextView.setText("Score " + score);
                 }
             }
         }, 1000);
     }
+
     protected void checkPlayerOnExit() {
         TextView exitArea = findViewById(R.id.exitArea);
 
@@ -137,7 +146,7 @@ public class Room2 extends BaseScreen {
         String playerName = player.getName();
         String difficulty = player.getDifficulty();
         Leaderboard.getInstance();
-        Attempt attempt = new Attempt(playerName, player.getScore(), difficulty);
+        Attempt attempt = new Attempt(playerName, score, difficulty);
         Leaderboard.getInstance().addAttempt(attempt);
         goToRoom3();
     }
@@ -149,6 +158,7 @@ public class Room2 extends BaseScreen {
             Intent intent = new Intent(Room2.this, Room3.class);
             intent.putExtra("sprite", sprite);
             intent.putExtra("endingScore", player.getScore());
+            intent.putExtra("score", score);
             startActivity(intent);
         } else {
             Intent intent = new Intent(Room2.this, LoseScreen.class);
@@ -163,7 +173,7 @@ public class Room2 extends BaseScreen {
     }
 
     private void pauseGame() {
-        scoreHandler.removeCallbacksAndMessages(null);
+        timeHandler.removeCallbacksAndMessages(null);
         movementHandler.removeCallbacksAndMessages(null);
         obstacleHandler.removeCallbacksAndMessages(null);
         enemyMovementHandler.removeCallbacksAndMessages(null);

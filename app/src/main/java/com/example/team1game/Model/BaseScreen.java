@@ -1,9 +1,13 @@
 package com.example.team1game.Model;
 
+import static android.view.FrameMetrics.ANIMATION_DURATION;
+
 import android.graphics.Rect;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,22 +19,24 @@ import com.example.team1game.Model.Enemy.Enemy;
 import com.example.team1game.R;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public abstract class BaseScreen extends AppCompatActivity {
     protected Player player;
+    protected Weapons sword;
     protected PlayerMovement playerMovement;
     protected ImageView characterSprite;
-
-    protected List<Enemy> enemies;
-    protected List<ImageView> enemyViews;
+    protected ImageView playerSwordSprite;
+    protected Map<Enemy, ImageView> enemyImageViewMap;
     protected Runnable healthReductionRunnable;
     protected boolean isPlayerInContactWithEnemy = false;
 
+    protected static int score = 0;
     protected int numOfHearts = -1;
     protected int healthDecrease = 1;
-
-    protected Handler scoreHandler = new Handler();
+    protected Handler timeHandler = new Handler();
     protected Handler movementHandler = new Handler();
     protected Handler obstacleHandler = new Handler();
     protected Handler enemyMovementHandler = new Handler();
@@ -48,7 +54,6 @@ public abstract class BaseScreen extends AppCompatActivity {
         TextView playerNameTextView = findViewById(R.id.playerNameTextView);
         TextView healthPointsTextView = findViewById(R.id.healthPointsTextView);
         TextView difficultyTextView = findViewById(R.id.difficultyTextView);
-        TextView scoreTextView = findViewById(R.id.scoreTextView);
 
         String playerName = player.getName();
         String difficulty = player.getDifficulty();
@@ -64,6 +69,7 @@ public abstract class BaseScreen extends AppCompatActivity {
         healthPointsTextView.setText("Health: " + numOfHearts + " hearts");
         difficultyTextView.setText("Difficulty: " + difficulty);
         setCharacterSprite(sprite);
+        setWeaponSprite();
     }
     protected int determineNumberOfHearts(String difficulty) {
         switch (difficulty) {
@@ -101,8 +107,14 @@ public abstract class BaseScreen extends AppCompatActivity {
             characterSprite.setImageResource(R.drawable.rika_idle);
         }
     }
+    protected void setWeaponSprite(){
+        playerSwordSprite = findViewById(R.id.swordSprite); // Replace with your ImageView ID
+        sword = new Weapons("Sword", 10, playerSwordSprite);
+        player.setWeapon(sword);
+    }
 
-    protected abstract void setupScoreUpdater();
+    protected abstract void setupTimeUpdater();
+    //protected abstract void setupScoreUpdater();
 
     protected void initializePlayerMovementControls() {
         Button upButton = findViewById(R.id.upButton);
@@ -141,6 +153,9 @@ public abstract class BaseScreen extends AppCompatActivity {
             public void run() {
                 movementMethod.run();
                 updateCharacterPosition();
+                player.setWeaponPosition();
+                playerSwordSprite.setX(player.getX());
+                playerSwordSprite.setY(player.getY());
                 movementHandler.postDelayed(this, 50);
             }
         }, 0);
@@ -157,7 +172,7 @@ public abstract class BaseScreen extends AppCompatActivity {
         characterSprite.setX(player.getX());
         characterSprite.setY(player.getY());
         checkPlayerOnExit();
-        checkCollisionWithEnemies();
+        //checkCollisionWithEnemies();
     }
 
     protected void checkCollisionWithEnemies() {
@@ -167,7 +182,8 @@ public abstract class BaseScreen extends AppCompatActivity {
 
         boolean isCurrentlyInContact = false;
         int buffer = 80;
-        for (ImageView enemyView : enemyViews) {
+
+        for (ImageView enemyView : enemyImageViewMap.values()) {
             Rect enemyRect = getAdjustedEnemyRect(enemyView, buffer);
 
             if (Enemy.update(playerRect, enemyRect)) {
@@ -185,6 +201,7 @@ public abstract class BaseScreen extends AppCompatActivity {
             stopHealthReductionTimer();
         }
     }
+
 
     protected void startHealthReductionTimer(TextView healthPointsTextView) {
         if (healthReductionRunnable != null) {
@@ -276,38 +293,25 @@ public abstract class BaseScreen extends AppCompatActivity {
         obstacleHandler.post(collisionCheckRunnable);
     }
     protected void moveEnemies() {
-        // first half move randomly
-        for (int i = 0; i < enemies.size() / 2; i++) {
-            Enemy enemy = enemies.get(i);
+        for (Map.Entry<Enemy, ImageView> entry : enemyImageViewMap.entrySet()) {
+            Enemy enemy = entry.getKey();
+            ImageView enemyView = entry.getValue();
 
-            // Update the enemy's position
-            enemy.getEnemyMovement().moveRandomly();
+            if (enemy.getMovementType().equals("random")) {
+                enemy.getEnemyMovement().moveRandomly();
+            } else if (enemy.getMovementType().equals("linear")){
+                enemy.getEnemyMovement().moveLinearly();
+            } else {
+                System.out.print("no movement type so just move randomly");
+                enemy.getEnemyMovement().moveRandomly();
+            }
             enemy.setX(enemy.getX());
             enemy.setY(enemy.getY());
 
+            enemyView.setX(enemy.getX());
+            enemyView.setY(enemy.getY());
             checkCollisionWithEnemies();
-
-            enemyViews.get(i).setX(enemy.getX());
-            enemyViews.get(i).setY(enemy.getY());
-            //System.out.println(enemy.getX() + "" + enemy.getY());
         }
-        // 2nd half move linearly (be careful of starting arr size)
-        for (int i = enemies.size() / 2; i < enemies.size(); i++) {
-            Enemy enemy = enemies.get(i);
-
-            // Update the enemy's position
-            enemy.getEnemyMovement().moveLinearly();
-            enemy.setX(enemy.getX());
-            enemy.setY(enemy.getY());
-
-            checkCollisionWithEnemies();
-
-            enemyViews.get(i).setX(enemy.getX());
-            enemyViews.get(i).setY(enemy.getY());
-            //System.out.println(enemy.getX() + "" + enemy.getY());
-        }
-
-
     }
     protected void startEnemyMovementTimer() {
         enemyMovementHandler.postDelayed(new Runnable() {
@@ -320,6 +324,50 @@ public abstract class BaseScreen extends AppCompatActivity {
     }
     protected void stopEnemyMovementTimer() {
         enemyMovementHandler.removeCallbacksAndMessages(null);
+    }
+    public void playerSwordAttack(View view) {
+        //playerSwordSprite.setVisibility(View.INVISIBLE);
+
+        // Set the background resource of the sword sprite to the sword swing animation
+        playerSwordSprite.setBackgroundResource(R.drawable.sword_slash_anim);
+        // Retrieve the animation drawable and start the animation
+        AnimationDrawable swordAnimation = (AnimationDrawable) playerSwordSprite.getBackground();
+        swordAnimation.start();
+
+        // Stop the animation after 1 second
+        new Handler().postDelayed(() -> {
+            swordAnimation.stop();
+            playerSwordSprite.setVisibility(View.VISIBLE); // Show the sword sprite again after 1 second
+        }, 1000);
+        enemyTakeDamage(sword.getSprite());
+    }
+
+    private void enemyTakeDamage(ImageView swordImageView) {
+        Rect swordRect = new Rect();
+        swordImageView.getHitRect(swordRect);
+
+        Iterator<Map.Entry<Enemy, ImageView>> iterator = enemyImageViewMap.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<Enemy, ImageView> entry = iterator.next();
+            ImageView enemyView = entry.getValue();
+            Rect enemyRect = new Rect();
+            enemyView.getHitRect(enemyRect);
+
+            if (Rect.intersects(swordRect, enemyRect)) {
+                // Remove the ImageView from the layout
+                ViewGroup viewGroup = (ViewGroup) enemyView.getParent();
+                if (viewGroup != null) {
+                    viewGroup.removeView(enemyView);
+                }
+
+                // Remove the entry from the HashMap
+                iterator.remove();
+
+                // Perform any other necessary actions here
+                // For example, update the enemy's status or initiate other logic for the damaged enemy
+                score += 20;
+            }
+        }
     }
     protected void finishGame() {
         String playerName = player.getName();
@@ -336,11 +384,9 @@ public abstract class BaseScreen extends AppCompatActivity {
     }
 
     private void pauseGame() {
-        scoreHandler.removeCallbacksAndMessages(null);
+        timeHandler.removeCallbacksAndMessages(null);
         movementHandler.removeCallbacksAndMessages(null);
         obstacleHandler.removeCallbacksAndMessages(null);
-        enemyMovementHandler.removeCallbacksAndMessages(null);
-
         enemyMovementHandler.removeCallbacksAndMessages(null);
         healthReductionHandler.removeCallbacksAndMessages(null);
         stopHealthReductionTimer();
