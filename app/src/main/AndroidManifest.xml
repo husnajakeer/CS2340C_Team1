@@ -29,6 +29,9 @@
             android:name=".View.LoseScreen"
             android:exported="false" />
         <activity
+            android:name=".ModelView.InstructionsScreen"
+            android:exported="false" />
+        <activity
             android:name=".ModelView.InitialConfigScreen"
             android:exported="false" />
         <activity
