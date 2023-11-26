@@ -24,7 +24,5 @@ public class InstructionsScreen extends AppCompatActivity {
             startActivity(intent);
         });
 
-
-
     }
 }
