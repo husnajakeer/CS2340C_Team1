@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "851347694686",
+    "project_id": "cs2340backend",
+    "storage_bucket": "cs2340backend.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:851347694686:android:dbb6274661c015c0dec0cf",
+        "android_client_info": {
+          "package_name": "com.example.team1game"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwC02FL0Kg4SDy0J9-H9_LaUZQ03ITsFM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
