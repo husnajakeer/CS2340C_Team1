@@ -18,16 +18,16 @@ import com.example.team1game.Model.Player;
 import com.example.team1game.ModelView.MainActivity;
 import com.example.team1game.R;
 
-// firestore
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+//// firestore
+//import com.google.android.gms.tasks.OnCompleteListener;
+//import com.google.android.gms.tasks.OnFailureListener;
+//import com.google.android.gms.tasks.OnSuccessListener;
+//import com.google.android.gms.tasks.Task;
+//import com.google.firebase.firestore.DocumentReference;
+//import com.google.firebase.firestore.FirebaseFirestore;
+//import com.google.firebase.firestore.Query;
+//import com.google.firebase.firestore.QueryDocumentSnapshot;
+//import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -143,7 +143,7 @@ public class EndScreen extends AppCompatActivity {
             mostRecentAttemptTable.addView(row);
         }
     }
-    private void saveInBackend() {
+/*    private void saveInBackend() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         // Create a new user with a first and last name
         Map<String, Object> user = new HashMap<>();
@@ -200,6 +200,6 @@ public class EndScreen extends AppCompatActivity {
                         System.out.println("Error getting documents: " + task.getException());
                     }
                 });
-    }
+    }*/
 
 }
