@@ -2,6 +2,9 @@ package com.example.team1game.View;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,6 +18,10 @@ import com.example.team1game.Model.Enemy.FastEnemy;
 import com.example.team1game.Model.Player;
 import com.example.team1game.Model.Enemy.SlowEnemy;
 import com.example.team1game.Model.Enemy.SmallEnemy;
+import com.example.team1game.Model.Powerups.AttackPowerUpDecorator;
+import com.example.team1game.Model.Powerups.HealthPowerUpDecorator;
+import com.example.team1game.Model.Powerups.TimePowerUpDecorator;
+import com.example.team1game.ModelView.GameScreen;
 import com.example.team1game.R;
 
 import java.util.ArrayList;
@@ -22,6 +29,8 @@ import java.util.HashMap;
 //TODO make this file easier to read, not so big
 
 public class Room3 extends BaseScreen {
+
+    Handler powerupHandler = new Handler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +41,7 @@ public class Room3 extends BaseScreen {
         initializePlayerMovementControls();
         detectPlayerInitialPos();
         startEnemyMovementTimer();
+        setupPowerupCollisionDetection();
     }
 
 
@@ -113,6 +123,43 @@ public class Room3 extends BaseScreen {
         }, 1000);
     }
 
+    protected void setupPowerupCollisionDetection() {
+        final ImageView powerup1 = findViewById(R.id.powerup1);
+        final ImageView powerup2 = findViewById(R.id.powerup2);
+        final ImageView powerup3 = findViewById(R.id.powerup3);
+        final TextView powerupMessage = findViewById(R.id.powerupMessage);
+        powerupHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Attack Powerup
+                if (checkPowerupCollision(characterSprite, powerup1)) {
+                    AttackPowerUpDecorator powerOneDecorator = new AttackPowerUpDecorator(scoreMultiplier);
+                    powerOneDecorator.applyEffect(player);
+                    showPowerupUsedMessage("Attack Powerup Used!", powerupMessage);
+                    removePowerupView(powerup1);
+                }
+
+                // Time Powerup
+                if (checkPowerupCollision(characterSprite, powerup2)) {
+                    TimePowerUpDecorator powerTwoDecorator = new TimePowerUpDecorator(player.getScore(), 20);
+                    powerTwoDecorator.applyEffect(player);
+                    showPowerupUsedMessage("Time Powerup Used!", powerupMessage);
+                    removePowerupView(powerup2);
+                }
+
+                // Health Powerup
+                if (checkPowerupCollision(characterSprite, powerup3)) {
+                    HealthPowerUpDecorator powerThreeDecorator = new HealthPowerUpDecorator(numOfHearts, Room3.this);
+                    powerThreeDecorator.applyEffect(player);
+                    showPowerupUsedMessage("Health Powerup Used!", powerupMessage);
+                    removePowerupView(powerup3);
+                }
+                // Re-run this check every 100 milliseconds
+                powerupHandler.postDelayed(this, 100);
+            }
+        }, 100);
+    }
+
     /*
     protected void setupScoreUpdater() {
         TextView scoreTextView = findViewById(R.id.scoreTextView);
@@ -182,6 +229,7 @@ public class Room3 extends BaseScreen {
         timeHandler.removeCallbacksAndMessages(null);
         movementHandler.removeCallbacksAndMessages(null);
         obstacleHandler.removeCallbacksAndMessages(null);
+        powerupHandler.removeCallbacksAndMessages(null);
 
     }
 }

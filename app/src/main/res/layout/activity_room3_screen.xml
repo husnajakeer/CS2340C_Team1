@@ -11,7 +11,7 @@
         android:layout_height="100dp"
         android:layout_marginEnd="0dp"
         android:layout_marginBottom="0dp"
-        android:background="#20FF5733"
+        android:background="#40FF5733"
         android:gravity="center"
         android:text="Exit"
         android:textColor="#FFFFFF"
@@ -23,7 +23,7 @@
         android:id="@+id/obstacleView1"
         android:layout_width="133dp"
         android:layout_height="365dp"
-        android:background="#20FF5733"
+        android:background="#40FF5733"
         android:tag="obstacle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -56,6 +56,42 @@
         android:layout_marginEnd="186dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/powerup1"
+        android:src="@drawable/powerup1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="296dp"
+        android:layout_marginEnd="86dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/powerup2"
+        android:src="@drawable/powerup2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="396dp"
+        android:layout_marginEnd="86dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/powerup3"
+        android:src="@drawable/powerup3"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="496dp"
+        android:layout_marginEnd="86dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -263,7 +299,17 @@
         android:id="@+id/swordSprite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/sprite2"
         tools:layout_editor_absoluteX="151dp"
         tools:layout_editor_absoluteY="189dp" />
+
+    <TextView
+        android:id="@+id/powerupMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textSize="18sp"
+        android:textColor="@android:color/holo_blue_bright"
+        android:background="@android:color/white"
+        android:padding="8dp"
+        android:visibility="gone" />
 </androidx.constraintlayout.widget.ConstraintLayout>

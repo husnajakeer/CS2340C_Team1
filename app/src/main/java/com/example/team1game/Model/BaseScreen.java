@@ -1,7 +1,5 @@
 package com.example.team1game.Model;
 
-import static android.view.FrameMetrics.ANIMATION_DURATION;
-
 import android.graphics.Rect;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Handler;
@@ -16,11 +14,13 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.team1game.Model.Enemy.Enemy;
+import com.example.team1game.Model.Powerups.AttackPowerUpDecorator;
+import com.example.team1game.Model.Powerups.HealthPowerUpDecorator;
+import com.example.team1game.Model.Powerups.TimePowerUpDecorator;
 import com.example.team1game.R;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 public abstract class BaseScreen extends AppCompatActivity {
@@ -34,7 +34,7 @@ public abstract class BaseScreen extends AppCompatActivity {
     protected boolean isPlayerInContactWithEnemy = false;
 
     protected static int score = 0;
-    protected int numOfHearts = -1;
+    protected static int numOfHearts = -1;
     protected int healthDecrease = 1;
     protected Handler timeHandler = new Handler();
     protected Handler movementHandler = new Handler();
@@ -47,6 +47,8 @@ public abstract class BaseScreen extends AppCompatActivity {
     protected boolean isTransitioning = false;
 
     protected boolean gameLost = false;
+
+    protected static int scoreMultiplier = 20;
 
     protected abstract void initializeGame();
     protected abstract void setUpEnemies();
@@ -365,10 +367,38 @@ public abstract class BaseScreen extends AppCompatActivity {
 
                 // Perform any other necessary actions here
                 // For example, update the enemy's status or initiate other logic for the damaged enemy
-                score += 20;
+                score += scoreMultiplier;
             }
         }
     }
+
+    protected boolean checkPowerupCollision(ImageView sprite1, ImageView sprite2) {
+        int[] location1 = new int[2];
+        sprite1.getLocationOnScreen(location1);
+        Rect rect1 = new Rect(location1[0], location1[1],
+                location1[0] + sprite1.getWidth(), location1[1] + sprite1.getHeight());
+
+        int[] location2 = new int[2];
+        sprite2.getLocationOnScreen(location2);
+        Rect rect2 = new Rect(location2[0], location2[1],
+                location2[0] + sprite2.getWidth(), location2[1] + sprite2.getHeight());
+
+        return Rect.intersects(rect1, rect2);
+    }
+
+    public void showPowerupUsedMessage(String message, TextView powerupMessage) {
+        powerupMessage.setText(message);
+        powerupMessage.setVisibility(View.VISIBLE);
+        new Handler().postDelayed(() -> powerupMessage.setVisibility(View.GONE), 2000);
+    }
+
+    public void removePowerupView(ImageView powerup) {
+        powerup.setVisibility(View.GONE);
+        if (powerup.getParent() != null) {
+            ((ViewGroup) powerup.getParent()).removeView(powerup);
+        }
+    }
+
     protected void finishGame() {
         String playerName = player.getName();
         String difficulty = player.getDifficulty();
@@ -398,6 +428,21 @@ public abstract class BaseScreen extends AppCompatActivity {
         if (isPlayerInContactWithEnemy) {
             startHealthReductionTimer((TextView) findViewById(R.id.healthPointsTextView));
         }
+    }
+
+    public static void setScoreMultiplier(int newScoreMultiplier) {
+        scoreMultiplier = newScoreMultiplier;
+    }
+
+    public void setNumOfHearts(int newNumOfHearts) {
+        TextView healthPointsTextView = findViewById(R.id.healthPointsTextView);
+
+        numOfHearts = newNumOfHearts;
+        healthPointsTextView.setText("Health: " + numOfHearts + " hearts");
+    }
+
+    public static int getScore() {
+        return score;
     }
 
 }

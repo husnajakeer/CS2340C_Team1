@@ -203,7 +203,7 @@ public class Player extends Entity {
     }
 
     public void setWeaponPosition() {
-        if (weapon != null) {
+        if (weapon != null && weapon.getSprite() != null) {
             // Set the weapon's position relative to the player
             weapon.getSprite().setX(getX());
             weapon.getSprite().setY(getY());

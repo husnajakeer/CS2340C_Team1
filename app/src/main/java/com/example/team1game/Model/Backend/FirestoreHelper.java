@@ -1,5 +1,5 @@
 package com.example.team1game.Model.Backend;
-
+/*
 import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -11,9 +11,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
-/*
+
 not used for now
- */
+
 public class FirestoreHelper {
 
     private final FirebaseFirestore db;
@@ -36,3 +36,4 @@ public class FirestoreHelper {
                 .addOnCompleteListener(onCompleteListener);
     }
 }
+*/
