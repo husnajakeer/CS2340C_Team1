@@ -5,13 +5,14 @@
     android:layout_height="match_parent"
     android:background="@drawable/screen5">
 
+
     <TextView
         android:id="@+id/exitArea"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginEnd="0dp"
         android:layout_marginBottom="0dp"
-        android:background="#20FF5733"
+        android:background="#40FF5733"
         android:gravity="center"
         android:text="Exit"
         android:textColor="#FFFFFF"
@@ -23,7 +24,7 @@
         android:id="@+id/obstacleView1"
         android:layout_width="272dp"
         android:layout_height="216dp"
-        android:background="#20FF5733"
+        android:background="#40FF5733"
         android:tag="obstacle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -56,6 +57,42 @@
         android:layout_marginEnd="186dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/powerup1"
+        android:src="@drawable/powerup1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="225dp"
+        android:layout_marginTop="296dp"
+        android:layout_marginEnd="86dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/powerup2"
+        android:src="@drawable/powerup2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="225dp"
+        android:layout_marginTop="396dp"
+        android:layout_marginEnd="86dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/powerup3"
+        android:src="@drawable/powerup3"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="225dp"
+        android:layout_marginTop="496dp"
+        android:layout_marginEnd="86dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -210,8 +247,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/healthPointsTextView" />
- <!-- rel layout stores enemies. rel layout makes it easy to delete enemy
-  views later-->
+    <!-- rel layout stores enemies. rel layout makes it easy to delete enemy
+     views later-->
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -271,4 +308,15 @@
         android:layout_height="wrap_content"
         tools:layout_editor_absoluteX="151dp"
         tools:layout_editor_absoluteY="189dp" />
+
+    <TextView
+        android:id="@+id/powerupMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textSize="18sp"
+        android:textColor="@android:color/holo_blue_bright"
+        android:background="@android:color/white"
+        android:padding="8dp"
+        android:visibility="gone" />
 </androidx.constraintlayout.widget.ConstraintLayout>
