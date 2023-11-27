@@ -329,6 +329,9 @@ public abstract class BaseScreen extends AppCompatActivity {
     }
     public void playerSwordAttack(View view) {
         //playerSwordSprite.setVisibility(View.INVISIBLE);
+        player.setWeaponPosition();
+        playerSwordSprite.setX(player.getX());
+        playerSwordSprite.setY(player.getY());
 
         // Set the background resource of the sword sprite to the sword swing animation
         playerSwordSprite.setBackgroundResource(R.drawable.sword_slash_anim);
