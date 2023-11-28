@@ -23,7 +23,8 @@ package com.example.team1game.Model.Backend;
 //    }
 //
 //    public void addUser(Map<String, Object> userData,
-//                        OnCompleteListener<DocumentReference> successListener, OnFailureListener failureListener) {
+//                        OnCompleteListener<DocumentReference>
+//                        successListener, OnFailureListener failureListener) {
 //        db.collection("users")
 //                .add(userData)
 //                .addOnCompleteListener(successListener)
