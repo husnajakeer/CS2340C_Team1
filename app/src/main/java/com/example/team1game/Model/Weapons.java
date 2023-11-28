@@ -1,6 +1,5 @@
 package com.example.team1game.Model;
 
-import android.graphics.Bitmap;
 import android.widget.ImageView;
 
 /**
