@@ -16,4 +16,7 @@ public class AttackPowerUpDecorator implements PlayerDecorator {
     public void applyEffect(Player player) {
         BaseScreen.setScoreMultiplier(scoreMultiplier * 2);
     }
+    public int getScoreMultiplier() {
+        return scoreMultiplier;
+    }
 }

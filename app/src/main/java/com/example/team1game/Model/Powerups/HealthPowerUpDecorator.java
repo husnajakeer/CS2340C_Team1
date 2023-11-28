@@ -17,4 +17,7 @@ public class HealthPowerUpDecorator implements PlayerDecorator {
     public void applyEffect(Player player) {
         baseScreen.setNumOfHearts(hearts + 20);
     }
+    public int getHearts() {
+        return hearts;
+    }
 }
