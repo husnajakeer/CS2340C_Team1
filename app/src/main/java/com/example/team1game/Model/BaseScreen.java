@@ -14,9 +14,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.team1game.Model.Enemy.Enemy;
-import com.example.team1game.Model.Powerups.AttackPowerUpDecorator;
-import com.example.team1game.Model.Powerups.HealthPowerUpDecorator;
-import com.example.team1game.Model.Powerups.TimePowerUpDecorator;
+//import com.example.team1game.Model.Powerups.AttackPowerUpDecorator;
+//import com.example.team1game.Model.Powerups.HealthPowerUpDecorator;
+//import com.example.team1game.Model.Powerups.TimePowerUpDecorator;
 import com.example.team1game.R;
 
 import java.util.ArrayList;
@@ -109,7 +109,7 @@ public abstract class BaseScreen extends AppCompatActivity {
             characterSprite.setImageResource(R.drawable.rika_idle);
         }
     }
-    protected void setWeaponSprite(){
+    protected void setWeaponSprite() {
         playerSwordSprite = findViewById(R.id.swordSprite); // Replace with your ImageView ID
         sword = new Weapons("Sword", 10, playerSwordSprite);
         player.setWeapon(sword);
@@ -301,7 +301,7 @@ public abstract class BaseScreen extends AppCompatActivity {
 
             if (enemy.getMovementType().equals("random")) {
                 enemy.getEnemyMovement().moveRandomly();
-            } else if (enemy.getMovementType().equals("linear")){
+            } else if (enemy.getMovementType().equals("linear")) {
                 enemy.getEnemyMovement().moveLinearly();
             } else {
                 System.out.print("no movement type so just move randomly");
@@ -342,7 +342,8 @@ public abstract class BaseScreen extends AppCompatActivity {
         // Stop the animation after 1 second
         new Handler().postDelayed(() -> {
             swordAnimation.stop();
-            playerSwordSprite.setVisibility(View.VISIBLE); // Show the sword sprite again after 1 second
+            playerSwordSprite.setVisibility(View.VISIBLE);
+            // Show the sword sprite again after 1 second
         }, 1000);
         enemyTakeDamage(sword.getSprite());
     }
@@ -369,7 +370,8 @@ public abstract class BaseScreen extends AppCompatActivity {
                 iterator.remove();
 
                 // Perform any other necessary actions here
-                // For example, update the enemy's status or initiate other logic for the damaged enemy
+                // For example, update the enemy's status or initiate
+                // other logic for the damaged enemy
                 score += scoreMultiplier;
             }
         }
