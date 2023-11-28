@@ -28,8 +28,6 @@ import com.example.team1game.R;
 //import com.google.firebase.firestore.QueryDocumentSnapshot;
 //import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.HashMap;
-import java.util.Map;
 
 public class EndScreen extends AppCompatActivity {
 
