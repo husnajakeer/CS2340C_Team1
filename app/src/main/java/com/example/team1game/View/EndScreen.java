@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.team1game.Model.Attempt;
+import com.example.team1game.Model.GlobalMusicPlayer;
 import com.example.team1game.Model.Leaderboard;
 import com.example.team1game.Model.Player;
 import com.example.team1game.ModelView.MainActivity;
@@ -29,6 +30,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,12 +40,18 @@ public class EndScreen extends AppCompatActivity {
     private Button restartButton;
     private Button quitButton;
     private Player player;
+    private GlobalMusicPlayer musicPlayer;
+
+    private ArrayList<Attempt> topScoresList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         player = Player.getPlayer();
         setContentView(R.layout.activity_end_screen);
+        musicPlayer = new GlobalMusicPlayer(this, R.raw.background_music);
+        topScoresList = new ArrayList<>();
 
         setLeaderboard();
         setCurrentAttempt();
@@ -54,6 +62,7 @@ public class EndScreen extends AppCompatActivity {
         quitButton = findViewById(R.id.quitButton);
 
         restartButton.setOnClickListener(view -> {
+            //musicPlayer.stop();
             Intent intent = new Intent(EndScreen.this, MainActivity.class);
             startActivity(intent);
         });

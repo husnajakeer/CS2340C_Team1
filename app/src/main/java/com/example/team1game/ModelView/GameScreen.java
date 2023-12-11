@@ -3,6 +3,7 @@ package com.example.team1game.ModelView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ import com.example.team1game.Model.Powerups.AttackPowerUpDecorator;
 import com.example.team1game.Model.Powerups.HealthPowerUpDecorator;
 import com.example.team1game.Model.Powerups.TimePowerUpDecorator;
 import com.example.team1game.R;
+import com.example.team1game.View.EndScreen;
 import com.example.team1game.View.LoseScreen;
 import com.example.team1game.View.Room2;
 
@@ -27,8 +29,6 @@ import java.util.HashMap;
 public class GameScreen extends BaseScreen {
 
     private Handler powerupHandler = new Handler();
-    //Handler powerupHandler = new Handler();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,12 +36,12 @@ public class GameScreen extends BaseScreen {
 
         initializeGame();
         setupTimeUpdater();
-        //setupScoreUpdater();
         initializePlayerMovementControls();
         detectPlayerInitialPos();
         startEnemyMovementTimer();
         startEnemyMovementTimer();
         setupPowerupCollisionDetection();
+        skipToEndScreen();
     }
 
     protected void initializeGame() {
@@ -202,8 +202,6 @@ public class GameScreen extends BaseScreen {
 
     private void pauseGame() {
         powerupHandler.removeCallbacksAndMessages(null);
-
-
     }
 
     @Override
@@ -227,5 +225,14 @@ public class GameScreen extends BaseScreen {
             startActivity(intent);
             finish();
         }
+    }
+    private void skipToEndScreen() {
+        Button skipButton = findViewById(R.id.skipToEndScreenButton);
+        skipButton.setOnClickListener(view -> {
+            // Handle onClick action for skipButton here
+            Intent intent = new Intent(GameScreen.this, EndScreen.class);
+            startActivity(intent);
+        });
+
     }
 }
