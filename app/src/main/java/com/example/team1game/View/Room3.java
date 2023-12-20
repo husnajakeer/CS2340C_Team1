@@ -42,9 +42,7 @@ public class Room3 extends BaseScreen {
 
 
     protected void initializeGame() {
-        Intent intent = getIntent();
         player = Player.getPlayer();
-        player.setScore(intent.getIntExtra("endingScore", 0));
         TextView scoreTextView = findViewById(R.id.scoreTextView);
         scoreTextView.setText("Score: " + player.getScore());
 
@@ -101,12 +99,6 @@ public class Room3 extends BaseScreen {
             public void run() {
                 TextView scoreTextView = findViewById(R.id.scoreTextView);
                 TextView timeTextView = findViewById(R.id.timeTextView);
-                /*
-                if (player.getScore() == 0) {
-                    gameLost = true;
-                    goToEndScreen();
-                }
-                */
                 if (player.getScore() > 0) {
                     player.setScore(player.getScore() - 1);
                     timeTextView.setText("Time: " + player.getScore());
@@ -159,15 +151,6 @@ public class Room3 extends BaseScreen {
         }, 100);
     }
 
-    /*
-    protected void setupScoreUpdater() {
-        TextView scoreTextView = findViewById(R.id.scoreTextView);
-        if (score >= 0) {
-            scoreTextView.setText("Score " + score);
-        }
-    }
-    */
-
     protected void checkPlayerOnExit() {
         TextView exitArea = findViewById(R.id.exitArea);
 
@@ -204,6 +187,7 @@ public class Room3 extends BaseScreen {
         String difficulty = player.getDifficulty();
         Leaderboard.getInstance();
         Attempt attempt = new Attempt(playerName, score, difficulty);
+        player.setCurrentAttempt(attempt);
         Leaderboard.getInstance().addAttempt(attempt);
         goToEndScreen();
     }

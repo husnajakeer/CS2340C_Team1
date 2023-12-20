@@ -102,12 +102,6 @@ public class GameScreen extends BaseScreen {
             public void run() {
                 TextView scoreTextView = findViewById(R.id.scoreTextView);
                 TextView timeTextView = findViewById(R.id.timeTextView);
-                /*
-                if (player.getScore() == 0) {
-                    gameLost = true;
-                    goToRoom2();
-                }
-                */
                 if (player.getScore() > 0) {
                     player.setScore(player.getScore() - 1);
                     timeTextView.setText("Time " + player.getScore());
@@ -191,15 +185,6 @@ public class GameScreen extends BaseScreen {
 
     }
 
-    protected void finishGame() {
-        String playerName = player.getName();
-        String difficulty = player.getDifficulty();
-        Leaderboard.getInstance();
-        Attempt attempt = new Attempt(playerName, score, difficulty);
-        Leaderboard.getInstance().addAttempt(attempt);
-        goToRoom2();
-    }
-
     private void pauseGame() {
         powerupHandler.removeCallbacksAndMessages(null);
     }
@@ -215,7 +200,6 @@ public class GameScreen extends BaseScreen {
             String sprite = getIntent().getStringExtra("sprite");
             Intent intent = new Intent(GameScreen.this, Room2.class);
             intent.putExtra("sprite", sprite);
-            intent.putExtra("endingScore", player.getScore());
             intent.putExtra("score", score);
             startActivity(intent);
             finish();

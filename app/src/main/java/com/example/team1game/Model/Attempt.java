@@ -11,7 +11,7 @@ import java.util.Locale;
  */
 public class Attempt {
     private final String playerName;
-    private final String attemptTime;
+    private String attemptTime;
     private final int score;
     private final String difficulty;
 
@@ -41,6 +41,14 @@ public class Attempt {
      */
     public String getPlayerName() {
         return playerName;
+    }
+    // Setter for attemptTime
+    public void setAttemptTime(String newAttemptTime) {
+        // Check if newAttemptTime is valid (optional)
+        // For example, you could check if it follows a specific format
+
+        // Set the new attempt time
+        this.attemptTime = newAttemptTime;
     }
 
     /**
