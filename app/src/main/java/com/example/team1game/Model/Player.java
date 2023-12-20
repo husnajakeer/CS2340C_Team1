@@ -10,6 +10,7 @@ public class Player extends Entity {
     private int score;
     private String difficulty;
     private Weapons weapon;
+    private Attempt currentAttempt;
 
     private static volatile  Player player;
     public static Player getPlayer() {
@@ -42,6 +43,7 @@ public class Player extends Entity {
         this.score = score;
         this.difficulty = difficulty;
         this.weapon = weapon;
+        this.currentAttempt = null;
     }
 
     /**
@@ -99,7 +101,8 @@ public class Player extends Entity {
         this.difficulty = difficulty;
     }
     private Player() {
-        this("player", true, 5, 10, 0, "Medium", null);
+        this("player", true, 5, 10, 0, "Medium",
+                null);
     }
 
     /**
@@ -208,5 +211,13 @@ public class Player extends Entity {
             weapon.getSprite().setX(getX());
             weapon.getSprite().setY(getY());
         }
+    }
+
+    public Attempt getCurrentAttempt() {
+        return currentAttempt;
+    }
+
+    public void setCurrentAttempt(Attempt currentAttempt) {
+        this.currentAttempt = currentAttempt;
     }
 }

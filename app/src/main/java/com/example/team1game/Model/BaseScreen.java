@@ -408,9 +408,6 @@ public abstract class BaseScreen extends AppCompatActivity {
         String playerName = player.getName();
         String difficulty = player.getDifficulty();
         Leaderboard.getInstance();
-        Attempt attempt = new Attempt(playerName, player.getScore(), difficulty);
-        Leaderboard.getInstance().addAttempt(attempt);
-        //goToEndScreen();
     }
     @Override
     protected void onPause() {
