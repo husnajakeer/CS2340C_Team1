@@ -38,9 +38,7 @@ public class Room2 extends BaseScreen {
         setupPowerupCollisionDetection();
     }
     protected void initializeGame() {
-        Intent intent = getIntent();
         player = Player.getPlayer();
-        player.setScore(intent.getIntExtra("endingScore", 0));
         TextView scoreTextView = findViewById(R.id.scoreTextView);
         scoreTextView.setText("Time: " + player.getScore());
 
@@ -185,17 +183,6 @@ public class Room2 extends BaseScreen {
             goToRoom3();
         }
 
-    }
-
-
-    @Override
-    protected void finishGame() {
-        String playerName = player.getName();
-        String difficulty = player.getDifficulty();
-        Leaderboard.getInstance();
-        Attempt attempt = new Attempt(playerName, score, difficulty);
-        Leaderboard.getInstance().addAttempt(attempt);
-        goToRoom3();
     }
 
     private void goToRoom3() {
