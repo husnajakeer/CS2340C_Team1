@@ -34,8 +34,14 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(view -> {
             String email = emailField.getText().toString();
             String password = passwordField.getText().toString();
-            loginUser(email, password);
+
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(LoginActivity.this, "Please enter both email and password", Toast.LENGTH_SHORT).show();
+            } else {
+                loginUser(email, password);
+            }
         });
+
 
         createUserButton.setOnClickListener(view -> {
             Intent intent = new Intent(LoginActivity.this, CreateUserActivity.class);
