@@ -6,6 +6,7 @@
     android:background="@drawable/screen3"
     tools:ignore="ExtraText">
 
+    <include layout="@layout/activity_base_screen"/>
 
     <TextView
         android:id="@+id/exitArea"
@@ -40,16 +41,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-
-    <TextView
-        android:id="@+id/playerNameTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginBottom="8dp"
-        android:text="PlayerName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/characterSprite"
@@ -99,170 +90,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/healthPointsTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="5dp"
-        android:text="Health Points"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/difficultyTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="248dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="109dp"
-        android:layout_marginBottom="707dp"
-        android:text="Difficulty"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/healthPointsTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/timeTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="140dp"
-        android:layout_marginEnd="144dp"
-        android:layout_marginBottom="0.5dp"
-        android:text="Time: 100"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textSize="26sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <LinearLayout
-        android:id="@+id/healthContainer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/healthPointsTextView"></LinearLayout>
-    <!-- Hearts will be dynamically added here -->
-    <!-- <androidx.constraintlayout.widget.Group
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content" /> -->
-    <GridLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:columnCount="3"
-        android:rowCount="3"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1" />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1" />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1" />
-
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1" />
-
-
-        <Button
-            android:id="@+id/upButton"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:layout_rowWeight="0.5"
-            android:layout_columnWeight="2"
-            android:layout_gravity="center"
-            android:layout_marginEnd="16dp"
-            android:text="↑"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1" />
-
-        <Button
-            android:id="@+id/leftButton"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_below="@+id/upButton"
-            android:layout_centerVertical="true"
-            android:layout_gravity="end"
-            android:layout_toStartOf="@+id/upButton"
-            android:text="←"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-
-        <Button
-            android:id="@+id/downButton"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:text="↓"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/rightButton"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/upButton"
-            android:layout_alignBottom="@+id/upButton"
-            android:layout_centerVertical="true"
-            android:layout_gravity="end"
-            android:layout_marginEnd="16dp"
-            android:layout_toRightOf="@+id/upButton"
-            android:text="→"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-    </GridLayout>
-
-    <Button
-        android:id="@+id/attackButton"
-        android:layout_width="70dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="130dp"
-        android:onClick="playerSwordAttack"
-        android:text="ATK"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/healthPointsTextView" />
-    <!-- rel layout stores enemies. rel layout makes it easy to delete enemy
-     views later-->
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp">
-
-        <ImageView
+    <ImageView
             android:id="@+id/fastEnemy"
             android:layout_width="68dp"
             android:layout_height="64dp"
@@ -294,20 +122,6 @@
             tools:layout_editor_absoluteX="272dp"
             tools:layout_editor_absoluteY="468dp" />
 
-        <TextView
-            android:id="@+id/scoreTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="120dp"
-            android:layout_marginEnd="144dp"
-            android:layout_marginBottom="0.5dp"
-            android:background="#FF0000"
-            android:text="Score: 0"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textSize="26sp"
-            android:textStyle="bold" />
-    </RelativeLayout>
-
     <ImageView
         android:id="@+id/swordSprite"
         android:layout_width="wrap_content"
@@ -329,6 +143,8 @@
         android:id="@+id/skipToEndScreenButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Skip to End"/>
+        android:text="Skip to End"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="39dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

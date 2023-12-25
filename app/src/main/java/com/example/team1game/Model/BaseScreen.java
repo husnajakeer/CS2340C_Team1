@@ -69,7 +69,7 @@ public abstract class BaseScreen extends AppCompatActivity {
 
         playerNameTextView.setText("Name: " + playerName);
         healthPointsTextView.setText("Health: " + numOfHearts + " hearts");
-        difficultyTextView.setText("Difficulty: " + difficulty);
+        difficultyTextView.setText(difficulty + " mode");
         setCharacterSprite(sprite);
         setWeaponSprite();
     }
