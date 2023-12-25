@@ -13,8 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.team1game.Model.Attempt;
-import com.example.team1game.Model.GlobalMusicPlayer;
-import com.example.team1game.Model.Leaderboard;
 import com.example.team1game.Model.Player;
 import com.example.team1game.ModelView.MainActivity;
 import com.example.team1game.R;
@@ -22,9 +20,7 @@ import com.example.team1game.R;
 // firestore
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;

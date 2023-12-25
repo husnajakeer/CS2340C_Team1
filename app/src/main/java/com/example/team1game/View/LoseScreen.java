@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.team1game.Model.Attempt;
-import com.example.team1game.Model.Leaderboard;
+import com.example.team1game.Model.UnusedClasses.Leaderboard;
 import com.example.team1game.Model.Player;
 import com.example.team1game.ModelView.MainActivity;
 import com.example.team1game.R;

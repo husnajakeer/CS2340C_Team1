@@ -5,7 +5,13 @@
     android:layout_height="match_parent"
     tools:ignore="ExtraText">
 
-
+    <ImageView
+        android:id="@+id/swordSprite"
+        android:layout_width="30dp"
+        android:layout_height="64dp"
+        app:srcCompat="@drawable/sword"
+        tools:layout_editor_absoluteX="151dp"
+        tools:layout_editor_absoluteY="189dp" />
     <TextView
         android:id="@+id/playerNameTextView"
         android:layout_width="wrap_content"
@@ -194,13 +200,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/swordSprite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="151dp"
-        tools:layout_editor_absoluteY="189dp" />
 
     <TextView
         android:id="@+id/powerupMessage"
