@@ -12,6 +12,11 @@
         app:srcCompat="@drawable/sword"
         tools:layout_editor_absoluteX="151dp"
         tools:layout_editor_absoluteY="189dp" />
+    <ImageView
+        android:id="@+id/swordSlashAnimationView"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:visibility="invisible" />
     <TextView
         android:id="@+id/playerNameTextView"
         android:layout_width="wrap_content"
