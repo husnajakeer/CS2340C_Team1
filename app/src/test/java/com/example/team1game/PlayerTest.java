@@ -2,7 +2,7 @@ package com.example.team1game;
 
 import static org.junit.Assert.*;
 
-import com.example.team1game.Model.Leaderboard;
+import com.example.team1game.Model.UnusedClasses.Leaderboard;
 import com.example.team1game.Model.Player;
 
 import org.junit.Before;

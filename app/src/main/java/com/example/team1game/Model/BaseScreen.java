@@ -2,6 +2,7 @@ package com.example.team1game.Model;
 
 import android.graphics.Rect;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.example.team1game.Model.Enemy.Enemy;
 //import com.example.team1game.Model.Powerups.AttackPowerUpDecorator;
 //import com.example.team1game.Model.Powerups.HealthPowerUpDecorator;
 //import com.example.team1game.Model.Powerups.TimePowerUpDecorator;
+import com.example.team1game.Model.UnusedClasses.Leaderboard;
 import com.example.team1game.R;
 
 import java.util.ArrayList;
@@ -328,20 +330,24 @@ public abstract class BaseScreen extends AppCompatActivity {
         enemyMovementHandler.removeCallbacksAndMessages(null);
     }
     public void playerSwordAttack(View view) {
-        //playerSwordSprite.setVisibility(View.INVISIBLE);
         player.setWeaponPosition();
-        playerSwordSprite.setX(player.getX());
-        playerSwordSprite.setY(player.getY());
+        playerSwordSprite.setVisibility(View.INVISIBLE);
 
-        // Set the background resource of the sword sprite to the sword swing animation
-        playerSwordSprite.setBackgroundResource(R.drawable.sword_slash_anim);
+        // make a new img view for sword slash and play animation
+        ImageView swordSlashAnimationView = findViewById(R.id.swordSlashAnimationView);
+        swordSlashAnimationView.setX(player.getX() + 10);
+        swordSlashAnimationView.setY(player.getY() + 20);
+        swordSlashAnimationView.setBackgroundResource(R.drawable.sword_slash_anim);
+        // swordslash view was invisble before
+        swordSlashAnimationView.setVisibility(View.VISIBLE);
         // Retrieve the animation drawable and start the animation
-        AnimationDrawable swordAnimation = (AnimationDrawable) playerSwordSprite.getBackground();
+        AnimationDrawable swordAnimation = (AnimationDrawable) swordSlashAnimationView.getBackground();
         swordAnimation.start();
 
         // Stop the animation after 1 second
         new Handler().postDelayed(() -> {
             swordAnimation.stop();
+            swordSlashAnimationView.setVisibility(View.INVISIBLE);
             playerSwordSprite.setVisibility(View.VISIBLE);
             // Show the sword sprite again after 1 second
         }, 1000);

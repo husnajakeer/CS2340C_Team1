@@ -1,4 +1,6 @@
-package com.example.team1game.Model;
+package com.example.team1game.Model.UnusedClasses;
+
+import com.example.team1game.Model.Attempt;
 
 import java.util.Collections;
 import java.util.Comparator;
