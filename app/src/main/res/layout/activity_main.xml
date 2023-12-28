@@ -1,5 +1,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/screen1">
@@ -30,5 +31,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/startButton"
         app:layout_constraintVertical_bias="0.2" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="348dp"
+        android:layout_height="294dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.746"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/shroom_slayer_logo"
+        tools:layout_editor_absoluteY="-6dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

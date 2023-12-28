@@ -54,19 +54,20 @@
 
     <ImageView
         android:id="@+id/powerup1"
-        android:src="@drawable/powerup1"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="225dp"
-        android:layout_marginTop="296dp"
+        android:layout_marginTop="252dp"
         android:layout_marginEnd="86dp"
+        android:src="@drawable/p1"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/powerup2"
-        android:src="@drawable/powerup2"
+        android:src="@drawable/p2"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="225dp"
@@ -78,7 +79,7 @@
 
     <ImageView
         android:id="@+id/powerup3"
-        android:src="@drawable/powerup3"
+        android:src="@drawable/p3"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="225dp"
