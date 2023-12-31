@@ -20,25 +20,38 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+
     <View
         android:id="@+id/obstacleView1"
-        android:layout_width="250dp"
-        android:layout_height="157dp"
+        android:layout_width="63dp"
+        android:layout_height="410dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="548dp"
         android:background="#40FF5733"
         android:tag="obstacle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/skipToEndScreenButton" />
 
     <View
         android:id="@+id/obstacleView2"
         android:layout_width="75dp"
-        android:layout_height="470dp"
+        android:layout_height="76dp"
+        android:layout_marginTop="252dp"
         android:background="#40FF5733"
         android:tag="obstacle"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
+    <View
+        android:id="@+id/obstacleView3"
+        android:layout_width="75dp"
+        android:layout_height="76dp"
+        android:layout_marginTop="104dp"
+        android:background="#40FF5733"
+        android:tag="obstacle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/characterSprite"
@@ -57,35 +70,37 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="225dp"
-        android:layout_marginTop="252dp"
+        android:layout_marginTop="52dp"
         android:layout_marginEnd="86dp"
         android:src="@drawable/p1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.72"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/powerup2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="516dp"
+        android:layout_marginEnd="86dp"
+        android:src="@drawable/p2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/powerup2"
-        android:src="@drawable/p2"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="225dp"
-        android:layout_marginTop="396dp"
-        android:layout_marginEnd="86dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
         android:id="@+id/powerup3"
-        android:src="@drawable/p3"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginStart="225dp"
-        android:layout_marginTop="496dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="180dp"
         android:layout_marginEnd="86dp"
+        android:src="@drawable/p3"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.164"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

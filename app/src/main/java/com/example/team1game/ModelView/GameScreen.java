@@ -1,8 +1,10 @@
 package com.example.team1game.ModelView;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,6 +24,7 @@ import com.example.team1game.View.EndScreen;
 import com.example.team1game.View.LoseScreen;
 import com.example.team1game.View.Room2;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GameScreen extends BaseScreen {
@@ -216,5 +219,33 @@ public class GameScreen extends BaseScreen {
             startActivity(intent);
         });
 
+    }
+
+    protected void detectAllObstacles() {
+        obstacles = new ArrayList<>();
+        obstacles.add(findViewById(R.id.obstacleView1));
+        obstacles.add(findViewById(R.id.obstacleView2));
+        obstacles.add(findViewById(R.id.obstacleView3));
+
+        obstacleHandler = new Handler();
+        Runnable collisionCheckRunnable = new Runnable() {
+            @Override
+            public void run() {
+                Rect playerRect = new Rect();
+                characterSprite.getHitRect(playerRect);
+
+                for (View obstacle : obstacles) {
+                    Rect obstacleRect = new Rect();
+                    obstacle.getHitRect(obstacleRect);
+
+                    playerMovement.handleMovementFlags(obstacleRect,
+                            playerRect); // Update movement flags
+                    playerMovement.handleCollision(obstacleRect, playerRect); // Handle collisions
+                }
+
+                obstacleHandler.postDelayed(this, 16); // Check for collisions every 16 milliseconds
+            }
+        };
+        obstacleHandler.post(collisionCheckRunnable);
     }
 }
