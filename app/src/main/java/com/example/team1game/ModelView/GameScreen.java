@@ -16,7 +16,7 @@ import com.example.team1game.Model.Enemy.FastEnemy;
 import com.example.team1game.Model.Player;
 import com.example.team1game.Model.Enemy.SlowEnemy;
 import com.example.team1game.Model.Enemy.SmallEnemy;
-import com.example.team1game.Model.Powerups.AttackPowerUpDecorator;
+import com.example.team1game.Model.Powerups.ScorePowerUpDecorator;
 import com.example.team1game.Model.Powerups.HealthPowerUpDecorator;
 import com.example.team1game.Model.Powerups.TimePowerUpDecorator;
 import com.example.team1game.R;
@@ -123,12 +123,11 @@ public class GameScreen extends BaseScreen {
         powerupHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                // Attack Powerup
+                // Score Powerup
                 if (checkPowerupCollision(characterSprite, powerup1)) {
-                    AttackPowerUpDecorator powerOneDecorator = new
-                            AttackPowerUpDecorator(scoreMultiplier);
-                    powerOneDecorator.applyEffect(player);
-                    showPowerupUsedMessage("Attack Powerup Used!", powerupMessage);
+                    ScorePowerUpDecorator instantScoreBonus = new ScorePowerUpDecorator(50);
+                    instantScoreBonus.applyEffect(player);
+                    showPowerupUsedMessage("Instant Score Bonus Used!", powerupMessage);
                     removePowerupView(powerup1);
                 }
 

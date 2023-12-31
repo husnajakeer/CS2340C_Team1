@@ -35,7 +35,7 @@ public abstract class BaseScreen extends AppCompatActivity {
     protected Runnable healthReductionRunnable;
     protected boolean isPlayerInContactWithEnemy = false;
 
-    protected static int score = 0;
+    public static int score = 0;
     protected static int numOfHearts = -1;
     protected int healthDecrease = 1;
     protected Handler timeHandler = new Handler();
