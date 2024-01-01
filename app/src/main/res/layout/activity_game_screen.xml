@@ -20,25 +20,38 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+
     <View
         android:id="@+id/obstacleView1"
-        android:layout_width="250dp"
-        android:layout_height="157dp"
+        android:layout_width="63dp"
+        android:layout_height="410dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="548dp"
         android:background="#40FF5733"
         android:tag="obstacle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/skipToEndScreenButton" />
 
     <View
         android:id="@+id/obstacleView2"
         android:layout_width="75dp"
-        android:layout_height="470dp"
+        android:layout_height="76dp"
+        android:layout_marginTop="252dp"
         android:background="#40FF5733"
         android:tag="obstacle"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
+    <View
+        android:id="@+id/obstacleView3"
+        android:layout_width="75dp"
+        android:layout_height="76dp"
+        android:layout_marginTop="104dp"
+        android:background="#40FF5733"
+        android:tag="obstacle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/characterSprite"
@@ -57,11 +70,11 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="225dp"
-        android:layout_marginTop="168dp"
+        android:layout_marginTop="52dp"
         android:layout_marginEnd="86dp"
         android:src="@drawable/p1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.72"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -69,12 +82,12 @@
         android:id="@+id/powerup2"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginStart="300dp"
-        android:layout_marginTop="456dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="516dp"
+        android:layout_marginEnd="86dp"
         android:src="@drawable/p2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -82,12 +95,12 @@
         android:id="@+id/powerup3"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginStart="70dp"
-        android:layout_marginTop="592dp"
-        android:layout_marginEnd="150dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="180dp"
+        android:layout_marginEnd="86dp"
         android:src="@drawable/p3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.035"
+        app:layout_constraintHorizontal_bias="0.164"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -125,14 +138,26 @@
 
     <TextView
         android:id="@+id/powerupMessage"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textSize="18sp"
-        android:textColor="@android:color/holo_blue_bright"
-        android:background="@android:color/white"
-        android:padding="8dp"
-        android:visibility="gone" />
+        android:textSize="20sp"
+        android:textColor="#FF1744"
+        android:background="#CCFFFFFF"
+        android:padding="12dp"
+        android:visibility="gone"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:shadowColor="#66000000"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="4"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
     <Button
         android:id="@+id/skipToEndScreenButton"
         android:layout_width="wrap_content"
