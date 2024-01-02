@@ -1,5 +1,6 @@
 package com.example.team1game.Model;
 
+import android.content.Intent;
 import android.graphics.Rect;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
@@ -13,13 +14,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.team1game.Model.Enemy.Enemy;
 //import com.example.team1game.Model.Powerups.AttackPowerUpDecorator;
 //import com.example.team1game.Model.Powerups.HealthPowerUpDecorator;
 //import com.example.team1game.Model.Powerups.TimePowerUpDecorator;
 import com.example.team1game.Model.UnusedClasses.Leaderboard;
+import com.example.team1game.ModelView.GameScreen;
 import com.example.team1game.R;
+import com.example.team1game.View.LoseScreen;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -63,11 +67,9 @@ public abstract class BaseScreen extends AppCompatActivity {
         String difficulty = player.getDifficulty();
         String sprite = getIntent().getStringExtra("sprite");
 
-        // if num of hearts hasn't been set before, then
-        if (numOfHearts == -1) {
-            numOfHearts = determineNumberOfHearts(difficulty);
-            healthDecrease = determineHealthDecrease(difficulty);
-        }
+        // in new rooms, your health gets restored
+        numOfHearts = determineNumberOfHearts(difficulty);
+        healthDecrease = determineHealthDecrease(difficulty);
 
         playerNameTextView.setText("Name: " + playerName);
         healthPointsTextView.setText("Health: " + numOfHearts + " hearts");
@@ -217,12 +219,15 @@ public abstract class BaseScreen extends AppCompatActivity {
                 if (numOfHearts > 0) {
                     numOfHearts -= healthDecrease;
                     healthPointsTextView.setText("Health: " + numOfHearts + " hearts");
+                    playerFlashesWhenDamaged();
                     if (numOfHearts <= 0) {
                         // Stop the game or transition to game over screen
                         gameLost = true;
-                        finishGame();
+                        Intent intent = new Intent(BaseScreen.this, LoseScreen.class);
+                        startActivity(intent);
+                        finish();
                     }
-                    healthReductionHandler.postDelayed(this, 1000);
+                    healthReductionHandler.postDelayed(this, 100);
                 }
             }
         };
@@ -409,12 +414,14 @@ public abstract class BaseScreen extends AppCompatActivity {
             ((ViewGroup) powerup.getParent()).removeView(powerup);
         }
     }
-
-    protected void finishGame() {
-        String playerName = player.getName();
-        String difficulty = player.getDifficulty();
-        Leaderboard.getInstance();
+    public void playerFlashesWhenDamaged(){
+        characterSprite.setColorFilter(ContextCompat.getColor(this, android.R.color.white));
+        // Post a delayed task to revert back to normal color after 1 second
+        new Handler().postDelayed(() -> {
+            characterSprite.clearColorFilter(); // Reset color filter
+        }, 200);
     }
+
     @Override
     protected void onPause() {
         super.onPause();
