@@ -119,8 +119,6 @@ public class InitialConfigScreen extends AppCompatActivity {
         Log.e("InitialConfigScreen", "Save failed");
     }
 
-
-
     private String getSelectedDifficulty() {
         if (easyDifficulty.isChecked()) return "Easy";
         if (mediumDifficulty.isChecked()) return "Medium";

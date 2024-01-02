@@ -23,15 +23,14 @@
 
     <View
         android:id="@+id/obstacleView1"
-        android:layout_width="98dp"
-        android:layout_height="200dp"
-        android:layout_marginStart="130dp"
+        android:layout_width="63dp"
+        android:layout_height="410dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="548dp"
         android:background="#40FF5733"
         android:tag="obstacle"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toEndOf="@id/skipToEndScreenButton" />
 
     <View
         android:id="@+id/obstacleView2"
@@ -155,6 +154,16 @@
         android:layout_margin="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:id="@+id/skipToEndScreenButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:text="Skip to End"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
