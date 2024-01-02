@@ -42,7 +42,6 @@ public class GameScreen extends BaseScreen {
         startEnemyMovementTimer();
         startEnemyMovementTimer();
         setupPowerupCollisionDetection();
-        skipToEndScreen();
     }
 
     protected void initializeGame() {
@@ -209,15 +208,6 @@ public class GameScreen extends BaseScreen {
             startActivity(intent);
             finish();
         }
-    }
-    private void skipToEndScreen() {
-        Button skipButton = findViewById(R.id.skipToEndScreenButton);
-        skipButton.setOnClickListener(view -> {
-            // Handle onClick action for skipButton here
-            Intent intent = new Intent(GameScreen.this, EndScreen.class);
-            startActivity(intent);
-        });
-
     }
 
     protected void detectAllObstacles() {

@@ -180,14 +180,11 @@ public class Room3 extends BaseScreen {
         }
 
     }
-    @Override
     protected void finishGame() {
-        String playerName = player.getName();
-        String difficulty = player.getDifficulty();
-        Leaderboard.getInstance();
-        Attempt attempt = new Attempt(playerName, score, difficulty);
+        //Leaderboard.getInstance();
+        Attempt attempt = new Attempt(player.getName(), score, player.getDifficulty());
         player.setCurrentAttempt(attempt);
-        Leaderboard.getInstance().addAttempt(attempt);
+        //Leaderboard.getInstance().addAttempt(attempt);
         goToEndScreen();
     }
 
