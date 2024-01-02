@@ -5,31 +5,31 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.team1game.Model.Attempt;
 import com.example.team1game.Model.BaseScreen;
 import com.example.team1game.Model.Enemy.BigEnemy;
 import com.example.team1game.Model.Enemy.Enemy;
 import com.example.team1game.Model.Enemy.FastEnemy;
-import com.example.team1game.Model.Leaderboard;
 import com.example.team1game.Model.Player;
 import com.example.team1game.Model.Enemy.SlowEnemy;
 import com.example.team1game.Model.Enemy.SmallEnemy;
-import com.example.team1game.Model.Powerups.AttackPowerUpDecorator;
+import com.example.team1game.Model.Powerups.ScorePowerUpDecorator;
 import com.example.team1game.Model.Powerups.HealthPowerUpDecorator;
 import com.example.team1game.Model.Powerups.TimePowerUpDecorator;
 import com.example.team1game.R;
+import com.example.team1game.View.EndScreen;
 import com.example.team1game.View.LoseScreen;
 import com.example.team1game.View.Room2;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GameScreen extends BaseScreen {
 
-    Handler powerupHandler = new Handler();
+    private Handler powerupHandler = new Handler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,12 +37,12 @@ public class GameScreen extends BaseScreen {
 
         initializeGame();
         setupTimeUpdater();
-        //setupScoreUpdater();
         initializePlayerMovementControls();
         detectPlayerInitialPos();
         startEnemyMovementTimer();
         startEnemyMovementTimer();
         setupPowerupCollisionDetection();
+        skipToEndScreen();
     }
 
     protected void initializeGame() {
@@ -103,12 +103,6 @@ public class GameScreen extends BaseScreen {
             public void run() {
                 TextView scoreTextView = findViewById(R.id.scoreTextView);
                 TextView timeTextView = findViewById(R.id.timeTextView);
-                /*
-                if (player.getScore() == 0) {
-                    gameLost = true;
-                    goToRoom2();
-                }
-                */
                 if (player.getScore() > 0) {
                     player.setScore(player.getScore() - 1);
                     timeTextView.setText("Time " + player.getScore());
@@ -129,17 +123,18 @@ public class GameScreen extends BaseScreen {
         powerupHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                // Attack Powerup
+                // Score Powerup
                 if (checkPowerupCollision(characterSprite, powerup1)) {
-                    AttackPowerUpDecorator powerOneDecorator = new AttackPowerUpDecorator(scoreMultiplier);
-                    powerOneDecorator.applyEffect(player);
-                    showPowerupUsedMessage("Attack Powerup Used!", powerupMessage);
+                    ScorePowerUpDecorator instantScoreBonus = new ScorePowerUpDecorator(50);
+                    instantScoreBonus.applyEffect(player);
+                    showPowerupUsedMessage("Instant Score Bonus Used!", powerupMessage);
                     removePowerupView(powerup1);
                 }
 
                 // Time Powerup
                 if (checkPowerupCollision(characterSprite, powerup2)) {
-                    TimePowerUpDecorator powerTwoDecorator = new TimePowerUpDecorator(player.getScore(), 20);
+                    TimePowerUpDecorator powerTwoDecorator = new
+                            TimePowerUpDecorator(player.getScore(), 20);
                     powerTwoDecorator.applyEffect(player);
                     showPowerupUsedMessage("Time Powerup Used!", powerupMessage);
                     removePowerupView(powerup2);
@@ -147,7 +142,8 @@ public class GameScreen extends BaseScreen {
 
                 // Health Powerup
                 if (checkPowerupCollision(characterSprite, powerup3)) {
-                    HealthPowerUpDecorator powerThreeDecorator = new HealthPowerUpDecorator(numOfHearts, GameScreen.this);
+                    HealthPowerUpDecorator powerThreeDecorator = new
+                            HealthPowerUpDecorator(numOfHearts, GameScreen.this);
                     powerThreeDecorator.applyEffect(player);
                     showPowerupUsedMessage("Health Powerup Used!", powerupMessage);
                     removePowerupView(powerup3);
@@ -189,19 +185,8 @@ public class GameScreen extends BaseScreen {
 
     }
 
-    protected void finishGame() {
-        String playerName = player.getName();
-        String difficulty = player.getDifficulty();
-        Leaderboard.getInstance();
-        Attempt attempt = new Attempt(playerName, score, difficulty);
-        Leaderboard.getInstance().addAttempt(attempt);
-        goToRoom2();
-    }
-
     private void pauseGame() {
         powerupHandler.removeCallbacksAndMessages(null);
-
-
     }
 
     @Override
@@ -215,7 +200,6 @@ public class GameScreen extends BaseScreen {
             String sprite = getIntent().getStringExtra("sprite");
             Intent intent = new Intent(GameScreen.this, Room2.class);
             intent.putExtra("sprite", sprite);
-            intent.putExtra("endingScore", player.getScore());
             intent.putExtra("score", score);
             startActivity(intent);
             finish();
@@ -225,5 +209,42 @@ public class GameScreen extends BaseScreen {
             startActivity(intent);
             finish();
         }
+    }
+    private void skipToEndScreen() {
+        Button skipButton = findViewById(R.id.skipToEndScreenButton);
+        skipButton.setOnClickListener(view -> {
+            // Handle onClick action for skipButton here
+            Intent intent = new Intent(GameScreen.this, EndScreen.class);
+            startActivity(intent);
+        });
+
+    }
+
+    protected void detectAllObstacles() {
+        obstacles = new ArrayList<>();
+        obstacles.add(findViewById(R.id.obstacleView1));
+        obstacles.add(findViewById(R.id.obstacleView2));
+        obstacles.add(findViewById(R.id.obstacleView3));
+
+        obstacleHandler = new Handler();
+        Runnable collisionCheckRunnable = new Runnable() {
+            @Override
+            public void run() {
+                Rect playerRect = new Rect();
+                characterSprite.getHitRect(playerRect);
+
+                for (View obstacle : obstacles) {
+                    Rect obstacleRect = new Rect();
+                    obstacle.getHitRect(obstacleRect);
+
+                    playerMovement.handleMovementFlags(obstacleRect,
+                            playerRect); // Update movement flags
+                    playerMovement.handleCollision(obstacleRect, playerRect); // Handle collisions
+                }
+
+                obstacleHandler.postDelayed(this, 16); // Check for collisions every 16 milliseconds
+            }
+        };
+        obstacleHandler.post(collisionCheckRunnable);
     }
 }

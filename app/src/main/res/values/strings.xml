@@ -1,5 +1,13 @@
 <resources>
     <string name="app_name">TeamGame</string>
+    <string name="login_button">Login</string>
+    <string name="create_user_button">Create User</string>
+    <string name="email_label">E-Mail</string>
+    <string name="password_label">Password</string>
+    <string name="back_to_login">Back to Log In</string>
+
+
+
 
     <string-array name="difficulty_levels">
         <item>Easy</item>

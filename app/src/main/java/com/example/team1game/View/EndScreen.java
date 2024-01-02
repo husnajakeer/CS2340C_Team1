@@ -13,25 +13,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.team1game.Model.Attempt;
-import com.example.team1game.Model.Leaderboard;
 import com.example.team1game.Model.Player;
 import com.example.team1game.ModelView.MainActivity;
-import com.example.team1game.Model.BaseScreen;
 import com.example.team1game.R;
 
-//// firestore
-//import com.google.android.gms.tasks.OnCompleteListener;
-//import com.google.android.gms.tasks.OnFailureListener;
-//import com.google.android.gms.tasks.OnSuccessListener;
-//import com.google.android.gms.tasks.Task;
-//import com.google.firebase.firestore.DocumentReference;
-//import com.google.firebase.firestore.FirebaseFirestore;
-//import com.google.firebase.firestore.Query;
-//import com.google.firebase.firestore.QueryDocumentSnapshot;
-//import com.google.firebase.firestore.QuerySnapshot;
+// firestore
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
 
 public class EndScreen extends AppCompatActivity {
 
@@ -39,15 +37,19 @@ public class EndScreen extends AppCompatActivity {
     private Button quitButton;
     private Player player;
 
+    private ArrayList<Attempt> topScoresList;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         player = Player.getPlayer();
         setContentView(R.layout.activity_end_screen);
-
-        setLeaderboard();
-        setCurrentAttempt();
-        //saveInBackend();
+        topScoresList = new ArrayList<>();
+        saveInBackend();
+        fetchTopScoresFromFirestore();
+//        setLeaderboard();
+//        setCurrentAttempt();
 
         restartButton = findViewById(R.id.restartButton);
         quitButton = findViewById(R.id.quitButton);
@@ -63,10 +65,10 @@ public class EndScreen extends AppCompatActivity {
     }
 
     private void setLeaderboard() {
-        Leaderboard leaderboard = Leaderboard.getInstance();
+        //Leaderboard leaderboard = Leaderboard.getInstance();
         TableLayout leaderboardTable = findViewById(R.id.leaderboardTable);
-
-        for (Attempt attempt : leaderboard.getAttempts()) {
+        // topScoresList
+        for (Attempt attempt : topScoresList) {
             TableRow row = new TableRow(this);
             TextView playerName = new TextView(this);
             TextView score = new TextView(this);
@@ -93,7 +95,7 @@ public class EndScreen extends AppCompatActivity {
 
             playerName.setText(attempt.getPlayerName());
             score.setText(String.valueOf(attempt.getScore()));
-            attemptTime.setText(attempt.getAttemptTime().toString());
+            attemptTime.setText(attempt.getAttemptTime());
 
             row.addView(playerName);
             row.addView(score);
@@ -104,11 +106,11 @@ public class EndScreen extends AppCompatActivity {
     }
 
     private void setCurrentAttempt() {
-        Leaderboard leaderboard = Leaderboard.getInstance();
+        //Leaderboard leaderboard = Leaderboard.getInstance();
         TableLayout mostRecentAttemptTable = findViewById(R.id.mostRecentAttemptTable);
-        Attempt recentAttempt = leaderboard.getMostRecentAttempt();
+        //Attempt recentAttempt = leaderboard.getMostRecentAttempt();
 
-        if (recentAttempt != null) {
+        if (player.getCurrentAttempt() != null) {
             TableRow row = new TableRow(this);
             TextView playerName = new TextView(this);
             TextView score = new TextView(this);
@@ -133,9 +135,9 @@ public class EndScreen extends AppCompatActivity {
             score.setBackground(ContextCompat.getDrawable(this, R.drawable.border));
             attemptTime.setBackground(ContextCompat.getDrawable(this, R.drawable.border));
 
-            playerName.setText(recentAttempt.getPlayerName());
-            score.setText(String.valueOf(recentAttempt.getScore()));
-            attemptTime.setText(recentAttempt.getAttemptTime().toString());
+            playerName.setText(player.getName());
+            score.setText(String.valueOf(player.getCurrentAttempt().getScore()));
+            attemptTime.setText(player.getCurrentAttempt().getAttemptTime());
 
             row.addView(playerName);
             row.addView(score);
@@ -144,16 +146,16 @@ public class EndScreen extends AppCompatActivity {
             mostRecentAttemptTable.addView(row);
         }
     }
-    /*
     private void saveInBackend() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         // Create a new user with a first and last name
         Map<String, Object> user = new HashMap<>();
         user.put("name", player.getName());
         user.put("difficulty", player.getDifficulty());
-        user.put("score", player.getScore());
-        //user.put("attemptTime", attempt.getAttemptTime().toString());
-
+        // this is actually the timer score
+        user.put("score", player.getCurrentAttempt().getScore());
+        user.put("attemptTime", player.getCurrentAttempt().getAttemptTime());
+        System.out.println("saved in firestore");
 
         // Add a new document with a generated ID
         db.collection("users")
@@ -190,13 +192,20 @@ public class EndScreen extends AppCompatActivity {
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
+                        System.out.println("Top 5 Scores:");
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            String playerName = document.getString("name");
+                            String name = document.getString("name");
+                            String attemptTime = document.getString("attemptTime");
+                            String difficulty = document.getString("difficulty");
                             long playerScore = document.getLong("score");
-
-                            // Update leaderboard with playerName and playerScore
-                            //updateLeaderboard(playerName, playerScore);
+                            Attempt playerAttempt = new Attempt(name, (int) playerScore, difficulty);
+                            playerAttempt.setAttemptTime(attemptTime);
+                            topScoresList.add(playerAttempt);
+                            System.out.println("Score: " + playerScore);
                         }
+                        // Once data is fetched, update the UI
+                        setLeaderboard(); // Update the leaderboard
+                        setCurrentAttempt(); // Update the recent attempt table
                     } else {
                         // Handle errors while fetching data
                         System.out.println("Error getting documents: " + task.getException());
@@ -204,6 +213,5 @@ public class EndScreen extends AppCompatActivity {
                 });
     }
 
-     */
 
 }

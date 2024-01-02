@@ -3,14 +3,12 @@ package com.example.team1game.View;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.team1game.Model.Attempt;
 import com.example.team1game.Model.BaseScreen;
-import com.example.team1game.Model.Leaderboard;
+import com.example.team1game.Model.UnusedClasses.Leaderboard;
 
 import com.example.team1game.Model.Enemy.BigEnemy;
 import com.example.team1game.Model.Enemy.Enemy;
@@ -18,19 +16,17 @@ import com.example.team1game.Model.Enemy.FastEnemy;
 import com.example.team1game.Model.Player;
 import com.example.team1game.Model.Enemy.SlowEnemy;
 import com.example.team1game.Model.Enemy.SmallEnemy;
-import com.example.team1game.Model.Powerups.AttackPowerUpDecorator;
+import com.example.team1game.Model.Powerups.ScorePowerUpDecorator;
 import com.example.team1game.Model.Powerups.HealthPowerUpDecorator;
 import com.example.team1game.Model.Powerups.TimePowerUpDecorator;
-import com.example.team1game.ModelView.GameScreen;
 import com.example.team1game.R;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 //TODO make this file easier to read, not so big
 
 public class Room3 extends BaseScreen {
 
-    Handler powerupHandler = new Handler();
+    private Handler powerupHandler = new Handler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,9 +42,7 @@ public class Room3 extends BaseScreen {
 
 
     protected void initializeGame() {
-        Intent intent = getIntent();
         player = Player.getPlayer();
-        player.setScore(intent.getIntExtra("endingScore", 0));
         TextView scoreTextView = findViewById(R.id.scoreTextView);
         scoreTextView.setText("Score: " + player.getScore());
 
@@ -105,12 +99,6 @@ public class Room3 extends BaseScreen {
             public void run() {
                 TextView scoreTextView = findViewById(R.id.scoreTextView);
                 TextView timeTextView = findViewById(R.id.timeTextView);
-                /*
-                if (player.getScore() == 0) {
-                    gameLost = true;
-                    goToEndScreen();
-                }
-                */
                 if (player.getScore() > 0) {
                     player.setScore(player.getScore() - 1);
                     timeTextView.setText("Time: " + player.getScore());
@@ -133,15 +121,16 @@ public class Room3 extends BaseScreen {
             public void run() {
                 // Attack Powerup
                 if (checkPowerupCollision(characterSprite, powerup1)) {
-                    AttackPowerUpDecorator powerOneDecorator = new AttackPowerUpDecorator(scoreMultiplier);
-                    powerOneDecorator.applyEffect(player);
-                    showPowerupUsedMessage("Attack Powerup Used!", powerupMessage);
+                    ScorePowerUpDecorator instantScoreBonus = new ScorePowerUpDecorator(50);
+                    instantScoreBonus.applyEffect(player);
+                    showPowerupUsedMessage("Instant Score Bonus Used!", powerupMessage);
                     removePowerupView(powerup1);
                 }
 
                 // Time Powerup
                 if (checkPowerupCollision(characterSprite, powerup2)) {
-                    TimePowerUpDecorator powerTwoDecorator = new TimePowerUpDecorator(player.getScore(), 20);
+                    TimePowerUpDecorator powerTwoDecorator = new
+                            TimePowerUpDecorator(player.getScore(), 20);
                     powerTwoDecorator.applyEffect(player);
                     showPowerupUsedMessage("Time Powerup Used!", powerupMessage);
                     removePowerupView(powerup2);
@@ -149,7 +138,8 @@ public class Room3 extends BaseScreen {
 
                 // Health Powerup
                 if (checkPowerupCollision(characterSprite, powerup3)) {
-                    HealthPowerUpDecorator powerThreeDecorator = new HealthPowerUpDecorator(numOfHearts, Room3.this);
+                    HealthPowerUpDecorator powerThreeDecorator = new
+                            HealthPowerUpDecorator(numOfHearts, Room3.this);
                     powerThreeDecorator.applyEffect(player);
                     showPowerupUsedMessage("Health Powerup Used!", powerupMessage);
                     removePowerupView(powerup3);
@@ -159,15 +149,6 @@ public class Room3 extends BaseScreen {
             }
         }, 100);
     }
-
-    /*
-    protected void setupScoreUpdater() {
-        TextView scoreTextView = findViewById(R.id.scoreTextView);
-        if (score >= 0) {
-            scoreTextView.setText("Score " + score);
-        }
-    }
-    */
 
     protected void checkPlayerOnExit() {
         TextView exitArea = findViewById(R.id.exitArea);
@@ -205,6 +186,7 @@ public class Room3 extends BaseScreen {
         String difficulty = player.getDifficulty();
         Leaderboard.getInstance();
         Attempt attempt = new Attempt(playerName, score, difficulty);
+        player.setCurrentAttempt(attempt);
         Leaderboard.getInstance().addAttempt(attempt);
         goToEndScreen();
     }

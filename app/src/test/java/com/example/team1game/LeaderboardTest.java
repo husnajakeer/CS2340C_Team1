@@ -3,7 +3,7 @@ package com.example.team1game;
 import static org.junit.Assert.*;
 
 import com.example.team1game.Model.Attempt;
-import com.example.team1game.Model.Leaderboard;
+import com.example.team1game.Model.UnusedClasses.Leaderboard;
 
 import org.junit.Before;
 import org.junit.Test;

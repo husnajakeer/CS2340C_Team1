@@ -15,4 +15,11 @@ public class TimePowerUpDecorator implements PlayerDecorator {
     public void applyEffect(Player player) {
         player.setScore(score + timeBoost);
     }
+    public int getScore() {
+        return score;
+    }
+
+    public int getTimeBoost() {
+        return timeBoost;
+    }
 }

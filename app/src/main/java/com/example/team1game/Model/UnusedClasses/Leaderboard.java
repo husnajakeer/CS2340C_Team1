@@ -1,10 +1,12 @@
-package com.example.team1game.Model;
+package com.example.team1game.Model.UnusedClasses;
+
+import com.example.team1game.Model.Attempt;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-
+// don't need the leaderboard class anymore
 public class Leaderboard {
     private final List<Attempt> attempts;
     private static Leaderboard instance;

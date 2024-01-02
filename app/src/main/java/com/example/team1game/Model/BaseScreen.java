@@ -2,6 +2,7 @@ package com.example.team1game.Model;
 
 import android.graphics.Rect;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,9 +15,10 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.team1game.Model.Enemy.Enemy;
-import com.example.team1game.Model.Powerups.AttackPowerUpDecorator;
-import com.example.team1game.Model.Powerups.HealthPowerUpDecorator;
-import com.example.team1game.Model.Powerups.TimePowerUpDecorator;
+//import com.example.team1game.Model.Powerups.AttackPowerUpDecorator;
+//import com.example.team1game.Model.Powerups.HealthPowerUpDecorator;
+//import com.example.team1game.Model.Powerups.TimePowerUpDecorator;
+import com.example.team1game.Model.UnusedClasses.Leaderboard;
 import com.example.team1game.R;
 
 import java.util.ArrayList;
@@ -33,7 +35,7 @@ public abstract class BaseScreen extends AppCompatActivity {
     protected Runnable healthReductionRunnable;
     protected boolean isPlayerInContactWithEnemy = false;
 
-    protected static int score = 0;
+    public static int score = 0;
     protected static int numOfHearts = -1;
     protected int healthDecrease = 1;
     protected Handler timeHandler = new Handler();
@@ -69,7 +71,7 @@ public abstract class BaseScreen extends AppCompatActivity {
 
         playerNameTextView.setText("Name: " + playerName);
         healthPointsTextView.setText("Health: " + numOfHearts + " hearts");
-        difficultyTextView.setText("Difficulty: " + difficulty);
+        difficultyTextView.setText(difficulty + " mode");
         setCharacterSprite(sprite);
         setWeaponSprite();
     }
@@ -109,7 +111,7 @@ public abstract class BaseScreen extends AppCompatActivity {
             characterSprite.setImageResource(R.drawable.rika_idle);
         }
     }
-    protected void setWeaponSprite(){
+    protected void setWeaponSprite() {
         playerSwordSprite = findViewById(R.id.swordSprite); // Replace with your ImageView ID
         sword = new Weapons("Sword", 10, playerSwordSprite);
         player.setWeapon(sword);
@@ -301,7 +303,7 @@ public abstract class BaseScreen extends AppCompatActivity {
 
             if (enemy.getMovementType().equals("random")) {
                 enemy.getEnemyMovement().moveRandomly();
-            } else if (enemy.getMovementType().equals("linear")){
+            } else if (enemy.getMovementType().equals("linear")) {
                 enemy.getEnemyMovement().moveLinearly();
             } else {
                 System.out.print("no movement type so just move randomly");
@@ -328,21 +330,26 @@ public abstract class BaseScreen extends AppCompatActivity {
         enemyMovementHandler.removeCallbacksAndMessages(null);
     }
     public void playerSwordAttack(View view) {
-        //playerSwordSprite.setVisibility(View.INVISIBLE);
         player.setWeaponPosition();
-        playerSwordSprite.setX(player.getX());
-        playerSwordSprite.setY(player.getY());
+        playerSwordSprite.setVisibility(View.INVISIBLE);
 
-        // Set the background resource of the sword sprite to the sword swing animation
-        playerSwordSprite.setBackgroundResource(R.drawable.sword_slash_anim);
+        // make a new img view for sword slash and play animation
+        ImageView swordSlashAnimationView = findViewById(R.id.swordSlashAnimationView);
+        swordSlashAnimationView.setX(player.getX() + 10);
+        swordSlashAnimationView.setY(player.getY() + 20);
+        swordSlashAnimationView.setBackgroundResource(R.drawable.sword_slash_anim);
+        // swordslash view was invisble before
+        swordSlashAnimationView.setVisibility(View.VISIBLE);
         // Retrieve the animation drawable and start the animation
-        AnimationDrawable swordAnimation = (AnimationDrawable) playerSwordSprite.getBackground();
+        AnimationDrawable swordAnimation = (AnimationDrawable) swordSlashAnimationView.getBackground();
         swordAnimation.start();
 
         // Stop the animation after 1 second
         new Handler().postDelayed(() -> {
             swordAnimation.stop();
-            playerSwordSprite.setVisibility(View.VISIBLE); // Show the sword sprite again after 1 second
+            swordSlashAnimationView.setVisibility(View.INVISIBLE);
+            playerSwordSprite.setVisibility(View.VISIBLE);
+            // Show the sword sprite again after 1 second
         }, 1000);
         enemyTakeDamage(sword.getSprite());
     }
@@ -369,7 +376,8 @@ public abstract class BaseScreen extends AppCompatActivity {
                 iterator.remove();
 
                 // Perform any other necessary actions here
-                // For example, update the enemy's status or initiate other logic for the damaged enemy
+                // For example, update the enemy's status or initiate
+                // other logic for the damaged enemy
                 score += scoreMultiplier;
             }
         }
@@ -406,9 +414,6 @@ public abstract class BaseScreen extends AppCompatActivity {
         String playerName = player.getName();
         String difficulty = player.getDifficulty();
         Leaderboard.getInstance();
-        Attempt attempt = new Attempt(playerName, player.getScore(), difficulty);
-        Leaderboard.getInstance().addAttempt(attempt);
-        //goToEndScreen();
     }
     @Override
     protected void onPause() {

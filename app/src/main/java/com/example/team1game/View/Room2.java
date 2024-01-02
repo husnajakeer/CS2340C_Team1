@@ -3,33 +3,27 @@ package com.example.team1game.View;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import com.example.team1game.Model.Attempt;
 import com.example.team1game.Model.BaseScreen;
 import com.example.team1game.Model.Enemy.BigEnemy;
 import com.example.team1game.Model.Enemy.Enemy;
 import com.example.team1game.Model.Enemy.FastEnemy;
-import com.example.team1game.Model.Leaderboard;
 import com.example.team1game.Model.Player;
 import com.example.team1game.Model.Enemy.SlowEnemy;
 import com.example.team1game.Model.Enemy.SmallEnemy;
-import com.example.team1game.Model.Powerups.AttackPowerUpDecorator;
+import com.example.team1game.Model.Powerups.ScorePowerUpDecorator;
 import com.example.team1game.Model.Powerups.HealthPowerUpDecorator;
 import com.example.team1game.Model.Powerups.TimePowerUpDecorator;
-import com.example.team1game.ModelView.GameScreen;
 import com.example.team1game.R;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Room2 extends BaseScreen {
 
-    Handler powerupHandler = new Handler();
+    private Handler powerupHandler = new Handler();
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room2_screen);
@@ -42,9 +36,7 @@ public class Room2 extends BaseScreen {
         setupPowerupCollisionDetection();
     }
     protected void initializeGame() {
-        Intent intent = getIntent();
         player = Player.getPlayer();
-        player.setScore(intent.getIntExtra("endingScore", 0));
         TextView scoreTextView = findViewById(R.id.scoreTextView);
         scoreTextView.setText("Time: " + player.getScore());
 
@@ -130,15 +122,16 @@ public class Room2 extends BaseScreen {
             public void run() {
                 // Attack Powerup
                 if (checkPowerupCollision(characterSprite, powerup1)) {
-                    AttackPowerUpDecorator powerOneDecorator = new AttackPowerUpDecorator(scoreMultiplier);
-                    powerOneDecorator.applyEffect(player);
-                    showPowerupUsedMessage("Attack Powerup Used!", powerupMessage);
+                    ScorePowerUpDecorator instantScoreBonus = new ScorePowerUpDecorator(50);
+                    instantScoreBonus.applyEffect(player);
+                    showPowerupUsedMessage("Instant Score Bonus Used!", powerupMessage);
                     removePowerupView(powerup1);
                 }
 
                 // Time Powerup
                 if (checkPowerupCollision(characterSprite, powerup2)) {
-                    TimePowerUpDecorator powerTwoDecorator = new TimePowerUpDecorator(player.getScore(), 20);
+                    TimePowerUpDecorator powerTwoDecorator = new
+                            TimePowerUpDecorator(player.getScore(), 20);
                     powerTwoDecorator.applyEffect(player);
                     showPowerupUsedMessage("Time Powerup Used!", powerupMessage);
                     removePowerupView(powerup2);
@@ -146,7 +139,8 @@ public class Room2 extends BaseScreen {
 
                 // Health Powerup
                 if (checkPowerupCollision(characterSprite, powerup3)) {
-                    HealthPowerUpDecorator powerThreeDecorator = new HealthPowerUpDecorator(numOfHearts, Room2.this);
+                    HealthPowerUpDecorator powerThreeDecorator = new
+                            HealthPowerUpDecorator(numOfHearts, Room2.this);
                     powerThreeDecorator.applyEffect(player);
                     showPowerupUsedMessage("Health Powerup Used!", powerupMessage);
                     removePowerupView(powerup3);
@@ -186,17 +180,6 @@ public class Room2 extends BaseScreen {
             goToRoom3();
         }
 
-    }
-
-
-    @Override
-    protected void finishGame() {
-        String playerName = player.getName();
-        String difficulty = player.getDifficulty();
-        Leaderboard.getInstance();
-        Attempt attempt = new Attempt(playerName, score, difficulty);
-        Leaderboard.getInstance().addAttempt(attempt);
-        goToRoom3();
     }
 
     private void goToRoom3() {
