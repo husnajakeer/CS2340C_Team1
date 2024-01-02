@@ -67,11 +67,9 @@ public abstract class BaseScreen extends AppCompatActivity {
         String difficulty = player.getDifficulty();
         String sprite = getIntent().getStringExtra("sprite");
 
-        // if num of hearts hasn't been set before, then
-        if (numOfHearts <= 0) {
-            numOfHearts = determineNumberOfHearts(difficulty);
-            healthDecrease = determineHealthDecrease(difficulty);
-        }
+        // in new rooms, your health gets restored
+        numOfHearts = determineNumberOfHearts(difficulty);
+        healthDecrease = determineHealthDecrease(difficulty);
 
         playerNameTextView.setText("Name: " + playerName);
         healthPointsTextView.setText("Health: " + numOfHearts + " hearts");
