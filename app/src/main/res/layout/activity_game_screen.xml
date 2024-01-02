@@ -162,9 +162,10 @@
         android:id="@+id/skipToEndScreenButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
         android:text="Skip to End"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="39dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <include
         layout="@layout/activity_base_screen"

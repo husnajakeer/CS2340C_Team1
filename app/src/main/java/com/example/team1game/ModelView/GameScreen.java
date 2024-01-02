@@ -43,6 +43,15 @@ public class GameScreen extends BaseScreen {
         startEnemyMovementTimer();
         setupPowerupCollisionDetection();
         skipToEndScreen();
+
+        String difficulty = getIntent().getStringExtra("difficulty");
+        TextView healthPointsTextView = findViewById(R.id.healthPointsTextView);
+        if (difficulty != null) {
+            player.setDifficulty(difficulty);
+            numOfHearts = determineNumberOfHearts(difficulty);
+            healthPointsTextView.setText("Health: " + numOfHearts + " hearts");
+        }
+
     }
 
     protected void initializeGame() {

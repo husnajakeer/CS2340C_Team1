@@ -3,6 +3,7 @@ package com.example.team1game.Model;
 import android.graphics.Rect;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,6 +21,11 @@ import com.example.team1game.Model.Enemy.Enemy;
 //import com.example.team1game.Model.Powerups.TimePowerUpDecorator;
 import com.example.team1game.Model.UnusedClasses.Leaderboard;
 import com.example.team1game.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -51,6 +57,7 @@ public abstract class BaseScreen extends AppCompatActivity {
     protected boolean gameLost = false;
 
     protected static int scoreMultiplier = 20;
+
 
     protected abstract void initializeGame();
     protected abstract void setUpEnemies();
