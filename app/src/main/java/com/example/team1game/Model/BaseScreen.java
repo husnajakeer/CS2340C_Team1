@@ -13,6 +13,7 @@ import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.view.KeyEvent;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -171,7 +172,7 @@ public abstract class BaseScreen extends AppCompatActivity {
                 player.setWeaponPosition();
                 playerSwordSprite.setX(player.getX());
                 playerSwordSprite.setY(player.getY());
-                movementHandler.postDelayed(this, 50);
+                movementHandler.postDelayed(this, 30);
             }
         }, 0);
     }
@@ -464,7 +465,6 @@ public abstract class BaseScreen extends AppCompatActivity {
         numOfHearts = newNumOfHearts;
         healthPointsTextView.setText("Health: " + numOfHearts + " hearts");
     }
-
     public static int getScore() {
         return score;
     }

@@ -42,7 +42,6 @@ public class GameScreen extends BaseScreen {
         startEnemyMovementTimer();
         startEnemyMovementTimer();
         setupPowerupCollisionDetection();
-        skipToEndScreen();
 
         String difficulty = getIntent().getStringExtra("difficulty");
         TextView healthPointsTextView = findViewById(R.id.healthPointsTextView);
@@ -101,7 +100,7 @@ public class GameScreen extends BaseScreen {
         // Create a big enemy and set its sprite
         Enemy bigEnemy = bigEnemyFactory.createEnemy("BigEnemy", 200, 20, 15);
         ImageView bigEnemySprite = findViewById(R.id.bigEnemy);
-        bigEnemy.setX(700);
+        bigEnemy.setX(600);
         bigEnemy.setY(700);
         bigEnemy.setMovementType("linear");
         enemyImageViewMap.put(bigEnemy, bigEnemySprite);
@@ -218,15 +217,6 @@ public class GameScreen extends BaseScreen {
             startActivity(intent);
             finish();
         }
-    }
-    private void skipToEndScreen() {
-        Button skipButton = findViewById(R.id.skipToEndScreenButton);
-        skipButton.setOnClickListener(view -> {
-            // Handle onClick action for skipButton here
-            Intent intent = new Intent(GameScreen.this, EndScreen.class);
-            startActivity(intent);
-        });
-
     }
 
     protected void detectAllObstacles() {

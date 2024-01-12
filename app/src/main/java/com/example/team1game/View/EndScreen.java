@@ -153,7 +153,7 @@ public class EndScreen extends AppCompatActivity {
         user.put("name", player.getName());
         user.put("difficulty", player.getDifficulty());
         // this is actually the timer score
-        user.put("score", player.getCurrentAttempt().getScore());
+        user.put("score", (int) player.getCurrentAttempt().getScore());
         user.put("attemptTime", player.getCurrentAttempt().getAttemptTime());
         System.out.println("saved in firestore");
 
@@ -198,7 +198,7 @@ public class EndScreen extends AppCompatActivity {
                             String attemptTime = document.getString("attemptTime");
                             String difficulty = document.getString("difficulty");
                             long playerScore = document.getLong("score");
-                            Attempt playerAttempt = new Attempt(name, (int) playerScore, difficulty);
+                            Attempt playerAttempt = new Attempt(name, (int) playerScore , difficulty);
                             playerAttempt.setAttemptTime(attemptTime);
                             topScoresList.add(playerAttempt);
                             System.out.println("Score: " + playerScore);
