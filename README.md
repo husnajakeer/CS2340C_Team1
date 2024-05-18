@@ -33,4 +33,3 @@ As the Programming Lead and Full Stack Programmer, I led a team of five develope
 
 ## License
 This project is licensed under the [insert license here] License - see the LICENSE.md file for details.
-# CS2340C_Team1
