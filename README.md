@@ -31,5 +31,4 @@ As the Programming Lead and Full Stack Programmer, I led a team of five develope
 3. Connect your Android device or use an emulator
 4. Build and run the project
 
-## License
-This project is licensed under the [insert license here] License - see the LICENSE.md file for details.
+
